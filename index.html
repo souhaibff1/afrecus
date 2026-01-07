@@ -22,9 +22,11 @@
             --shadow: rgba(0, 0, 0, 0.3);
             
             /* Stream Status Colors */
-            --live-color: #00FF00;
-            --live-glow: rgba(0, 255, 0, 0.4);
-            --offline-color: #666666;
+            --live-color: #FF0000; /* Red for streaming */
+            --online-color: #00FF00; /* Green for online */
+            --offline-color: #666666; /* Gray for offline */
+            --live-glow: rgba(255, 0, 0, 0.4);
+            --online-glow: rgba(0, 255, 0, 0.3);
             --offline-glow: rgba(102, 102, 102, 0.2);
             
             /* Fonts */
@@ -54,10 +56,12 @@
             --shadow: rgba(0, 0, 0, 0.1);
             
             /* Stream Status Colors for Light Theme */
-            --live-color: #00AA00;
-            --live-glow: rgba(0, 170, 0, 0.3);
+            --live-color: #CC0000;
+            --online-color: #00AA00;
             --offline-color: #888888;
-            --offline-glow: rgba(136, 136, 136, 0.2);
+            --live-glow: rgba(204, 0, 0, 0.3);
+            --online-glow: rgba(0, 170, 0, 0.2);
+            --offline-glow: rgba(136, 136, 136, 0.15);
         }
 
         * {
@@ -205,8 +209,8 @@
         }
 
         body.rtl .language-bg {
-            left: auto;
-            right: 5px;
+            left: 5px;
+            right: auto;
         }
 
         /* Theme Toggle */
@@ -394,7 +398,7 @@
             position: relative;
         }
 
-        /* Profile Image with Stream Status Border - NEW DESIGN */
+        /* Profile Image with Stream Status Border */
         .profile-img-container {
             position: relative;
             width: 320px;
@@ -415,7 +419,7 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        /* Live Status Border */
+        /* Live Status Border (Red for streaming) */
         .profile-img-container.live .profile-img {
             border-color: var(--live-color);
             box-shadow: 
@@ -426,7 +430,15 @@
                 pulse-border 2s infinite;
         }
 
-        /* Offline Status Border */
+        /* Online Status Border (Green for online) */
+        .profile-img-container.online .profile-img {
+            border-color: var(--online-color);
+            box-shadow: 
+                0 0 20px var(--online-glow),
+                0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Offline Status Border (Gray for offline) */
         .profile-img-container.offline .profile-img {
             border-color: var(--offline-color);
             box-shadow: 
@@ -434,40 +446,50 @@
                 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        /* Status Badge */
-        .status-badge {
+        /* Status Display Below Image */
+        .status-display {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: var(--card-bg);
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 25px;
+            border-radius: 25px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             z-index: 2;
             box-shadow: 0 5px 15px var(--shadow);
             backdrop-filter: blur(5px);
             border: 2px solid transparent;
+            min-width: 160px;
+            text-align: center;
+            justify-content: center;
         }
 
-        .profile-img-container.live .status-badge {
-            background-color: rgba(0, 255, 0, 0.15);
+        .profile-img-container.live .status-display {
+            background-color: rgba(255, 0, 0, 0.15);
             border-color: var(--live-color);
             color: var(--live-color);
         }
 
-        .profile-img-container.offline .status-badge {
+        .profile-img-container.online .status-display {
+            background-color: rgba(0, 255, 0, 0.15);
+            border-color: var(--online-color);
+            color: var(--online-color);
+        }
+
+        .profile-img-container.offline .status-display {
             background-color: rgba(102, 102, 102, 0.15);
             border-color: var(--offline-color);
             color: var(--offline-color);
         }
 
         .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             display: inline-block;
         }
@@ -477,13 +499,12 @@
             animation: pulse-dot 1.5s infinite;
         }
 
-        .profile-img-container.offline .status-dot {
-            background-color: var(--offline-color);
+        .profile-img-container.online .status-dot {
+            background-color: var(--online-color);
         }
 
-        body.rtl .status-badge {
-            right: auto;
-            left: 20px;
+        .profile-img-container.offline .status-dot {
+            background-color: var(--offline-color);
         }
 
         @keyframes pulse-border {
@@ -532,6 +553,12 @@
         .profile-img-container.live:hover .profile-img {
             box-shadow: 
                 0 0 40px var(--live-glow),
+                0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-img-container.online:hover .profile-img {
+            box-shadow: 
+                0 0 40px var(--online-glow),
                 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
@@ -791,6 +818,7 @@
             color: var(--text-secondary);
             margin-bottom: 20px;
             font-size: 1.1rem;
+            line-height: 1.8;
         }
 
         .copyright {
@@ -799,6 +827,7 @@
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid rgba(138, 43, 226, 0.2);
+            line-height: 1.6;
         }
 
         /* Responsive Design */
@@ -869,6 +898,13 @@
             .discord-container {
                 padding: 30px;
             }
+            
+            .status-display {
+                bottom: -35px;
+                font-size: 0.9rem;
+                padding: 8px 20px;
+                min-width: 140px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -910,11 +946,11 @@
                 font-size: 3.5rem;
             }
             
-            .status-badge {
-                bottom: 10px;
-                right: 10px;
+            .status-display {
+                bottom: -30px;
                 font-size: 0.8rem;
-                padding: 6px 12px;
+                padding: 6px 15px;
+                min-width: 120px;
             }
         }
     </style>
@@ -978,10 +1014,10 @@
                 <a href="#social" class="explore-btn" data-en="Explore My Socials" data-ar="استكشف وسائل التواصل">Explore My Socials</a>
             </div>
             <div class="profile-image">
-                <!-- New Design: Profile image container with status border -->
+                <!-- Profile image container with status border and display -->
                 <div class="profile-img-container offline" id="profileImgContainer">
                     <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile Image" class="profile-img">
-                    <div class="status-badge">
+                    <div class="status-display">
                         <span class="status-dot"></span>
                         <span id="statusText" data-en="OFFLINE" data-ar="غير متصل">OFFLINE</span>
                     </div>
@@ -1250,7 +1286,15 @@
         });
         
         // Twitch Stream Status Functions
+        let accessToken = null;
+        let tokenExpiry = 0;
+        
         async function getTwitchAccessToken() {
+            // Check if we have a valid token
+            if (accessToken && Date.now() < tokenExpiry) {
+                return accessToken;
+            }
+            
             try {
                 const response = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${TWITCH_CLIENT_ID}&client_secret=${TWITCH_CLIENT_SECRET}&grant_type=client_credentials`, {
                     method: 'POST'
@@ -1261,7 +1305,10 @@
                 }
                 
                 const data = await response.json();
-                return data.access_token;
+                accessToken = data.access_token;
+                // Token expires in 1 hour, set expiry 5 minutes earlier to be safe
+                tokenExpiry = Date.now() + (data.expires_in - 300) * 1000;
+                return accessToken;
             } catch (error) {
                 console.error('Error getting Twitch access token:', error);
                 return null;
@@ -1274,7 +1321,7 @@
                 
                 if (!accessToken) {
                     // Fallback to offline status if can't get token
-                    showOfflineStatus();
+                    showStatus('offline');
                     return;
                 }
                 
@@ -1293,7 +1340,7 @@
                 const userData = await userResponse.json();
                 
                 if (userData.data.length === 0) {
-                    showOfflineStatus();
+                    showStatus('offline');
                     return;
                 }
                 
@@ -1314,75 +1361,87 @@
                 const streamData = await streamResponse.json();
                 
                 if (streamData.data.length > 0) {
-                    // Stream is live
-                    const streamInfo = streamData.data[0];
-                    showLiveStatus(streamInfo);
+                    // Stream is live (streaming)
+                    showStatus('live');
                 } else {
-                    // Stream is offline
-                    showOfflineStatus();
+                    // Check if user is online but not streaming
+                    const channelResponse = await fetch(`https://api.twitch.tv/helix/channels?broadcaster_id=${userId}`, {
+                        headers: {
+                            'Client-ID': TWITCH_CLIENT_ID,
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
+                    
+                    if (channelResponse.ok) {
+                        // For simplicity, we'll assume if not streaming but channel exists, they're online
+                        showStatus('online');
+                    } else {
+                        showStatus('offline');
+                    }
                 }
                 
             } catch (error) {
                 console.error('Error checking stream status:', error);
-                showOfflineStatus();
+                showStatus('offline');
             }
         }
         
-        function showLiveStatus(streamInfo) {
-            // Update container class
-            profileImgContainer.classList.remove('offline');
-            profileImgContainer.classList.add('live');
+        function showStatus(status) {
+            // Remove all status classes
+            profileImgContainer.classList.remove('live', 'online', 'offline');
             
-            // Update status text
-            statusText.setAttribute('data-en', 'LIVE');
-            statusText.setAttribute('data-ar', 'مباشر');
+            // Add the correct status class
+            profileImgContainer.classList.add(status);
             
-            // Update based on current language
+            // Update status text based on language
             const isArabic = document.body.classList.contains('rtl');
-            statusText.textContent = isArabic ? 'مباشر' : 'LIVE';
             
-            // Update click handler to go directly to Twitch
+            let statusKey = '';
+            let statusValue = '';
+            
+            switch(status) {
+                case 'live':
+                    statusKey = 'LIVE';
+                    statusValue = isArabic ? 'بث مباشر' : 'LIVE';
+                    break;
+                case 'online':
+                    statusKey = 'ONLINE';
+                    statusValue = isArabic ? 'متصل' : 'ONLINE';
+                    break;
+                case 'offline':
+                    statusKey = 'OFFLINE';
+                    statusValue = isArabic ? 'غير متصل' : 'OFFLINE';
+                    break;
+            }
+            
+            // Update status text data attributes
+            statusText.setAttribute('data-en', statusKey);
+            statusText.setAttribute('data-ar', statusValue);
+            statusText.textContent = statusValue;
+            
+            // Update click handler
             profileImgContainer.onclick = function() {
                 window.open('https://www.twitch.tv/afrecus', '_blank');
             };
             
             // Add title for hover
-            profileImgContainer.title = isArabic ? 'انقر لمشاهدة البث المباشر على تويتش' : 'Click to watch live stream on Twitch';
+            let titleText = '';
+            if (status === 'live') {
+                titleText = isArabic ? 'انقر لمشاهدة البث المباشر على تويتش' : 'Click to watch live stream on Twitch';
+            } else {
+                titleText = isArabic ? 'انقر لزيارة قناة تويتش' : 'Click to visit Twitch channel';
+            }
+            profileImgContainer.title = titleText;
             
             // Update news ticker
-            updateNewsTicker(true);
+            updateNewsTicker(status);
         }
         
-        function showOfflineStatus() {
-            // Update container class
-            profileImgContainer.classList.remove('live');
-            profileImgContainer.classList.add('offline');
-            
-            // Update status text
-            statusText.setAttribute('data-en', 'OFFLINE');
-            statusText.setAttribute('data-ar', 'غير متصل');
-            
-            // Update based on current language
-            const isArabic = document.body.classList.contains('rtl');
-            statusText.textContent = isArabic ? 'غير متصل' : 'OFFLINE';
-            
-            // Update click handler to go to Twitch channel (not live)
-            profileImgContainer.onclick = function() {
-                window.open('https://www.twitch.tv/afrecus', '_blank');
-            };
-            
-            // Add title for hover
-            profileImgContainer.title = isArabic ? 'انقر لزيارة قناة تويتش' : 'Click to visit Twitch channel';
-            
-            // Update news ticker
-            updateNewsTicker(false);
-        }
-        
-        function updateNewsTicker(isLive) {
+        function updateNewsTicker(status) {
             const tickerContent = document.querySelector('.ticker-content');
             const isArabic = document.body.classList.contains('rtl');
             
-            if (isLive) {
+            if (status === 'live') {
                 const liveText = isArabic 
                     ? '🎮 أفريكوس بث مباشر الآن على تويتش! تعال وانضم للمتعة!'
                     : '🎮 Afrecus is currently live on Twitch! Come join the fun!';
@@ -1448,21 +1507,30 @@
             // Check stream status
             checkStreamStatus();
             
-            // Check stream status every 60 seconds
-            setInterval(checkStreamStatus, 60000);
+            // Check stream status every 10 seconds
+            setInterval(checkStreamStatus, 10000);
         });
         
         // Update status text when switching languages
         document.addEventListener('languageChanged', () => {
             const isArabic = document.body.classList.contains('rtl');
-            const isLive = profileImgContainer.classList.contains('live');
+            const currentStatus = profileImgContainer.classList.contains('live') ? 'live' : 
+                                profileImgContainer.classList.contains('online') ? 'online' : 'offline';
             
-            if (isLive) {
-                statusText.textContent = isArabic ? 'مباشر' : 'LIVE';
-            } else {
-                statusText.textContent = isArabic ? 'غير متصل' : 'OFFLINE';
+            let statusValue = '';
+            switch(currentStatus) {
+                case 'live':
+                    statusValue = isArabic ? 'بث مباشر' : 'LIVE';
+                    break;
+                case 'online':
+                    statusValue = isArabic ? 'متصل' : 'ONLINE';
+                    break;
+                case 'offline':
+                    statusValue = isArabic ? 'غير متصل' : 'OFFLINE';
+                    break;
             }
             
+            statusText.textContent = statusValue;
             updateTickerLanguage();
         });
         
