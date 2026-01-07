@@ -72,6 +72,18 @@
             direction: rtl;
         }
 
+        body.rtl .nav-links a::after,
+        body.rtl .section-title::after,
+        body.rtl .feature {
+            right: 0;
+            left: auto;
+        }
+
+        body.rtl .rule-number {
+            margin-right: 0;
+            margin-left: 20px;
+        }
+
         /* Header & Navigation */
         header {
             background-color: var(--nav-bg);
@@ -193,8 +205,7 @@
         }
 
         body.rtl .language-bg {
-            left: 5px;
-            right: auto;
+            left: 55px;
         }
 
         /* Theme Toggle - Fixed */
@@ -379,6 +390,7 @@
             justify-content: center;
             align-items: center;
             min-width: 300px;
+            position: relative;
         }
 
         .profile-img {
@@ -389,6 +401,95 @@
             border: 8px solid var(--primary-light);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             animation: float 6s ease-in-out infinite;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Live Status Indicator */
+        .live-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #FF0000;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .live-status::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #00FF00;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        .offline-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #666;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .offline-status::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #999;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        body.rtl .live-status,
+        body.rtl .offline-status {
+            right: auto;
+            left: 20px;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+            }
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
         }
 
         @keyframes float {
@@ -603,17 +704,12 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light);
             color: white;
             border-radius: 50%;
             font-weight: 600;
             margin-right: 20px;
             flex-shrink: 0;
-        }
-
-        body.rtl .rule-number {
-            margin-right: 0;
-            margin-left: 20px;
         }
 
         .rule-text h3 {
@@ -658,6 +754,58 @@
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        /* Stream Info Modal */
+        .stream-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stream-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .stream-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        body.rtl .modal-close {
+            right: auto;
+            left: 15px;
         }
 
         /* Responsive Design */
@@ -728,6 +876,13 @@
             .discord-container {
                 padding: 30px;
             }
+            
+            .live-status, .offline-status {
+                top: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -768,10 +923,34 @@
             .discord-icon {
                 font-size: 3.5rem;
             }
+            
+            .live-status, .offline-status {
+                top: 5px;
+                right: 5px;
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Stream Info Modal -->
+    <div class="stream-modal" id="streamModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="discord-icon">
+                <i class="fab fa-twitch"></i>
+            </div>
+            <h2 id="streamTitle" data-en="Afrecus is Live on Twitch!" data-ar="أفريكوس بث مباشر على تويتش!">Afrecus is Live on Twitch!</h2>
+            <p id="streamGame" data-en="Playing: " data-ar="يلعب: ">Playing: Loading...</p>
+            <p id="streamViewers" data-en="Viewers: " data-ar="المشاهدون: ">Viewers: Loading...</p>
+            <div style="margin: 25px 0;">
+                <a href="https://www.twitch.tv/afrecus" target="_blank" class="discord-btn" id="watchLiveBtn" data-en="Watch Live Stream" data-ar="شاهد البث المباشر">Watch Live Stream</a>
+            </div>
+            <p id="offlineMessage" style="display: none;" data-en="Afrecus is currently offline. Follow to get notified when the stream starts!" data-ar="أفريكوس غير متصل حالياً. تابع للحصول على إشعار عند بدء البث!">Afrecus is currently offline. Follow to get notified when the stream starts!</p>
+        </div>
+    </div>
+
     <!-- Header & Navigation -->
     <header>
         <div class="nav-container">
@@ -830,7 +1009,9 @@
                 <a href="#social" class="explore-btn" data-en="Explore My Socials" data-ar="استكشف وسائل التواصل">Explore My Socials</a>
             </div>
             <div class="profile-image">
-                <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile Image" class="profile-img">
+                <!-- Live Status Indicator will be added here by JavaScript -->
+                <div id="streamStatus"></div>
+                <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile Image" class="profile-img" id="profileImage">
             </div>
         </div>
     </section>
@@ -972,6 +1153,20 @@
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
         const currentYear = document.getElementById('currentYear');
+        const profileImage = document.getElementById('profileImage');
+        const streamStatus = document.getElementById('streamStatus');
+        const streamModal = document.getElementById('streamModal');
+        const modalClose = document.getElementById('modalClose');
+        const streamTitle = document.getElementById('streamTitle');
+        const streamGame = document.getElementById('streamGame');
+        const streamViewers = document.getElementById('streamViewers');
+        const watchLiveBtn = document.getElementById('watchLiveBtn');
+        const offlineMessage = document.getElementById('offlineMessage');
+        
+        // Twitch API Credentials
+        const TWITCH_CLIENT_ID = 'a1k8g8fw1cjymw9ox7ltlmvp7yoe0x';
+        const TWITCH_CLIENT_SECRET = 'mxh0bjhchxyqd5vf9xsq31j5hys8xg';
+        const TWITCH_USERNAME = 'afrecus';
         
         // Set current year
         currentYear.textContent = new Date().getFullYear();
@@ -1008,7 +1203,7 @@
             document.body.classList.add('light-theme');
         }
         
-        // Language Toggle - Fixed
+        // Language Toggle - Fixed with better RTL support
         enBtn.addEventListener('click', () => switchLanguage('en'));
         arBtn.addEventListener('click', () => switchLanguage('ar'));
         
@@ -1021,6 +1216,7 @@
                 document.body.classList.remove('rtl');
                 document.body.setAttribute('dir', 'ltr');
                 document.documentElement.setAttribute('lang', 'en');
+                document.documentElement.setAttribute('dir', 'ltr');
             } else {
                 arBtn.classList.add('active');
                 enBtn.classList.remove('active');
@@ -1028,6 +1224,7 @@
                 document.body.classList.add('rtl');
                 document.body.setAttribute('dir', 'rtl');
                 document.documentElement.setAttribute('lang', 'ar');
+                document.documentElement.setAttribute('dir', 'rtl');
             }
             
             // Update all text elements with data attributes
@@ -1095,6 +1292,226 @@
             });
         });
         
+        // Twitch Stream Status Functions
+        async function getTwitchAccessToken() {
+            try {
+                const response = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${TWITCH_CLIENT_ID}&client_secret=${TWITCH_CLIENT_SECRET}&grant_type=client_credentials`, {
+                    method: 'POST'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to get Twitch access token');
+                }
+                
+                const data = await response.json();
+                return data.access_token;
+            } catch (error) {
+                console.error('Error getting Twitch access token:', error);
+                return null;
+            }
+        }
+        
+        async function checkStreamStatus() {
+            try {
+                const accessToken = await getTwitchAccessToken();
+                
+                if (!accessToken) {
+                    // Fallback to offline status if can't get token
+                    showOfflineStatus();
+                    return;
+                }
+                
+                // Get user ID
+                const userResponse = await fetch(`https://api.twitch.tv/helix/users?login=${TWITCH_USERNAME}`, {
+                    headers: {
+                        'Client-ID': TWITCH_CLIENT_ID,
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                
+                if (!userResponse.ok) {
+                    throw new Error('Failed to get user info');
+                }
+                
+                const userData = await userResponse.json();
+                
+                if (userData.data.length === 0) {
+                    showOfflineStatus();
+                    return;
+                }
+                
+                const userId = userData.data[0].id;
+                
+                // Check if stream is live
+                const streamResponse = await fetch(`https://api.twitch.tv/helix/streams?user_id=${userId}`, {
+                    headers: {
+                        'Client-ID': TWITCH_CLIENT_ID,
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                
+                if (!streamResponse.ok) {
+                    throw new Error('Failed to get stream info');
+                }
+                
+                const streamData = await streamResponse.json();
+                
+                if (streamData.data.length > 0) {
+                    // Stream is live
+                    const streamInfo = streamData.data[0];
+                    showLiveStatus(streamInfo);
+                } else {
+                    // Stream is offline
+                    showOfflineStatus();
+                }
+                
+            } catch (error) {
+                console.error('Error checking stream status:', error);
+                showOfflineStatus();
+            }
+        }
+        
+        function showLiveStatus(streamInfo) {
+            // Create live status indicator
+            const liveStatusHTML = `
+                <div class="live-status" id="liveStatus">
+                    <span data-en="LIVE" data-ar="مباشر">LIVE</span>
+                </div>
+            `;
+            
+            streamStatus.innerHTML = liveStatusHTML;
+            
+            // Update modal content for live stream
+            const isArabic = document.body.classList.contains('rtl');
+            const gameText = isArabic ? 'يلعب: ' : 'Playing: ';
+            const viewersText = isArabic ? 'المشاهدون: ' : 'Viewers: ';
+            
+            streamGame.textContent = gameText + streamInfo.game_name;
+            streamViewers.textContent = viewersText + streamInfo.viewer_count.toLocaleString();
+            
+            // Show watch button, hide offline message
+            watchLiveBtn.style.display = 'inline-block';
+            offlineMessage.style.display = 'none';
+            
+            // Update news ticker for live stream
+            updateNewsTicker(true);
+        }
+        
+        function showOfflineStatus() {
+            // Create offline status indicator
+            const offlineStatusHTML = `
+                <div class="offline-status" id="offlineStatus">
+                    <span data-en="OFFLINE" data-ar="غير متصل">OFFLINE</span>
+                </div>
+            `;
+            
+            streamStatus.innerHTML = offlineStatusHTML;
+            
+            // Update modal content for offline
+            const isArabic = document.body.classList.contains('rtl');
+            const gameText = isArabic ? 'آخر لعبة: غير معروف' : 'Last Game: Unknown';
+            const viewersText = isArabic ? 'آخر مشاهدين: 0' : 'Last Viewers: 0';
+            
+            streamGame.textContent = gameText;
+            streamViewers.textContent = viewersText;
+            
+            // Hide watch button, show offline message
+            watchLiveBtn.style.display = 'none';
+            offlineMessage.style.display = 'block';
+            
+            // Update news ticker for offline
+            updateNewsTicker(false);
+            
+            // Update language for offline status
+            updateStreamModalLanguage();
+        }
+        
+        function updateNewsTicker(isLive) {
+            const tickerContent = document.querySelector('.ticker-content');
+            const isArabic = document.body.classList.contains('rtl');
+            
+            if (isLive) {
+                const liveText = isArabic 
+                    ? '🎮 أفريكوس بث مباشر الآن على تويتش! تعال وانضم للمتعة!'
+                    : '🎮 Afrecus is currently live on Twitch! Come join the fun!';
+                    
+                tickerContent.innerHTML = `
+                    <span>${liveText}</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span data-en="🌟 New YouTube video out now! Check it out!" data-ar="🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!">🌟 New YouTube video out now! Check it out!</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span data-en="📢 Join our Discord community for exclusive content!" data-ar="📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!">📢 Join our Discord community for exclusive content!</span>
+                `;
+            } else {
+                tickerContent.innerHTML = `
+                    <span data-en="🌟 New YouTube video out now! Check it out!" data-ar="🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!">🌟 New YouTube video out now! Check it out!</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span data-en="📢 Follow on Twitch to get notified when Afrecus goes live!" data-ar="📢 تابع على تويتش للحصول على إشعار عندما يبدأ أفريكوس البث!">📢 Follow on Twitch to get notified when Afrecus goes live!</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span data-en="🎮 Join our Discord community for exclusive content!" data-ar="🎮 انضم لمجتمع الديسكورد للحصول على محتوى حصري!">🎮 Join our Discord community for exclusive content!</span>
+                `;
+            }
+            
+            // Update ticker content for current language
+            updateTickerLanguage();
+        }
+        
+        function updateTickerLanguage() {
+            const isArabic = document.body.classList.contains('rtl');
+            const tickerSpans = document.querySelectorAll('.ticker-content span');
+            
+            tickerSpans.forEach(span => {
+                if (isArabic && span.hasAttribute('data-ar')) {
+                    span.textContent = span.getAttribute('data-ar');
+                } else if (!isArabic && span.hasAttribute('data-en')) {
+                    span.textContent = span.getAttribute('data-en');
+                }
+            });
+        }
+        
+        function updateStreamModalLanguage() {
+            const isArabic = document.body.classList.contains('rtl');
+            
+            // Update live status text
+            const liveStatus = document.getElementById('liveStatus');
+            const offlineStatus = document.getElementById('offlineStatus');
+            
+            if (liveStatus) {
+                const liveSpan = liveStatus.querySelector('span');
+                if (liveSpan.hasAttribute('data-ar') && isArabic) {
+                    liveSpan.textContent = liveSpan.getAttribute('data-ar');
+                } else if (liveSpan.hasAttribute('data-en') && !isArabic) {
+                    liveSpan.textContent = liveSpan.getAttribute('data-en');
+                }
+            }
+            
+            if (offlineStatus) {
+                const offlineSpan = offlineStatus.querySelector('span');
+                if (offlineSpan.hasAttribute('data-ar') && isArabic) {
+                    offlineSpan.textContent = offlineSpan.getAttribute('data-ar');
+                } else if (offlineSpan.hasAttribute('data-en') && !isArabic) {
+                    offlineSpan.textContent = offlineSpan.getAttribute('data-en');
+                }
+            }
+        }
+        
+        // Profile image click handler
+        profileImage.addEventListener('click', () => {
+            streamModal.classList.add('active');
+        });
+        
+        // Modal close handler
+        modalClose.addEventListener('click', () => {
+            streamModal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        streamModal.addEventListener('click', (e) => {
+            if (e.target === streamModal) {
+                streamModal.classList.remove('active');
+            }
+        });
+        
         // Initialize animations on load
         window.addEventListener('load', () => {
             // Animate hero text
@@ -1118,7 +1535,26 @@
                 profileImg.style.opacity = '1';
                 profileImg.style.transform = 'translateX(0) scale(1)';
             }, 600);
+            
+            // Check stream status
+            checkStreamStatus();
+            
+            // Check stream status every 60 seconds
+            setInterval(checkStreamStatus, 60000);
         });
+        
+        // Update ticker and modal language when switching languages
+        document.addEventListener('languageChanged', () => {
+            updateTickerLanguage();
+            updateStreamModalLanguage();
+        });
+        
+        // Modify switchLanguage to trigger event
+        const originalSwitchLanguage = switchLanguage;
+        switchLanguage = function(lang) {
+            originalSwitchLanguage(lang);
+            document.dispatchEvent(new Event('languageChanged'));
+        };
     </script>
 </body>
 </html>
