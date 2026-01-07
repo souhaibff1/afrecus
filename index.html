@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Afrecus | افريكوس - Content Creator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Dark Theme (Default) */
@@ -23,15 +23,19 @@
             
             /* Stream Status Colors */
             --live-color: #FF0000; /* Red for streaming */
-            --online-color: #00FF00; /* Green for online */
             --offline-color: #666666; /* Gray for offline */
             --live-glow: rgba(255, 0, 0, 0.4);
-            --online-glow: rgba(0, 255, 0, 0.3);
             --offline-glow: rgba(102, 102, 102, 0.2);
             
-            /* Fonts */
+            /* Fonts with improved weights */
             --font-heading: 'Poppins', sans-serif;
             --font-body: 'Cairo', 'Poppins', sans-serif;
+            --font-weight-light: 300;
+            --font-weight-regular: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            --font-weight-extrabold: 800;
             
             /* Transitions */
             --transition: all 0.3s ease;
@@ -57,10 +61,8 @@
             
             /* Stream Status Colors for Light Theme */
             --live-color: #CC0000;
-            --online-color: #00AA00;
             --offline-color: #888888;
             --live-glow: rgba(204, 0, 0, 0.3);
-            --online-glow: rgba(0, 170, 0, 0.2);
             --offline-glow: rgba(136, 136, 136, 0.15);
         }
 
@@ -76,16 +78,39 @@
 
         body {
             font-family: var(--font-body);
+            font-weight: var(--font-weight-regular);
             background-color: var(--secondary-dark);
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.7;
             transition: var(--transition);
             overflow-x: hidden;
             direction: ltr;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body.rtl {
             direction: rtl;
+        }
+
+        /* Improved Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: var(--font-weight-bold);
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-weight: var(--font-weight-regular);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
         }
 
         /* Header & Navigation */
@@ -114,7 +139,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 700;
+            font-weight: var(--font-weight-extrabold);
             font-size: 1.8rem;
             color: var(--accent-white);
             text-decoration: none;
@@ -137,7 +162,7 @@
         .nav-links a {
             color: var(--text-primary);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: var(--font-weight-semibold);
             font-size: 1.1rem;
             transition: var(--transition);
             position: relative;
@@ -186,11 +211,12 @@
             padding: 8px 15px;
             border-radius: 30px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: var(--font-weight-semibold);
             transition: var(--transition);
             z-index: 1;
             width: 50%;
             text-align: center;
+            font-size: 0.9rem;
         }
 
         .language-btn.active {
@@ -283,6 +309,8 @@
             white-space: nowrap;
             padding-left: 100%;
             animation: ticker 20s linear infinite;
+            font-weight: var(--font-weight-medium);
+            font-size: 1rem;
         }
 
         @keyframes ticker {
@@ -357,6 +385,7 @@
             background-clip: text;
             color: transparent;
             line-height: 1.2;
+            font-weight: var(--font-weight-extrabold);
         }
 
         .hero-text p {
@@ -364,6 +393,7 @@
             margin-bottom: 30px;
             color: var(--text-secondary);
             max-width: 600px;
+            font-weight: var(--font-weight-regular);
         }
 
         /* Fixed button without underline */
@@ -373,13 +403,14 @@
             color: white;
             padding: 15px 30px;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: var(--font-weight-semibold);
             font-size: 1.1rem;
             cursor: pointer;
             transition: var(--transition);
             text-decoration: none !important;
             border: none;
             text-align: center;
+            letter-spacing: 0.5px;
         }
 
         .explore-btn:hover {
@@ -430,14 +461,6 @@
                 pulse-border 2s infinite;
         }
 
-        /* Online Status Border (Green for online) */
-        .profile-img-container.online .profile-img {
-            border-color: var(--online-color);
-            box-shadow: 
-                0 0 20px var(--online-glow),
-                0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
         /* Offline Status Border (Gray for offline) */
         .profile-img-container.offline .profile-img {
             border-color: var(--offline-color);
@@ -455,7 +478,7 @@
             background-color: var(--card-bg);
             padding: 10px 25px;
             border-radius: 25px;
-            font-weight: 600;
+            font-weight: var(--font-weight-semibold);
             font-size: 1rem;
             display: flex;
             align-items: center;
@@ -467,18 +490,13 @@
             min-width: 160px;
             text-align: center;
             justify-content: center;
+            letter-spacing: 0.5px;
         }
 
         .profile-img-container.live .status-display {
             background-color: rgba(255, 0, 0, 0.15);
             border-color: var(--live-color);
             color: var(--live-color);
-        }
-
-        .profile-img-container.online .status-display {
-            background-color: rgba(0, 255, 0, 0.15);
-            border-color: var(--online-color);
-            color: var(--online-color);
         }
 
         .profile-img-container.offline .status-display {
@@ -497,10 +515,6 @@
         .profile-img-container.live .status-dot {
             background-color: var(--live-color);
             animation: pulse-dot 1.5s infinite;
-        }
-
-        .profile-img-container.online .status-dot {
-            background-color: var(--online-color);
         }
 
         .profile-img-container.offline .status-dot {
@@ -556,12 +570,6 @@
                 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .profile-img-container.online:hover .profile-img {
-            box-shadow: 
-                0 0 40px var(--online-glow),
-                0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
         .profile-img-container.offline:hover .profile-img {
             box-shadow: 
                 0 0 25px var(--offline-glow),
@@ -582,6 +590,7 @@
             color: var(--text-primary);
             position: relative;
             display: inline-block;
+            font-weight: var(--font-weight-bold);
         }
 
         .section-title::after {
@@ -650,8 +659,9 @@
         }
 
         .social-icon span {
-            font-weight: 600;
+            font-weight: var(--font-weight-semibold);
             font-size: 1.1rem;
+            letter-spacing: 0.3px;
         }
 
         /* Discord Server Section */
@@ -681,6 +691,7 @@
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: var(--text-primary);
+            font-weight: var(--font-weight-bold);
         }
 
         .discord-description {
@@ -688,6 +699,7 @@
             color: var(--text-secondary);
             margin-bottom: 30px;
             line-height: 1.8;
+            font-weight: var(--font-weight-regular);
         }
 
         .discord-btn {
@@ -696,11 +708,12 @@
             color: white;
             padding: 18px 40px;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: var(--font-weight-semibold);
             font-size: 1.2rem;
             text-decoration: none;
             transition: var(--transition);
             margin-top: 20px;
+            letter-spacing: 0.5px;
         }
 
         .discord-btn:hover {
@@ -723,6 +736,8 @@
             padding: 15px 25px;
             border-radius: var(--border-radius);
             border-left: 4px solid #5865F2;
+            font-weight: var(--font-weight-medium);
+            font-size: 1rem;
         }
 
         body.rtl .feature {
@@ -774,9 +789,10 @@
             background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
             color: white;
             border-radius: 50%;
-            font-weight: 600;
+            font-weight: var(--font-weight-bold);
             margin-right: 20px;
             flex-shrink: 0;
+            font-size: 1.1rem;
         }
 
         body.rtl .rule-number {
@@ -788,10 +804,12 @@
             color: var(--text-primary);
             margin-bottom: 8px;
             font-size: 1.3rem;
+            font-weight: var(--font-weight-semibold);
         }
 
         .rule-text p {
             color: var(--text-secondary);
+            font-weight: var(--font-weight-regular);
         }
 
         /* Footer */
@@ -809,9 +827,10 @@
 
         .footer-logo {
             font-size: 2rem;
-            font-weight: 700;
+            font-weight: var(--font-weight-extrabold);
             color: var(--primary-light);
             margin-bottom: 20px;
+            letter-spacing: 0.5px;
         }
 
         .footer-info {
@@ -819,6 +838,7 @@
             margin-bottom: 20px;
             font-size: 1.1rem;
             line-height: 1.8;
+            font-weight: var(--font-weight-regular);
         }
 
         .copyright {
@@ -828,6 +848,7 @@
             padding-top: 20px;
             border-top: 1px solid rgba(138, 43, 226, 0.2);
             line-height: 1.6;
+            font-weight: var(--font-weight-regular);
         }
 
         /* Responsive Design */
@@ -1364,20 +1385,8 @@
                     // Stream is live (streaming)
                     showStatus('live');
                 } else {
-                    // Check if user is online but not streaming
-                    const channelResponse = await fetch(`https://api.twitch.tv/helix/channels?broadcaster_id=${userId}`, {
-                        headers: {
-                            'Client-ID': TWITCH_CLIENT_ID,
-                            'Authorization': `Bearer ${accessToken}`
-                        }
-                    });
-                    
-                    if (channelResponse.ok) {
-                        // For simplicity, we'll assume if not streaming but channel exists, they're online
-                        showStatus('online');
-                    } else {
-                        showStatus('offline');
-                    }
+                    // User is offline
+                    showStatus('offline');
                 }
                 
             } catch (error) {
@@ -1403,10 +1412,6 @@
                 case 'live':
                     statusKey = 'LIVE';
                     statusValue = isArabic ? 'بث مباشر' : 'LIVE';
-                    break;
-                case 'online':
-                    statusKey = 'ONLINE';
-                    statusValue = isArabic ? 'متصل' : 'ONLINE';
                     break;
                 case 'offline':
                     statusKey = 'OFFLINE';
@@ -1514,16 +1519,12 @@
         // Update status text when switching languages
         document.addEventListener('languageChanged', () => {
             const isArabic = document.body.classList.contains('rtl');
-            const currentStatus = profileImgContainer.classList.contains('live') ? 'live' : 
-                                profileImgContainer.classList.contains('online') ? 'online' : 'offline';
+            const currentStatus = profileImgContainer.classList.contains('live') ? 'live' : 'offline';
             
             let statusValue = '';
             switch(currentStatus) {
                 case 'live':
                     statusValue = isArabic ? 'بث مباشر' : 'LIVE';
-                    break;
-                case 'online':
-                    statusValue = isArabic ? 'متصل' : 'ONLINE';
                     break;
                 case 'offline':
                     statusValue = isArabic ? 'غير متصل' : 'OFFLINE';
