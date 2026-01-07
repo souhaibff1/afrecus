@@ -21,6 +21,12 @@
             --nav-bg: rgba(26, 16, 60, 0.95);
             --shadow: rgba(0, 0, 0, 0.3);
             
+            /* Stream Status Colors */
+            --live-color: #00FF00;
+            --live-glow: rgba(0, 255, 0, 0.4);
+            --offline-color: #666666;
+            --offline-glow: rgba(102, 102, 102, 0.2);
+            
             /* Fonts */
             --font-heading: 'Poppins', sans-serif;
             --font-body: 'Cairo', 'Poppins', sans-serif;
@@ -46,6 +52,12 @@
             --card-bg: rgba(255, 255, 255, 0.9);
             --nav-bg: rgba(255, 255, 255, 0.95);
             --shadow: rgba(0, 0, 0, 0.1);
+            
+            /* Stream Status Colors for Light Theme */
+            --live-color: #00AA00;
+            --live-glow: rgba(0, 170, 0, 0.3);
+            --offline-color: #888888;
+            --offline-glow: rgba(136, 136, 136, 0.2);
         }
 
         * {
@@ -70,18 +82,6 @@
 
         body.rtl {
             direction: rtl;
-        }
-
-        body.rtl .nav-links a::after,
-        body.rtl .section-title::after,
-        body.rtl .feature {
-            right: 0;
-            left: auto;
-        }
-
-        body.rtl .rule-number {
-            margin-right: 0;
-            margin-left: 20px;
         }
 
         /* Header & Navigation */
@@ -165,7 +165,7 @@
             gap: 15px;
         }
 
-        /* Language Toggle - Fixed */
+        /* Language Toggle */
         .language-toggle {
             display: flex;
             background-color: var(--card-bg);
@@ -205,10 +205,11 @@
         }
 
         body.rtl .language-bg {
-            left: 55px;
+            left: auto;
+            right: 5px;
         }
 
-        /* Theme Toggle - Fixed */
+        /* Theme Toggle */
         .theme-toggle {
             width: 50px;
             height: 26px;
@@ -393,30 +394,52 @@
             position: relative;
         }
 
-        .profile-img {
-            width: 300px;
-            height: 300px;
+        /* Profile Image with Stream Status Border - NEW DESIGN */
+        .profile-img-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 8px solid var(--primary-light);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            animation: float 6s ease-in-out infinite;
             cursor: pointer;
             transition: var(--transition);
         }
 
-        .profile-img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid transparent;
+            transition: var(--transition);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* Live Status Indicator */
-        .live-status {
+        /* Live Status Border */
+        .profile-img-container.live .profile-img {
+            border-color: var(--live-color);
+            box-shadow: 
+                0 0 20px var(--live-glow),
+                0 15px 30px rgba(0, 0, 0, 0.3);
+            animation: 
+                float 6s ease-in-out infinite,
+                pulse-border 2s infinite;
+        }
+
+        /* Offline Status Border */
+        .profile-img-container.offline .profile-img {
+            border-color: var(--offline-color);
+            box-shadow: 
+                0 0 15px var(--offline-glow),
+                0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Status Badge */
+        .status-badge {
             position: absolute;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
-            background-color: #FF0000;
-            color: white;
+            background-color: var(--card-bg);
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 600;
@@ -425,70 +448,70 @@
             align-items: center;
             gap: 8px;
             z-index: 2;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
-            animation: pulse 2s infinite;
+            box-shadow: 0 5px 15px var(--shadow);
+            backdrop-filter: blur(5px);
+            border: 2px solid transparent;
         }
 
-        .live-status::before {
-            content: '';
+        .profile-img-container.live .status-badge {
+            background-color: rgba(0, 255, 0, 0.15);
+            border-color: var(--live-color);
+            color: var(--live-color);
+        }
+
+        .profile-img-container.offline .status-badge {
+            background-color: rgba(102, 102, 102, 0.15);
+            border-color: var(--offline-color);
+            color: var(--offline-color);
+        }
+
+        .status-dot {
             width: 10px;
             height: 10px;
-            background-color: #00FF00;
             border-radius: 50%;
             display: inline-block;
+        }
+
+        .profile-img-container.live .status-dot {
+            background-color: var(--live-color);
             animation: pulse-dot 1.5s infinite;
         }
 
-        .offline-status {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #666;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 2;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .profile-img-container.offline .status-dot {
+            background-color: var(--offline-color);
         }
 
-        .offline-status::before {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background-color: #999;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        body.rtl .live-status,
-        body.rtl .offline-status {
+        body.rtl .status-badge {
             right: auto;
             left: 20px;
         }
 
-        @keyframes pulse {
+        @keyframes pulse-border {
             0% {
-                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+                box-shadow: 
+                    0 0 20px var(--live-glow),
+                    0 15px 30px rgba(0, 0, 0, 0.3);
             }
-            70% {
-                box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+            50% {
+                box-shadow: 
+                    0 0 30px var(--live-glow),
+                    0 15px 30px rgba(0, 0, 0, 0.3);
             }
             100% {
-                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+                box-shadow: 
+                    0 0 20px var(--live-glow),
+                    0 15px 30px rgba(0, 0, 0, 0.3);
             }
         }
 
         @keyframes pulse-dot {
             0%, 100% {
                 opacity: 1;
+                transform: scale(1);
             }
             50% {
-                opacity: 0.5;
+                opacity: 0.7;
+                transform: scale(1.1);
             }
         }
 
@@ -499,6 +522,23 @@
             50% {
                 transform: translateY(-20px);
             }
+        }
+
+        /* Hover Effects */
+        .profile-img-container:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-img-container.live:hover .profile-img {
+            box-shadow: 
+                0 0 40px var(--live-glow),
+                0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-img-container.offline:hover .profile-img {
+            box-shadow: 
+                0 0 25px var(--offline-glow),
+                0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         /* Social Links Section */
@@ -704,12 +744,17 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light);
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
             color: white;
             border-radius: 50%;
             font-weight: 600;
             margin-right: 20px;
             flex-shrink: 0;
+        }
+
+        body.rtl .rule-number {
+            margin-right: 0;
+            margin-left: 20px;
         }
 
         .rule-text h3 {
@@ -754,58 +799,6 @@
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid rgba(138, 43, 226, 0.2);
-        }
-
-        /* Stream Info Modal */
-        .stream-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .stream-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
-        }
-
-        .stream-modal.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        body.rtl .modal-close {
-            right: auto;
-            left: 15px;
         }
 
         /* Responsive Design */
@@ -868,20 +861,13 @@
                 font-size: 2.2rem;
             }
             
-            .profile-img {
+            .profile-img-container {
                 width: 250px;
                 height: 250px;
             }
             
             .discord-container {
                 padding: 30px;
-            }
-            
-            .live-status, .offline-status {
-                top: 10px;
-                right: 10px;
-                font-size: 0.8rem;
-                padding: 6px 12px;
             }
         }
 
@@ -890,7 +876,7 @@
                 font-size: 1.8rem;
             }
             
-            .profile-img {
+            .profile-img-container {
                 width: 200px;
                 height: 200px;
             }
@@ -924,33 +910,16 @@
                 font-size: 3.5rem;
             }
             
-            .live-status, .offline-status {
-                top: 5px;
-                right: 5px;
-                font-size: 0.7rem;
-                padding: 5px 10px;
+            .status-badge {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 6px 12px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Stream Info Modal -->
-    <div class="stream-modal" id="streamModal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">&times;</button>
-            <div class="discord-icon">
-                <i class="fab fa-twitch"></i>
-            </div>
-            <h2 id="streamTitle" data-en="Afrecus is Live on Twitch!" data-ar="أفريكوس بث مباشر على تويتش!">Afrecus is Live on Twitch!</h2>
-            <p id="streamGame" data-en="Playing: " data-ar="يلعب: ">Playing: Loading...</p>
-            <p id="streamViewers" data-en="Viewers: " data-ar="المشاهدون: ">Viewers: Loading...</p>
-            <div style="margin: 25px 0;">
-                <a href="https://www.twitch.tv/afrecus" target="_blank" class="discord-btn" id="watchLiveBtn" data-en="Watch Live Stream" data-ar="شاهد البث المباشر">Watch Live Stream</a>
-            </div>
-            <p id="offlineMessage" style="display: none;" data-en="Afrecus is currently offline. Follow to get notified when the stream starts!" data-ar="أفريكوس غير متصل حالياً. تابع للحصول على إشعار عند بدء البث!">Afrecus is currently offline. Follow to get notified when the stream starts!</p>
-        </div>
-    </div>
-
     <!-- Header & Navigation -->
     <header>
         <div class="nav-container">
@@ -971,14 +940,14 @@
             </ul>
             
             <div class="nav-controls">
-                <!-- Language Toggle - Fixed -->
+                <!-- Language Toggle -->
                 <div class="language-toggle">
                     <div class="language-bg"></div>
                     <button class="language-btn active" id="enBtn">EN</button>
                     <button class="language-btn" id="arBtn">AR</button>
                 </div>
                 
-                <!-- Theme Toggle - Fixed -->
+                <!-- Theme Toggle -->
                 <div class="theme-toggle" id="themeToggleContainer">
                     <input type="checkbox" id="themeToggle">
                     <span class="toggle-slider"></span>
@@ -1009,9 +978,14 @@
                 <a href="#social" class="explore-btn" data-en="Explore My Socials" data-ar="استكشف وسائل التواصل">Explore My Socials</a>
             </div>
             <div class="profile-image">
-                <!-- Live Status Indicator will be added here by JavaScript -->
-                <div id="streamStatus"></div>
-                <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile Image" class="profile-img" id="profileImage">
+                <!-- New Design: Profile image container with status border -->
+                <div class="profile-img-container offline" id="profileImgContainer">
+                    <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile Image" class="profile-img">
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        <span id="statusText" data-en="OFFLINE" data-ar="غير متصل">OFFLINE</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1153,15 +1127,8 @@
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
         const currentYear = document.getElementById('currentYear');
-        const profileImage = document.getElementById('profileImage');
-        const streamStatus = document.getElementById('streamStatus');
-        const streamModal = document.getElementById('streamModal');
-        const modalClose = document.getElementById('modalClose');
-        const streamTitle = document.getElementById('streamTitle');
-        const streamGame = document.getElementById('streamGame');
-        const streamViewers = document.getElementById('streamViewers');
-        const watchLiveBtn = document.getElementById('watchLiveBtn');
-        const offlineMessage = document.getElementById('offlineMessage');
+        const profileImgContainer = document.getElementById('profileImgContainer');
+        const statusText = document.getElementById('statusText');
         
         // Twitch API Credentials
         const TWITCH_CLIENT_ID = 'a1k8g8fw1cjymw9ox7ltlmvp7yoe0x';
@@ -1171,7 +1138,7 @@
         // Set current year
         currentYear.textContent = new Date().getFullYear();
         
-        // Theme Toggle - Fixed
+        // Theme Toggle
         function toggleTheme() {
             const isChecked = themeToggle.checked;
             
@@ -1203,7 +1170,7 @@
             document.body.classList.add('light-theme');
         }
         
-        // Language Toggle - Fixed with better RTL support
+        // Language Toggle
         enBtn.addEventListener('click', () => switchLanguage('en'));
         arBtn.addEventListener('click', () => switchLanguage('ar'));
         
@@ -1216,7 +1183,6 @@
                 document.body.classList.remove('rtl');
                 document.body.setAttribute('dir', 'ltr');
                 document.documentElement.setAttribute('lang', 'en');
-                document.documentElement.setAttribute('dir', 'ltr');
             } else {
                 arBtn.classList.add('active');
                 enBtn.classList.remove('active');
@@ -1224,26 +1190,17 @@
                 document.body.classList.add('rtl');
                 document.body.setAttribute('dir', 'rtl');
                 document.documentElement.setAttribute('lang', 'ar');
-                document.documentElement.setAttribute('dir', 'rtl');
             }
             
             // Update all text elements with data attributes
             document.querySelectorAll('[data-en], [data-ar]').forEach(element => {
                 if (lang === 'en') {
                     if (element.hasAttribute('data-en')) {
-                        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                            element.setAttribute('placeholder', element.getAttribute('data-en'));
-                        } else {
-                            element.textContent = element.getAttribute('data-en');
-                        }
+                        element.textContent = element.getAttribute('data-en');
                     }
                 } else {
                     if (element.hasAttribute('data-ar')) {
-                        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                            element.setAttribute('placeholder', element.getAttribute('data-ar'));
-                        } else {
-                            element.textContent = element.getAttribute('data-ar');
-                        }
+                        element.textContent = element.getAttribute('data-ar');
                     }
                 }
             });
@@ -1372,58 +1329,53 @@
         }
         
         function showLiveStatus(streamInfo) {
-            // Create live status indicator
-            const liveStatusHTML = `
-                <div class="live-status" id="liveStatus">
-                    <span data-en="LIVE" data-ar="مباشر">LIVE</span>
-                </div>
-            `;
+            // Update container class
+            profileImgContainer.classList.remove('offline');
+            profileImgContainer.classList.add('live');
             
-            streamStatus.innerHTML = liveStatusHTML;
+            // Update status text
+            statusText.setAttribute('data-en', 'LIVE');
+            statusText.setAttribute('data-ar', 'مباشر');
             
-            // Update modal content for live stream
+            // Update based on current language
             const isArabic = document.body.classList.contains('rtl');
-            const gameText = isArabic ? 'يلعب: ' : 'Playing: ';
-            const viewersText = isArabic ? 'المشاهدون: ' : 'Viewers: ';
+            statusText.textContent = isArabic ? 'مباشر' : 'LIVE';
             
-            streamGame.textContent = gameText + streamInfo.game_name;
-            streamViewers.textContent = viewersText + streamInfo.viewer_count.toLocaleString();
+            // Update click handler to go directly to Twitch
+            profileImgContainer.onclick = function() {
+                window.open('https://www.twitch.tv/afrecus', '_blank');
+            };
             
-            // Show watch button, hide offline message
-            watchLiveBtn.style.display = 'inline-block';
-            offlineMessage.style.display = 'none';
+            // Add title for hover
+            profileImgContainer.title = isArabic ? 'انقر لمشاهدة البث المباشر على تويتش' : 'Click to watch live stream on Twitch';
             
-            // Update news ticker for live stream
+            // Update news ticker
             updateNewsTicker(true);
         }
         
         function showOfflineStatus() {
-            // Create offline status indicator
-            const offlineStatusHTML = `
-                <div class="offline-status" id="offlineStatus">
-                    <span data-en="OFFLINE" data-ar="غير متصل">OFFLINE</span>
-                </div>
-            `;
+            // Update container class
+            profileImgContainer.classList.remove('live');
+            profileImgContainer.classList.add('offline');
             
-            streamStatus.innerHTML = offlineStatusHTML;
+            // Update status text
+            statusText.setAttribute('data-en', 'OFFLINE');
+            statusText.setAttribute('data-ar', 'غير متصل');
             
-            // Update modal content for offline
+            // Update based on current language
             const isArabic = document.body.classList.contains('rtl');
-            const gameText = isArabic ? 'آخر لعبة: غير معروف' : 'Last Game: Unknown';
-            const viewersText = isArabic ? 'آخر مشاهدين: 0' : 'Last Viewers: 0';
+            statusText.textContent = isArabic ? 'غير متصل' : 'OFFLINE';
             
-            streamGame.textContent = gameText;
-            streamViewers.textContent = viewersText;
+            // Update click handler to go to Twitch channel (not live)
+            profileImgContainer.onclick = function() {
+                window.open('https://www.twitch.tv/afrecus', '_blank');
+            };
             
-            // Hide watch button, show offline message
-            watchLiveBtn.style.display = 'none';
-            offlineMessage.style.display = 'block';
+            // Add title for hover
+            profileImgContainer.title = isArabic ? 'انقر لزيارة قناة تويتش' : 'Click to visit Twitch channel';
             
-            // Update news ticker for offline
+            // Update news ticker
             updateNewsTicker(false);
-            
-            // Update language for offline status
-            updateStreamModalLanguage();
         }
         
         function updateNewsTicker(isLive) {
@@ -1469,49 +1421,6 @@
             });
         }
         
-        function updateStreamModalLanguage() {
-            const isArabic = document.body.classList.contains('rtl');
-            
-            // Update live status text
-            const liveStatus = document.getElementById('liveStatus');
-            const offlineStatus = document.getElementById('offlineStatus');
-            
-            if (liveStatus) {
-                const liveSpan = liveStatus.querySelector('span');
-                if (liveSpan.hasAttribute('data-ar') && isArabic) {
-                    liveSpan.textContent = liveSpan.getAttribute('data-ar');
-                } else if (liveSpan.hasAttribute('data-en') && !isArabic) {
-                    liveSpan.textContent = liveSpan.getAttribute('data-en');
-                }
-            }
-            
-            if (offlineStatus) {
-                const offlineSpan = offlineStatus.querySelector('span');
-                if (offlineSpan.hasAttribute('data-ar') && isArabic) {
-                    offlineSpan.textContent = offlineSpan.getAttribute('data-ar');
-                } else if (offlineSpan.hasAttribute('data-en') && !isArabic) {
-                    offlineSpan.textContent = offlineSpan.getAttribute('data-en');
-                }
-            }
-        }
-        
-        // Profile image click handler
-        profileImage.addEventListener('click', () => {
-            streamModal.classList.add('active');
-        });
-        
-        // Modal close handler
-        modalClose.addEventListener('click', () => {
-            streamModal.classList.remove('active');
-        });
-        
-        // Close modal when clicking outside
-        streamModal.addEventListener('click', (e) => {
-            if (e.target === streamModal) {
-                streamModal.classList.remove('active');
-            }
-        });
-        
         // Initialize animations on load
         window.addEventListener('load', () => {
             // Animate hero text
@@ -1543,10 +1452,18 @@
             setInterval(checkStreamStatus, 60000);
         });
         
-        // Update ticker and modal language when switching languages
+        // Update status text when switching languages
         document.addEventListener('languageChanged', () => {
+            const isArabic = document.body.classList.contains('rtl');
+            const isLive = profileImgContainer.classList.contains('live');
+            
+            if (isLive) {
+                statusText.textContent = isArabic ? 'مباشر' : 'LIVE';
+            } else {
+                statusText.textContent = isArabic ? 'غير متصل' : 'OFFLINE';
+            }
+            
             updateTickerLanguage();
-            updateStreamModalLanguage();
         });
         
         // Modify switchLanguage to trigger event
