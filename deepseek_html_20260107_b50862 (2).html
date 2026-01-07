@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrecus | افريكوس - Content Creator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark Theme (Default) */
+            --primary-dark: #2D1B69;
+            --primary-light: #8A2BE2;
+            --secondary-dark: #1A103C;
+            --secondary-light: #9D4EDD;
+            --accent-white: #FFFFFF;
+            --accent-black: #121212;
+            --text-primary: #F0F0F0;
+            --text-secondary: #C0C0C0;
+            --card-bg: rgba(45, 27, 105, 0.7);
+            --nav-bg: rgba(26, 16, 60, 0.95);
+            --shadow: rgba(0, 0, 0, 0.3);
+            
+            /* Fonts */
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Cairo', 'Poppins', sans-serif;
+            
+            /* Transitions */
+            --transition: all 0.3s ease;
+            
+            /* Layout */
+            --section-padding: 80px 5%;
+            --border-radius: 12px;
+        }
+
+        .light-theme {
+            /* Light Theme */
+            --primary-dark: #9D4EDD;
+            --primary-light: #C77DFF;
+            --secondary-dark: #E6CCFF;
+            --secondary-light: #F3E5FF;
+            --accent-white: #121212;
+            --accent-black: #FFFFFF;
+            --text-primary: #222222;
+            --text-secondary: #555555;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--secondary-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+            overflow-x: hidden;
+            direction: ltr;
+        }
+
+        body.rtl {
+            direction: rtl;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--accent-white);
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-light);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Language Toggle - Fixed */
+        .language-toggle {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 30px;
+            padding: 5px;
+            position: relative;
+            width: 110px;
+        }
+
+        .language-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            z-index: 1;
+            width: 50%;
+            text-align: center;
+        }
+
+        .language-btn.active {
+            color: var(--accent-black);
+        }
+
+        .language-bg {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 50px;
+            height: calc(100% - 10px);
+            background-color: var(--primary-light);
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+
+        body.rtl .language-bg {
+            left: 5px;
+            right: auto;
+        }
+
+        /* Theme Toggle - Fixed */
+        .theme-toggle {
+            width: 50px;
+            height: 26px;
+            background-color: var(--card-bg);
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .theme-toggle input {
+            display: none;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .theme-toggle input:checked + .toggle-slider {
+            transform: translateX(24px);
+        }
+
+        .theme-toggle i {
+            position: absolute;
+            top: 6px;
+            font-size: 14px;
+            color: var(--primary-light);
+            pointer-events: none;
+        }
+
+        .theme-toggle .fa-sun {
+            left: 7px;
+        }
+
+        .theme-toggle .fa-moon {
+            right: 7px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* News Ticker */
+        .news-ticker {
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
+            position: relative;
+            margin-top: 70px;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: ticker 20s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        body.rtl .ticker-content {
+            padding-left: 0;
+            padding-right: 100%;
+            animation: ticker-rtl 20s linear infinite;
+        }
+
+        @keyframes ticker-rtl {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: var(--section-padding);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            width: 100%;
+            z-index: 1;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary-light), #FF6B9D);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+        /* Fixed button without underline */
+        .explore-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none !important;
+            border: none;
+            text-align: center;
+        }
+
+        .explore-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--shadow);
+            color: white;
+            text-decoration: none !important;
+        }
+
+        .profile-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 300px;
+        }
+
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid var(--primary-light);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Social Links Section */
+        .social-links {
+            padding: var(--section-padding);
+            background-color: var(--secondary-dark);
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+            border-radius: 2px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .social-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 140px;
+            height: 140px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow);
+            color: white;
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .social-icon:hover::before {
+            opacity: 1;
+        }
+
+        .social-icon i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .social-icon span {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Discord Server Section */
+        .discord-section {
+            padding: var(--section-padding);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            text-align: center;
+        }
+
+        .discord-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+
+        .discord-icon {
+            font-size: 5rem;
+            color: #5865F2;
+            margin-bottom: 25px;
+        }
+
+        .discord-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .discord-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .discord-btn {
+            display: inline-block;
+            background-color: #5865F2;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .discord-btn:hover {
+            background-color: #4752C4;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.3);
+            color: white;
+        }
+
+        .discord-features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background-color: rgba(88, 101, 242, 0.1);
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #5865F2;
+        }
+
+        body.rtl .feature {
+            border-left: none;
+            border-right: 4px solid #5865F2;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: var(--section-padding);
+            background-color: var(--secondary-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Rules List */
+        .rules-list {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .rule-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .rule-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        body.rtl .rule-number {
+            margin-right: 0;
+            margin-left: 20px;
+        }
+
+        .rule-text h3 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .rule-text p {
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--nav-bg);
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+        }
+
+        .footer-info {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--nav-bg);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+                z-index: 999;
+                box-shadow: 0 10px 20px var(--shadow);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                padding: 15px 0;
+            }
+            
+            .social-icon {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            
+            .profile-img {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .discord-container {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-img {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .social-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .social-icon i {
+                font-size: 2rem;
+            }
+            
+            .social-icon span {
+                font-size: 0.9rem;
+            }
+            
+            .rules-list {
+                padding: 25px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .discord-title {
+                font-size: 1.8rem;
+            }
+            
+            .discord-icon {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Logo" class="logo-img">
+                <span class="logo-text">Afrecus | افريكوس</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                <li><a href="#social" data-en="Social Links" data-ar="روابط التواصل">Social Links</a></li>
+                <li><a href="#discord" data-en="Discord Server" data-ar="سيرفر الديسكورد">Discord Server</a></li>
+                <li><a href="#rules" data-en="Community Rules" data-ar="قواعد المجتمع">Community Rules</a></li>
+            </ul>
+            
+            <div class="nav-controls">
+                <!-- Language Toggle - Fixed -->
+                <div class="language-toggle">
+                    <div class="language-bg"></div>
+                    <button class="language-btn active" id="enBtn">EN</button>
+                    <button class="language-btn" id="arBtn">AR</button>
+                </div>
+                
+                <!-- Theme Toggle - Fixed -->
+                <div class="theme-toggle" id="themeToggleContainer">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="toggle-slider"></span>
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- News Ticker -->
+    <div class="news-ticker">
+        <div class="ticker-content">
+            <span data-en="🎮 Afrecus is currently live on Twitch! Come join the fun!" data-ar="🎮 أفريكوس بث مباشر الآن على تويتش! تعال وانضم للمتعة!">🎮 Afrecus is currently live on Twitch! Come join the fun!</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span data-en="🌟 New YouTube video out now! Check it out!" data-ar="🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!">🌟 New YouTube video out now! Check it out!</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span data-en="📢 Join our Discord community for exclusive content!" data-ar="📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!">📢 Join our Discord community for exclusive content!</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 data-en="Welcome to the world of Afrecus" data-ar="مرحبًا بكم في عالم أفريكوس">Welcome to the world of Afrecus</h1>
+                <p data-en="The place where gamers, creators, and friends unite!" data-ar="المكان الذي يجمع اللاعبين، المبدعين، والأصدقاء معًا!">The place where gamers, creators, and friends unite!</p>
+                <a href="#social" class="explore-btn" data-en="Explore My Socials" data-ar="استكشف وسائل التواصل">Explore My Socials</a>
+            </div>
+            <div class="profile-image">
+                <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile Image" class="profile-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Links Section -->
+    <section class="social-links" id="social">
+        <div class="container">
+            <h2 class="section-title" data-en="Connect With Me" data-ar="تواصل معي">Connect With Me</h2>
+            <div class="social-icons">
+                <a href="https://www.youtube.com/@afrecus" target="_blank" class="social-icon">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://www.twitch.tv/afrecus" target="_blank" class="social-icon">
+                    <i class="fab fa-twitch"></i>
+                    <span>Twitch</span>
+                </a>
+                <a href="https://www.instagram.com/afrecus.official/" target="_blank" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+                <a href="https://x.com/Afrecus" target="_blank" class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                    <span>X (Twitter)</span>
+                </a>
+                <a href="https://kick.com/afrecus" target="_blank" class="social-icon">
+                    <i class="fas fa-signal"></i>
+                    <span>Kick</span>
+                </a>
+                <a href="https://www.tiktok.com/@afrecus" target="_blank" class="social-icon">
+                    <i class="fab fa-tiktok"></i>
+                    <span>TikTok</span>
+                </a>
+                <!-- Added Discord Link -->
+                <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="social-icon">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discord Server Section -->
+    <section class="discord-section" id="discord">
+        <div class="container">
+            <h2 class="section-title" data-en="Join Our Discord Community" data-ar="انضم لمجتمع الديسكورد">Join Our Discord Community</h2>
+            <div class="discord-container">
+                <div class="discord-icon">
+                    <i class="fab fa-discord"></i>
+                </div>
+                <h3 class="discord-title" data-en="Connect with the Community" data-ar="تواصل مع المجتمع">Connect with the Community</h3>
+                <p class="discord-description" data-en="Join our official Discord server to chat with fellow fans, get updates on streams, participate in community events, and create support tickets for any issues or inquiries." data-ar="انضم إلى سيرفر الديسكورد الرسمي لتتواصل مع المعجبين الآخرين، تحصل على تحديثات البث المباشر، تشارك في فعاليات المجتمع، وتنشئ تذاكر الدعم لأي استفسارات أو مشاكل.">Join our official Discord server to chat with fellow fans, get updates on streams, participate in community events, and create support tickets for any issues or inquiries.</p>
+                
+                <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="discord-btn" data-en="Join Discord Server" data-ar="انضم لسيرفر الديسكورد">Join Discord Server</a>
+                
+                <div class="discord-features">
+                    <div class="feature" data-en="Live Stream Notifications" data-ar="إشعارات البث المباشر">Live Stream Notifications</div>
+                    <div class="feature" data-en="Support Ticket System" data-ar="نظام تذاكر الدعم">Support Ticket System</div>
+                    <div class="feature" data-en="Exclusive Content" data-ar="محتوى حصري">Exclusive Content</div>
+                    <div class="feature" data-en="Community Events" data-ar="فعاليات المجتمع">Community Events</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Rules Section -->
+    <section class="content-section" id="rules">
+        <div class="container">
+            <h2 class="section-title" data-en="Community Rules" data-ar="قواعد المجتمع">Community Rules</h2>
+            <div class="rules-list">
+                <div class="rule-item">
+                    <div class="rule-number">1</div>
+                    <div class="rule-text">
+                        <h3 data-en="Respect everyone" data-ar="احترام الجميع">Respect everyone</h3>
+                        <p data-en="Treat all community members with respect and kindness, regardless of their background, beliefs, or gaming skills." data-ar="عامل جميع أعضاء المجتمع باحترام ولطف، بغض النظر عن خلفياتهم أو معتقداتهم أو مهاراتهم في الألعاب.">Treat all community members with respect and kindness, regardless of their background, beliefs, or gaming skills.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">2</div>
+                    <div class="rule-text">
+                        <h3 data-en="No hate speech or harassment" data-ar="لا خطاب كراهية أو مضايقة">No hate speech or harassment</h3>
+                        <p data-en="Hate speech, harassment, discrimination, or personal attacks will not be tolerated in any form." data-ar="خطاب الكراهية، المضايقة، التمييز، أو الهجمات الشخصية لن تُتَسَامَح بأي شكل من الأشكال.">Hate speech, harassment, discrimination, or personal attacks will not be tolerated in any form.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">3</div>
+                    <div class="rule-text">
+                        <h3 data-en="Keep discussions positive" data-ar="اجعل النقاشات إيجابية">Keep discussions positive</h3>
+                        <p data-en="Maintain a positive and constructive atmosphere in all conversations and interactions within the community." data-ar="حافظ على جو إيجابي وبناء في جميع المحادثات والتفاعلات داخل المجتمع.">Maintain a positive and constructive atmosphere in all conversations and interactions within the community.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">4</div>
+                    <div class="rule-text">
+                        <h3 data-en="Follow platform rules" data-ar="اتبع قواعد المنصة">Follow platform rules</h3>
+                        <p data-en="Adhere to Twitch, YouTube, and other platform rules during streams and interactions on those platforms." data-ar="الالتزام بقواعد تويتش، اليوتيوب، والمنصات الأخرى أثناء البث المباشر والتفاعلات على تلك المنصات.">Adhere to Twitch, YouTube, and other platform rules during streams and interactions on those platforms.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">5</div>
+                    <div class="rule-text">
+                        <h3 data-en="No spam or self-promotion" data-ar="لا سبام أو ترويج ذاتي">No spam or self-promotion</h3>
+                        <p data-en="Avoid spamming, excessive self-promotion, or posting irrelevant links without permission from moderators." data-ar="تجنب الإرسال المتكرر، الترويج المفرط للذات، أو نشر روابط غير ذات صلة دون إذن من المشرفين.">Avoid spamming, excessive self-promotion, or posting irrelevant links without permission from moderators.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-number">6</div>
+                    <div class="rule-text">
+                        <h3 data-en="Moderator discretion" data-ar="تقدير المشرفين">Moderator discretion</h3>
+                        <p data-en="Moderators have the final say in rule enforcement. Violations may result in warnings, timeouts, or bans." data-ar="المشرفون لهم الكلمة الأخيرة في تطبيق القواعد. قد تؤدي المخالفات إلى تحذيرات، أو تعليق مؤقت، أو حظر.">Moderators have the final say in rule enforcement. Violations may result in warnings, timeouts, or bans.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Afrecus | افريكوس</div>
+            <div class="footer-info">
+                <p data-en="Content Creator | Streamer | Gamer" data-ar="مبدع محتوى | بث مباشر | لاعب">Content Creator | Streamer | Gamer</p>
+                <p data-en="Website owner: Teo | Developer: Souhaib" data-ar="صاحب الموقع: تيو | المطور: سُهيب">Website owner: Teo | Developer: Souhaib</p>
+                <p data-en="Join Discord for support tickets and community interaction" data-ar="انضم للديسكورد لفتح تذاكر الدعم والتفاعل مع المجتمع">Join Discord for support tickets and community interaction</p>
+            </div>
+            <div class="copyright">
+                &copy; <span id="currentYear"></span> Afrecus | افريكوس. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleContainer = document.getElementById('themeToggleContainer');
+        const enBtn = document.getElementById('enBtn');
+        const arBtn = document.getElementById('arBtn');
+        const languageBg = document.querySelector('.language-bg');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const currentYear = document.getElementById('currentYear');
+        
+        // Set current year
+        currentYear.textContent = new Date().getFullYear();
+        
+        // Theme Toggle - Fixed
+        function toggleTheme() {
+            const isChecked = themeToggle.checked;
+            
+            if (isChecked) {
+                document.body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.classList.remove('light-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Add event listener to checkbox
+        themeToggle.addEventListener('change', toggleTheme);
+        
+        // Add click event to the entire container
+        themeToggleContainer.addEventListener('click', function(e) {
+            // Don't trigger if clicking on the checkbox itself
+            if (e.target !== themeToggle) {
+                themeToggle.checked = !themeToggle.checked;
+                toggleTheme();
+            }
+        });
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            themeToggle.checked = true;
+            document.body.classList.add('light-theme');
+        }
+        
+        // Language Toggle - Fixed
+        enBtn.addEventListener('click', () => switchLanguage('en'));
+        arBtn.addEventListener('click', () => switchLanguage('ar'));
+        
+        function switchLanguage(lang) {
+            // Update active button and background position
+            if (lang === 'en') {
+                enBtn.classList.add('active');
+                arBtn.classList.remove('active');
+                languageBg.style.transform = 'translateX(0)';
+                document.body.classList.remove('rtl');
+                document.body.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', 'en');
+            } else {
+                arBtn.classList.add('active');
+                enBtn.classList.remove('active');
+                languageBg.style.transform = 'translateX(100%)';
+                document.body.classList.add('rtl');
+                document.body.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+            }
+            
+            // Update all text elements with data attributes
+            document.querySelectorAll('[data-en], [data-ar]').forEach(element => {
+                if (lang === 'en') {
+                    if (element.hasAttribute('data-en')) {
+                        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                            element.setAttribute('placeholder', element.getAttribute('data-en'));
+                        } else {
+                            element.textContent = element.getAttribute('data-en');
+                        }
+                    }
+                } else {
+                    if (element.hasAttribute('data-ar')) {
+                        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                            element.setAttribute('placeholder', element.getAttribute('data-ar'));
+                        } else {
+                            element.textContent = element.getAttribute('data-ar');
+                        }
+                    }
+                }
+            });
+            
+            // Save language preference
+            localStorage.setItem('language', lang);
+        }
+        
+        // Check for saved language preference
+        const savedLanguage = localStorage.getItem('language');
+        if (savedLanguage === 'ar') {
+            switchLanguage('ar');
+        }
+        
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Initialize animations on load
+        window.addEventListener('load', () => {
+            // Animate hero text
+            const heroText = document.querySelector('.hero-text');
+            heroText.style.opacity = '0';
+            heroText.style.transform = 'translateX(-30px)';
+            
+            setTimeout(() => {
+                heroText.style.transition = 'opacity 1s ease, transform 1s ease';
+                heroText.style.opacity = '1';
+                heroText.style.transform = 'translateX(0)';
+            }, 300);
+            
+            // Animate profile image
+            const profileImg = document.querySelector('.profile-img');
+            profileImg.style.opacity = '0';
+            profileImg.style.transform = 'translateX(30px) scale(0.9)';
+            
+            setTimeout(() => {
+                profileImg.style.transition = 'opacity 1s ease, transform 1s ease';
+                profileImg.style.opacity = '1';
+                profileImg.style.transform = 'translateX(0) scale(1)';
+            }, 600);
+        });
+    </script>
+</body>
+</html>
