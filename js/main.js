@@ -1,39 +1,45 @@
 // DOM Elements
 const themeToggle = document.getElementById('themeToggle');
 const themeToggleContainer = document.getElementById('themeToggleContainer');
-const enBtn = document.getElementById('enBtn');
-const arBtn = document.getElementById('arBtn');
-const languageBg = document.querySelector('.language-bg');
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const navLinks = document.getElementById('navLinks');
 const currentYear = document.getElementById('currentYear');
 const profileImgContainer = document.getElementById('profileImgContainer');
 const statusText = document.getElementById('statusText');
-const floatingMessage = document.getElementById('floatingMessage');
-const messageClose = document.getElementById('messageClose');
-const welcomeTitle = document.getElementById('welcomeTitle');
-const welcomeText = document.getElementById('welcomeText');
+const languageToggle = document.getElementById('languageToggle');
+const languageBg = document.querySelector('.language-toggle .language-bg');
+const motivationalMessage = document.getElementById('motivationalMessage');
 
 // Twitch API Credentials
 const TWITCH_CLIENT_ID = 'a1k8g8fw1cjymw9ox7ltlmvp7yoe0x';
 const TWITCH_CLIENT_SECRET = 'mxh0bjhchxyqd5vf9xsq31j5hys8xg';
 const TWITCH_USERNAME = 'afrecus';
 
-// Welcome messages arrays
-const welcomeMessages = {
+// الجمل التحفيزية
+const motivationalMessages = {
     en: [
-        { title: "Welcome Back!", text: "We're glad to see you again!" },
-        { title: "Stay Creative!", text: "Keep pushing your creative boundaries!" },
-        { title: "Respect The Grind!", text: "Success comes from consistent effort!" },
-        { title: "Streaming is Life!", text: "More than just a hobby, it's a passion!" },
-        { title: "Keep Shining!", text: "Your content brightens our day!" }
+        "Stay creative and keep pushing forward! 🎨",
+        "Respect the grind, success is coming! 💪",
+        "Streaming is more than a hobby - it's a passion! 🔥",
+        "Keep shining and inspiring others! ✨",
+        "Your journey matters - keep going! 🚀",
+        "Every stream is a new adventure! 🎮",
+        "Consistency is the key to growth! 🔑",
+        "Believe in your content! 💫",
+        "You're building a legacy, not just a channel! 🏆",
+        "The community is with you! 🤝"
     ],
     ar: [
-        { title: "مرحباً مجدداً!", text: "سعيدون برؤيتك مرة أخرى!" },
-        { title: "ابق مبدعاً!", text: "استمر في توسيع حدود إبداعك!" },
-        { title: "احترم الجهد!", text: "النجاح يأتي من الجهد المستمر!" },
-        { title: "البث هو الحياة!", text: "أكثر من مجرد هواية، إنها شغف!" },
-        { title: "استمر في التميز!", text: "محتواك يضيء يومنا!" }
+        "ابق مبدعاً واستمر في التقدم! 🎨",
+        "احترم الجهد، النجاح قادم! 💪",
+        "البث أكثر من مجرد هواية - إنه شغف! 🔥",
+        "استمر في التميز وإلهام الآخرين! ✨",
+        "رحلتك مهمة - استمر! 🚀",
+        "كل بث هو مغامرة جديدة! 🎮",
+        "الاستمرارية هي مفتاح النمو! 🔑",
+        "آمن بمحتواك! 💫",
+        "أنت تبني إرثاً، وليس فقط قناة! 🏆",
+        "المجتمع معك! 🤝"
     ]
 };
 
@@ -72,32 +78,48 @@ if (savedTheme === 'light') {
     document.body.classList.add('light-theme');
 }
 
-// Language Toggle
-arBtn.addEventListener('click', () => switchLanguage('ar'));
-enBtn.addEventListener('click', () => switchLanguage('en'));
+// Language Toggle - Simple Version
+function initLanguageToggle() {
+    languageToggle.addEventListener('click', function() {
+        const isEnglish = document.body.classList.contains('ltr');
+        
+        if (isEnglish) {
+            // Switch to Arabic
+            switchLanguage('ar');
+            languageBg.classList.remove('active');
+        } else {
+            // Switch to English
+            switchLanguage('en');
+            languageBg.classList.add('active');
+        }
+    });
+    
+    // Initialize language toggle state
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage === 'en') {
+        languageBg.classList.add('active');
+        switchLanguage('en');
+    }
+}
 
+// وظيفة تبديل اللغة
 function switchLanguage(lang) {
-    if (lang === 'ar') {
-        // Switch to Arabic
-        arBtn.classList.add('active');
-        enBtn.classList.remove('active');
-        languageBg.style.transform = 'translateX(0)';
-        document.body.classList.remove('ltr');
-        document.body.setAttribute('dir', 'rtl');
-        document.documentElement.setAttribute('lang', 'ar');
-    } else {
-        // Switch to English
-        enBtn.classList.add('active');
-        arBtn.classList.remove('active');
-        languageBg.style.transform = 'translateX(60px)';
+    const isEnglish = lang === 'en';
+    
+    // Update body classes and attributes
+    if (isEnglish) {
         document.body.classList.add('ltr');
         document.body.setAttribute('dir', 'ltr');
         document.documentElement.setAttribute('lang', 'en');
+    } else {
+        document.body.classList.remove('ltr');
+        document.body.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('lang', 'ar');
     }
     
     // Update all text elements with data attributes
     document.querySelectorAll('[data-en], [data-ar]').forEach(element => {
-        if (lang === 'en') {
+        if (isEnglish) {
             if (element.hasAttribute('data-en')) {
                 element.textContent = element.getAttribute('data-en');
             }
@@ -111,23 +133,20 @@ function switchLanguage(lang) {
     // Update button icons direction
     const exploreBtnIcon = document.querySelector('.explore-btn i');
     if (exploreBtnIcon) {
-        exploreBtnIcon.className = lang === 'ar' ? 'fas fa-arrow-left' : 'fas fa-arrow-right';
+        exploreBtnIcon.className = isEnglish ? 'fas fa-arrow-right' : 'fas fa-arrow-left';
     }
     
     // Update rotating titles
     updateRotatingTitles(lang);
+    
+    // Update motivational message
+    updateMotivationalMessage();
     
     // Save language preference
     localStorage.setItem('language', lang);
     
     // Dispatch event for other components
     document.dispatchEvent(new Event('languageChanged'));
-}
-
-// Check for saved language preference
-const savedLanguage = localStorage.getItem('language');
-if (savedLanguage === 'en') {
-    switchLanguage('en');
 }
 
 // Mobile Menu Toggle
@@ -293,42 +312,11 @@ function showStatus(status) {
         titleText = isEnglish ? 'Click to visit Twitch channel' : 'انقر لزيارة قناة تويتش';
     }
     profileImgContainer.title = titleText;
-    
-    // Update news ticker
-    updateNewsTicker(status);
-}
-
-function updateNewsTicker(status) {
-    const tickerContent = document.querySelector('.ticker-content');
-    const isEnglish = document.body.classList.contains('ltr');
-    
-    if (status === 'live') {
-        const liveText = isEnglish 
-            ? '🎮 Afrecus is currently live on Twitch! Come join the fun!'
-            : '🎮 أفريكوس بث مباشر الآن على تويتش! تعال وانضم للمتعة!';
-            
-        tickerContent.innerHTML = `
-            <span>${liveText}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span data-en="🌟 New YouTube video out now! Check it out!" data-ar="🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!">${isEnglish ? '🌟 New YouTube video out now! Check it out!' : '🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!'}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span data-en="📢 Join our Discord community for exclusive content!" data-ar="📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!">${isEnglish ? '📢 Join our Discord community for exclusive content!' : '📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!'}</span>
-        `;
-    } else {
-        tickerContent.innerHTML = `
-            <span data-en="🌟 New YouTube video out now! Check it out!" data-ar="🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!">${isEnglish ? '🌟 New YouTube video out now! Check it out!' : '🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!'}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span data-en="📢 Follow on Twitch to get notified when Afrecus goes live!" data-ar="📢 تابع على تويتش للحصول على إشعار عندما يبدأ أفريكوس البث!">${isEnglish ? '📢 Follow on Twitch to get notified when Afrecus goes live!' : '📢 تابع على تويتش للحصول على إشعار عندما يبدأ أفريكوس البث!'}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span data-en="🎮 Join our Discord community for exclusive content!" data-ar="🎮 انضم لمجتمع الديسكورد للحصول على محتوى حصري!">${isEnglish ? '🎮 Join our Discord community for exclusive content!' : '🎮 انضم لمجتمع الديسكورد للحصول على محتوى حصري!'}</span>
-        `;
-    }
 }
 
 // Rotating Titles Functionality
 function rotateTitles() {
     const titles = document.querySelectorAll('.rotating-title');
-    const indicators = document.querySelectorAll('.indicator');
     let currentIndex = 0;
     
     // Find current active title
@@ -340,14 +328,12 @@ function rotateTitles() {
     
     // Remove active class from current title
     titles[currentIndex].classList.remove('active');
-    indicators[currentIndex].classList.remove('active');
     
     // Calculate next index
     currentIndex = (currentIndex + 1) % titles.length;
     
     // Add active class to next title
     titles[currentIndex].classList.add('active');
-    indicators[currentIndex].classList.add('active');
     
     // Update titles based on language
     updateRotatingTitles(document.body.classList.contains('ltr') ? 'en' : 'ar');
@@ -369,43 +355,44 @@ function updateRotatingTitles(lang) {
     });
 }
 
-// Welcome Message Functionality
-function showWelcomeMessage() {
-    const lastVisit = localStorage.getItem('lastVisit');
-    const now = new Date().getTime();
+// Motivational Message Functionality
+function updateMotivationalMessage() {
     const isEnglish = document.body.classList.contains('ltr');
     const lang = isEnglish ? 'en' : 'ar';
+    const messages = motivationalMessages[lang];
     
-    // Show message if first visit or if more than 2 hours have passed
-    if (!lastVisit || (now - lastVisit) > 2 * 60 * 60 * 1000) {
-        // Get random welcome message
-        const messages = welcomeMessages[lang];
-        const randomIndex = Math.floor(Math.random() * messages.length);
-        const randomMessage = messages[randomIndex];
-        
-        // Update message content
-        welcomeTitle.textContent = randomMessage.title;
-        welcomeText.textContent = randomMessage.text;
-        
-        // Show message
-        setTimeout(() => {
-            floatingMessage.classList.add('show');
-        }, 3000); // Show after 3 seconds
-        
-        // Update last visit time
-        localStorage.setItem('lastVisit', now);
+    // اختيار جملة عشوائية
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    const message = messages[randomIndex];
+    
+    // تحديث النص
+    if (motivationalMessage) {
+        motivationalMessage.textContent = message;
     }
 }
 
-// Close welcome message
-messageClose.addEventListener('click', () => {
-    floatingMessage.classList.remove('show');
-});
+// تغيير الجملة التحفيزية كل 15 ثانية
+function rotateMotivationalMessage() {
+    updateMotivationalMessage();
+    setInterval(updateMotivationalMessage, 15000);
+}
 
-// Auto-hide message after 10 seconds
-setTimeout(() => {
-    floatingMessage.classList.remove('show');
-}, 10000);
+// Update status text when switching languages
+document.addEventListener('languageChanged', () => {
+    const isEnglish = document.body.classList.contains('ltr');
+    const currentStatus = profileImgContainer.classList.contains('live') ? 'live' : 'offline';
+    
+    let statusValue = '';
+    if (currentStatus === 'live') {
+        statusValue = isEnglish ? 'LIVE' : 'بث مباشر';
+    } else {
+        statusValue = isEnglish ? 'OFFLINE' : 'غير متصل';
+    }
+    
+    statusText.textContent = statusValue;
+    updateRotatingTitles(isEnglish ? 'en' : 'ar');
+    updateMotivationalMessage();
+});
 
 // Initialize animations on load
 window.addEventListener('load', () => {
@@ -431,45 +418,20 @@ window.addEventListener('load', () => {
         profileImg.style.transform = 'translateY(0) scale(1)';
     }, 600);
     
+    // Initialize language toggle
+    initLanguageToggle();
+    
     // Check stream status
     checkStreamStatus();
     
     // Start rotating titles
     setInterval(rotateTitles, 3000); // Rotate every 3 seconds
     
-    // Show welcome message
-    showWelcomeMessage();
+    // Start rotating motivational messages
+    rotateMotivationalMessage();
     
     // Check stream status every 10 seconds
     setInterval(checkStreamStatus, 10000);
-});
-
-// Update status text when switching languages
-document.addEventListener('languageChanged', () => {
-    const isEnglish = document.body.classList.contains('ltr');
-    const currentStatus = profileImgContainer.classList.contains('live') ? 'live' : 'offline';
-    
-    let statusValue = '';
-    if (currentStatus === 'live') {
-        statusValue = isEnglish ? 'LIVE' : 'بث مباشر';
-    } else {
-        statusValue = isEnglish ? 'OFFLINE' : 'غير متصل';
-    }
-    
-    statusText.textContent = statusValue;
-    updateNewsTicker(currentStatus);
-    updateRotatingTitles(isEnglish ? 'en' : 'ar');
-    
-    // Update welcome message if shown
-    if (floatingMessage.classList.contains('show')) {
-        const lang = isEnglish ? 'en' : 'ar';
-        const messages = welcomeMessages[lang];
-        const randomIndex = Math.floor(Math.random() * messages.length);
-        const randomMessage = messages[randomIndex];
-        
-        welcomeTitle.textContent = randomMessage.title;
-        welcomeText.textContent = randomMessage.text;
-    }
 });
 
 // Add keyboard navigation support
@@ -477,7 +439,6 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         navLinks.classList.remove('active');
         mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-        floatingMessage.classList.remove('show');
     }
 });
 
