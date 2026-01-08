@@ -1,9 +1,14 @@
 // تهيئة الموقع
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Afrecus Website Initialized');
+    
     // 1. تعيين سنة التذييل
     document.getElementById('currentYear').textContent = new Date().getFullYear();
     
-    // 2. تبديل القائمة المتنقلة
+    // 2. تفعيل Lazy Loading للصور
+    enableLazyLoading();
+    
+    // 3. تبديل القائمة المتنقلة
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
     
@@ -22,9 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // 3. تبديل الوضع الداكن/فاتح
+    // 4. تبديل الوضع الداكن/فاتح
     const themeToggle = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = localStorage.getItem('afrecus_theme');
     
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
@@ -36,23 +41,31 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (document.body.classList.contains('light-mode')) {
             this.innerHTML = '<i class="fas fa-sun"></i>';
-            localStorage.setItem('theme', 'light');
+            localStorage.setItem('afrecus_theme', 'light');
+            console.log('Theme changed to Light Mode');
         } else {
             this.innerHTML = '<i class="fas fa-moon"></i>';
-            localStorage.setItem('theme', 'dark');
+            localStorage.setItem('afrecus_theme', 'dark');
+            console.log('Theme changed to Dark Mode');
         }
+        
+        // تحديث الأنيميشن بعد تغيير الثيم
+        updateAnimations();
     });
     
-    // 4. تبديل اللغة
+    // 5. تبديل اللغة
     const langAr = document.getElementById('langAr');
     const langEn = document.getElementById('langEn');
-    const savedLang = localStorage.getItem('language') || 'ar';
+    const savedLang = localStorage.getItem('afrecus_language') || 'ar';
     
     // تطبيق اللغة المحفوظة
     if (savedLang === 'en') {
         switchLanguage('en');
         langAr.classList.remove('active');
         langEn.classList.add('active');
+        console.log('Language set to English');
+    } else {
+        console.log('Language set to Arabic');
     }
     
     // أحداث أزرار اللغة
@@ -60,27 +73,65 @@ document.addEventListener('DOMContentLoaded', function() {
         switchLanguage('ar');
         langAr.classList.add('active');
         langEn.classList.remove('active');
-        localStorage.setItem('language', 'ar');
+        localStorage.setItem('afrecus_language', 'ar');
+        console.log('Language switched to Arabic');
     });
     
     langEn.addEventListener('click', function() {
         switchLanguage('en');
         langAr.classList.remove('active');
         langEn.classList.add('active');
-        localStorage.setItem('language', 'en');
+        localStorage.setItem('afrecus_language', 'en');
+        console.log('Language switched to English');
     });
     
-    // 5. فحص حالة البث
-    checkStreamStatus();
-    
-    // 6. تشغيل الأخبار (سيتم تشغيلها من news.js)
-    
-    // 7. تغيير الجمل التحفيزية
-    rotateMotivationalQuotes();
-    
-    // 8. التمرير السلس للروابط
+    // 6. التمرير السلس للروابط
     setupSmoothScrolling();
+    
+    // 7. تحميل الصور Lazy
+    loadLazyImages();
+    
+    // 8. تحديث الأنيميشن
+    updateAnimations();
+    
+    // 9. تأثيرات عند التمرير
+    setupScrollEffects();
 });
+
+// دالة تفعيل Lazy Loading
+function enableLazyLoading() {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.classList.add('loaded');
+                observer.unobserve(img);
+            }
+        });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+}
+
+// تحميل الصور Lazy
+function loadLazyImages() {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    
+    lazyImages.forEach(img => {
+        if (img.complete) {
+            img.classList.add('loaded');
+        } else {
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+            });
+            img.addEventListener('error', function() {
+                console.warn('Failed to load image:', this.src);
+            });
+        }
+    });
+}
 
 // دالة تبديل اللغة
 function switchLanguage(lang) {
@@ -103,17 +154,21 @@ function switchLanguage(lang) {
     // تحديث شريط الأخبار
     updateNewsTickerDirection(lang);
     
-    // تحديث الجملة التحفيزية
-    updateMotivationalQuote(lang);
-    
     // تحديث حالة البث
-    updateStreamStatusText(lang);
+    if (window.streamStatusManager) {
+        window.streamStatusManager.updateLanguage(lang);
+    }
     
     // تحديث عناوين السلايدر
     updateSliderTitles(lang);
     
     // إرسال حدث تغيير اللغة
-    const languageEvent = new CustomEvent('languageChanged', { detail: { language: lang } });
+    const languageEvent = new CustomEvent('languageChanged', { 
+        detail: { 
+            language: lang,
+            timestamp: new Date().toISOString()
+        } 
+    });
     document.dispatchEvent(languageEvent);
     
     console.log('Language switched to:', lang);
@@ -121,19 +176,26 @@ function switchLanguage(lang) {
 
 // تحديث جميع النصوص
 function updateAllTexts(lang) {
-    document.querySelectorAll('[data-ar], [data-en]').forEach(element => {
+    const elements = document.querySelectorAll('[data-ar], [data-en]');
+    let updatedCount = 0;
+    
+    elements.forEach(element => {
         if (lang === 'en' && element.hasAttribute('data-en')) {
             const englishText = element.getAttribute('data-en');
             if (englishText && englishText.trim() !== '') {
                 element.textContent = englishText;
+                updatedCount++;
             }
         } else if (lang === 'ar' && element.hasAttribute('data-ar')) {
             const arabicText = element.getAttribute('data-ar');
             if (arabicText && arabicText.trim() !== '') {
                 element.textContent = arabicText;
+                updatedCount++;
             }
         }
     });
+    
+    console.log(`Updated ${updatedCount} text elements for ${lang} language`);
 }
 
 // تحديث عناوين السلايدر
@@ -144,14 +206,20 @@ function updateSliderTitles(lang) {
             const englishText = title.getAttribute('data-en');
             if (englishText) {
                 title.textContent = englishText;
+                title.classList.add('title-transition');
             }
         } else if (lang === 'ar' && title.hasAttribute('data-ar')) {
             const arabicText = title.getAttribute('data-ar');
             if (arabicText) {
                 title.textContent = arabicText;
+                title.classList.add('title-transition');
             }
         }
     });
+    
+    setTimeout(() => {
+        titles.forEach(title => title.classList.remove('title-transition'));
+    }, 300);
 }
 
 // تحديث اتجاه شريط الأخبار
@@ -175,122 +243,6 @@ function updateNewsTickerDirection(lang) {
     }, 10);
 }
 
-// دالة فحص حالة البث
-async function checkStreamStatus() {
-    const indicator = document.getElementById('liveIndicator');
-    if (!indicator) return;
-    
-    const textElement = indicator.querySelector('span:last-child');
-    const dot = indicator.querySelector('.dot');
-    
-    // حالة افتراضية (يمكنك إضافة API حقيقي هنا)
-    const isLive = false;
-    
-    // الحصول على اللغة الحالية
-    const isEnglish = document.body.classList.contains('ltr');
-    
-    if (isLive) {
-        indicator.classList.add('live');
-        dot.style.background = '#FF0000';
-        dot.style.animation = 'pulse 1.5s infinite';
-        textElement.textContent = isEnglish ? 'LIVE' : 'بث مباشر';
-    } else {
-        indicator.classList.remove('live');
-        dot.style.background = '#666';
-        dot.style.animation = 'none';
-        textElement.textContent = isEnglish ? 'OFFLINE' : 'غير متصل';
-    }
-}
-
-// تحديث نص حالة البث عند تغيير اللغة
-function updateStreamStatusText(lang) {
-    const indicator = document.getElementById('liveIndicator');
-    if (!indicator) return;
-    
-    const textElement = indicator.querySelector('span:last-child');
-    const dot = indicator.querySelector('.dot');
-    
-    // التحقق من حالة البث الحالية
-    const isLive = indicator.classList.contains('live');
-    
-    if (isLive) {
-        textElement.textContent = lang === 'en' ? 'LIVE' : 'بث مباشر';
-        dot.style.background = '#FF0000';
-    } else {
-        textElement.textContent = lang === 'en' ? 'OFFLINE' : 'غير متصل';
-        dot.style.background = '#666';
-    }
-}
-
-// الجمل التحفيزية
-const motivationalQuotes = {
-    ar: [
-        "استمر في التميز وإلهام الآخرين! ✨",
-        "احترم الجهد، النجاح قادم! 💪",
-        "البث أكثر من مجرد هواية - إنه شغف! 🔥",
-        "ابق مبدعاً واستمر في التقدم! 🎨",
-        "رحلتك مهمة - استمر! 🚀",
-        "كل بث هو مغامرة جديدة! 🎮",
-        "استمر في الإبداع والتألق! ⭐",
-        "شارك شغفك مع العالم! 🌍"
-    ],
-    en: [
-        "Keep shining and inspiring others! ✨",
-        "Respect the grind, success is coming! 💪",
-        "Streaming is more than a hobby - it's a passion! 🔥",
-        "Stay creative and keep pushing forward! 🎨",
-        "Your journey matters - keep going! 🚀",
-        "Every stream is a new adventure! 🎮",
-        "Keep creating and shining! ⭐",
-        "Share your passion with the world! 🌍"
-    ]
-};
-
-function rotateMotivationalQuotes() {
-    const quoteElement = document.getElementById('motivationalQuote');
-    if (!quoteElement) return;
-    
-    let quoteIndex = 0;
-    
-    // تعيين الاقتباس الأول
-    const isEnglish = document.body.classList.contains('ltr');
-    const lang = isEnglish ? 'en' : 'ar';
-    const quotes = motivationalQuotes[lang];
-    quoteElement.textContent = quotes[quoteIndex];
-    
-    // تغيير الاقتباس كل 10 ثواني
-    setInterval(() => {
-        const isEnglish = document.body.classList.contains('ltr');
-        const lang = isEnglish ? 'en' : 'ar';
-        const quotes = motivationalQuotes[lang];
-        
-        quoteIndex = (quoteIndex + 1) % quotes.length;
-        quoteElement.textContent = quotes[quoteIndex];
-        
-        // تأثير بسيط
-        quoteElement.style.opacity = '0';
-        setTimeout(() => {
-            quoteElement.style.transition = 'opacity 0.5s';
-            quoteElement.style.opacity = '1';
-        }, 50);
-    }, 10000);
-}
-
-function updateMotivationalQuote(lang) {
-    const quoteElement = document.getElementById('motivationalQuote');
-    if (!quoteElement) return;
-    
-    const quotes = motivationalQuotes[lang];
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    
-    quoteElement.style.opacity = '0';
-    setTimeout(() => {
-        quoteElement.textContent = quotes[randomIndex];
-        quoteElement.style.transition = 'opacity 0.5s';
-        quoteElement.style.opacity = '1';
-    }, 50);
-}
-
 // التمرير السلس
 function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -302,11 +254,141 @@ function setupSmoothScrolling() {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const headerHeight = document.querySelector('.navbar').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                
                 window.scrollTo({
-                    top: targetElement.offsetTop - headerHeight - 20,
+                    top: targetPosition,
                     behavior: 'smooth'
                 });
+                
+                // تحديث URL بدون إعادة تحميل الصفحة
+                history.pushState(null, null, targetId);
             }
         });
     });
 }
+
+// تحديث الأنيميشن
+function updateAnimations() {
+    // إعادة تشغيل أنيميشن السلايدر
+    const sliderTrack = document.querySelector('.slider-track');
+    if (sliderTrack) {
+        const animation = sliderTrack.style.animation;
+        sliderTrack.style.animation = 'none';
+        
+        setTimeout(() => {
+            sliderTrack.style.animation = animation;
+        }, 10);
+    }
+    
+    // إعادة تشغيل أنيميشن شريط الأخبار
+    const ticker = document.querySelector('.ticker-content');
+    if (ticker) {
+        const animation = ticker.style.animation;
+        ticker.style.animation = 'none';
+        
+        setTimeout(() => {
+            ticker.style.animation = animation;
+        }, 10);
+    }
+}
+
+// تأثيرات عند التمرير
+function setupScrollEffects() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, observerOptions);
+    
+    // مراقبة العناصر
+    const elementsToAnimate = document.querySelectorAll('.profile-card, .about-content, .social-card, .discord-card, .rules-list');
+    elementsToAnimate.forEach(el => observer.observe(el));
+}
+
+// دالة مساعدة للتحقق من الاتصال بالإنترنت
+function checkOnlineStatus() {
+    if (!navigator.onLine) {
+        console.warn('User is offline');
+        // يمكن إضافة رسالة للمستخدم هنا
+    }
+}
+
+// التحقق من الاتصال عند التحميل وعند التغيير
+window.addEventListener('load', checkOnlineStatus);
+window.addEventListener('online', () => {
+    console.log('User is back online');
+    // تحديث البيانات إذا لزم الأمر
+});
+window.addEventListener('offline', checkOnlineStatus);
+
+// منع السلوك الافتراضي للنماذج
+document.addEventListener('submit', function(e) {
+    e.preventDefault();
+});
+
+// تحسين أداء التمرير
+let scrollTimeout;
+window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    document.body.classList.add('scrolling');
+    
+    scrollTimeout = setTimeout(function() {
+        document.body.classList.remove('scrolling');
+    }, 100);
+});
+
+// إضافة فئة للجسم عند تحميل الصفحة
+window.addEventListener('load', function() {
+    document.body.classList.add('loaded');
+    
+    // إخفاء مؤشر التحميل إذا كان موجوداً
+    const loader = document.querySelector('.loader');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+});
+
+// تسجيل الأخطاء
+window.addEventListener('error', function(e) {
+    console.error('Error occurred:', e.message, 'at', e.filename, 'line', e.lineno);
+});
+
+// دعم خدمة العمال (Service Worker) - اختياري
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+            console.log('ServiceWorker registration successful with scope:', registration.scope);
+        }, function(err) {
+            console.log('ServiceWorker registration failed:', err);
+        });
+    });
+}
+
+// API للصفحة الإدارية (اختياري)
+window.AfrecusAPI = {
+    getSiteInfo: function() {
+        return {
+            version: '2.0.0',
+            lastUpdate: new Date().toISOString(),
+            features: ['Multi-language', 'Dark/Light Mode', 'Live Stream Status', 'News Management']
+        };
+    },
+    
+    resetSettings: function() {
+        if (confirm('Are you sure you want to reset all settings?')) {
+            localStorage.removeItem('afrecus_theme');
+            localStorage.removeItem('afrecus_language');
+            localStorage.removeItem('afrecus_news_config');
+            location.reload();
+        }
+    }
+};
