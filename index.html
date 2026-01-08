@@ -10,15 +10,6 @@
     <link rel="icon" href="https://j.top4top.io/p_3659rbb5m1.png" type="image/x-icon">
 </head>
 <body>
-    <!-- Floating Welcome Message -->
-    <div class="floating-message" id="floatingMessage">
-        <div class="message-content">
-            <button class="message-close" id="messageClose">&times;</button>
-            <h3 id="welcomeTitle">مرحباً بك مجدداً!</h3>
-            <p id="welcomeText">نتمنى أن تقضي وقتاً ممتعاً معنا</p>
-        </div>
-    </div>
-
     <!-- Header & Navigation -->
     <header>
         <div class="nav-container">
@@ -39,11 +30,11 @@
             </ul>
             
             <div class="nav-controls">
-                <!-- Language Toggle -->
-                <div class="language-toggle">
+                <!-- Language Toggle - Compact -->
+                <div class="language-toggle" id="languageToggle">
                     <div class="language-bg"></div>
-                    <button class="language-btn active" id="arBtn">AR</button>
-                    <button class="language-btn" id="enBtn">EN</button>
+                    <span class="language-btn active" id="arBtn">ع</span>
+                    <span class="language-btn" id="enBtn">EN</span>
                 </div>
                 
                 <!-- Theme Toggle -->
@@ -59,12 +50,8 @@
 
     <!-- News Ticker -->
     <div class="news-ticker">
-        <div class="ticker-content">
-            <span data-en="🎮 Afrecus is currently live on Twitch! Come join the fun!" data-ar="🎮 أفريكوس بث مباشر الآن على تويتش! تعال وانضم للمتعة!">🎮 أفريكوس بث مباشر الآن على تويتش! تعال وانضم للمتعة!</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span data-en="🌟 New YouTube video out now! Check it out!" data-ar="🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!">🌟 فيديو جديد على اليوتيوب! شاهدوه الآن!</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span data-en="📢 Join our Discord community for exclusive content!" data-ar="📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!">📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!</span>
+        <div class="ticker-content" id="newsTicker">
+            <!-- سيتم ملؤها تلقائياً -->
         </div>
     </div>
 
@@ -93,19 +80,17 @@
                             <span class="rotating-title" data-en="Community Builder" data-ar="باني مجتمع">باني مجتمع</span>
                             <span class="rotating-title" data-en="Gaming Influencer" data-ar="مؤثر ألعاب">مؤثر ألعاب</span>
                         </div>
-                        <div class="rotator-indicators">
-                            <span class="indicator active"></span>
-                            <span class="indicator"></span>
-                            <span class="indicator"></span>
-                            <span class="indicator"></span>
-                            <span class="indicator"></span>
-                        </div>
                     </div>
                     
                     <div class="status-display">
                         <span class="status-dot"></span>
                         <span id="statusText" data-en="OFFLINE" data-ar="غير متصل">غير متصل</span>
                     </div>
+                </div>
+                
+                <!-- Motivational Message -->
+                <div class="motivational-message" id="motivationalMessage">
+                    <!-- سيتم ملؤها بالجمل التحفيزية -->
                 </div>
             </div>
         </div>
@@ -242,5 +227,12 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/news.js"></script>
+    <script>
+        // تهيئة مدير الأخبار عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            window.newsManager = new NewsManager();
+        });
+    </script>
 </body>
 </html>
