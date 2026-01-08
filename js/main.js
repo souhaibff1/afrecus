@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme');
     
-    // تحميل التفضيل المحفوظ
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
         themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
@@ -44,47 +43,225 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // 4. تبديل اللغة - الإصلاح الكامل
+    // 4. تبديل اللغة
     const langAr = document.getElementById('langAr');
     const langEn = document.getElementById('langEn');
     const savedLang = localStorage.getItem('language') || 'ar';
     
-    // تطبيق اللغة المحفوظة عند التحميل
+    // تطبيق اللغة المحفوظة
     if (savedLang === 'en') {
-        setLanguage('en');
+        switchLanguage('en');
         langAr.classList.remove('active');
         langEn.classList.add('active');
-    } else {
-        setLanguage('ar');
-        langAr.classList.add('active');
-        langEn.classList.remove('active');
     }
     
     // أحداث أزرار اللغة
     langAr.addEventListener('click', function() {
-        setLanguage('ar');
+        switchLanguage('ar');
         langAr.classList.add('active');
         langEn.classList.remove('active');
         localStorage.setItem('language', 'ar');
     });
     
     langEn.addEventListener('click', function() {
-        setLanguage('en');
+        switchLanguage('en');
         langAr.classList.remove('active');
         langEn.classList.add('active');
         localStorage.setItem('language', 'en');
     });
     
-    // 5. فحص حالة البث على تويتش
+    // 5. فحص حالة البث
     checkStreamStatus();
     
-    // 6. تحميل الأخبار
-    loadNews();
+    // 6. تشغيل الأخبار
+    startNewsTicker();
     
     // 7. تغيير الجمل التحفيزية
     rotateMotivationalQuotes();
     
-    // 8. نعومة التمرير للروابط
+    // 8. التمرير السلس للروابط
+    setupSmoothScrolling();
+});
+
+// دالة تبديل اللغة
+function switchLanguage(lang) {
+    const isEnglish = lang === 'en';
+    
+    // تحديث اتجاه الصفحة
+    if (isEnglish) {
+        document.body.classList.add('ltr');
+        document.body.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('lang', 'en');
+    } else {
+        document.body.classList.remove('ltr');
+        document.body.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('lang', 'ar');
+    }
+    
+    // تحديث كل النصوص
+    updateAllTexts(lang);
+    
+    // تحديث شريط الأخبار
+    updateNewsTickerDirection(lang);
+    
+    // تحديث الجملة التحفيزية
+    updateMotivationalQuote(lang);
+}
+
+// تحديث جميع النصوص
+function updateAllTexts(lang) {
+    document.querySelectorAll('[data-ar], [data-en]').forEach(element => {
+        if (lang === 'en' && element.hasAttribute('data-en')) {
+            const englishText = element.getAttribute('data-en');
+            if (englishText) {
+                element.textContent = englishText;
+            }
+        } else if (lang === 'ar' && element.hasAttribute('data-ar')) {
+            const arabicText = element.getAttribute('data-ar');
+            if (arabicText) {
+                element.textContent = arabicText;
+            }
+        }
+    });
+}
+
+// تحديث اتجاه شريط الأخبار
+function updateNewsTickerDirection(lang) {
+    const ticker = document.querySelector('.ticker-content');
+    if (!ticker) return;
+    
+    // إيقاف الأنيميشن الحالية
+    ticker.style.animation = 'none';
+    
+    setTimeout(() => {
+        if (lang === 'en') {
+            ticker.style.paddingRight = '0';
+            ticker.style.paddingLeft = '100%';
+            ticker.style.animation = 'ticker-ltr 30s linear infinite';
+        } else {
+            ticker.style.paddingRight = '100%';
+            ticker.style.paddingLeft = '0';
+            ticker.style.animation = 'ticker 30s linear infinite';
+        }
+    }, 10);
+}
+
+// دالة فحص حالة البث
+async function checkStreamStatus() {
+    const indicator = document.getElementById('liveIndicator');
+    const dot = indicator.querySelector('.dot');
+    const text = indicator.querySelector('span:last-child');
+    
+    // حالة افتراضية (يمكنك إضافة API حقيقي هنا)
+    const isLive = false;
+    
+    if (isLive) {
+        indicator.classList.add('live');
+        dot.style.background = '#FF0000';
+        dot.style.animation = 'pulse 1.5s infinite';
+        
+        const isEnglish = document.body.classList.contains('ltr');
+        text.textContent = isEnglish ? 'LIVE' : 'بث مباشر';
+    } else {
+        indicator.classList.remove('live');
+        dot.style.background = '#666';
+        dot.style.animation = 'none';
+        
+        const isEnglish = document.body.classList.contains('ltr');
+        text.textContent = isEnglish ? 'OFFLINE' : 'غير متصل';
+    }
+}
+
+// الأخبار
+const newsItems = {
+    ar: [
+        "🎮 تابع على تويتش لتتلقى إشعارات البث المباشر!",
+        "🌟 فيديو جديد على اليوتيوب قريباً! ترقبوه!",
+        "📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!",
+        "🔥 البث القادم غداً الساعة 8 مساءً!",
+        "🎉 فعالية مجتمعية نهاية هذا الأسبوع!"
+    ],
+    en: [
+        "🎮 Follow on Twitch to get live stream notifications!",
+        "🌟 New YouTube video coming soon! Stay tuned!",
+        "📢 Join our Discord community for exclusive content!",
+        "🔥 Next stream tomorrow at 8 PM!",
+        "🎉 Community event this weekend!"
+    ]
+};
+
+function startNewsTicker() {
+    const ticker = document.getElementById('newsTicker');
+    if (!ticker) return;
+    
+    let currentLang = document.body.classList.contains('ltr') ? 'en' : 'ar';
+    let currentIndex = 0;
+    
+    // عرض أول خبر
+    ticker.textContent = newsItems[currentLang][currentIndex];
+    
+    // تحديث الأخبار
+    setInterval(() => {
+        currentLang = document.body.classList.contains('ltr') ? 'en' : 'ar';
+        currentIndex = (currentIndex + 1) % newsItems[currentLang].length;
+        ticker.textContent = newsItems[currentLang][currentIndex];
+    }, 8000);
+}
+
+// الجمل التحفيزية
+const motivationalQuotes = {
+    ar: [
+        "استمر في التميز وإلهام الآخرين! ✨",
+        "احترم الجهد، النجاح قادم! 💪",
+        "البث أكثر من مجرد هواية - إنه شغف! 🔥",
+        "ابق مبدعاً واستمر في التقدم! 🎨",
+        "رحلتك مهمة - استمر! 🚀",
+        "كل بث هو مغامرة جديدة! 🎮"
+    ],
+    en: [
+        "Keep shining and inspiring others! ✨",
+        "Respect the grind, success is coming! 💪",
+        "Streaming is more than a hobby - it's a passion! 🔥",
+        "Stay creative and keep pushing forward! 🎨",
+        "Your journey matters - keep going! 🚀",
+        "Every stream is a new adventure! 🎮"
+    ]
+};
+
+function rotateMotivationalQuotes() {
+    const quoteElement = document.getElementById('motivationalQuote');
+    if (!quoteElement) return;
+    
+    let quoteIndex = 0;
+    
+    setInterval(() => {
+        const isEnglish = document.body.classList.contains('ltr');
+        const lang = isEnglish ? 'en' : 'ar';
+        const quotes = motivationalQuotes[lang];
+        
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+        quoteElement.textContent = quotes[quoteIndex];
+        
+        // تأثير بسيط
+        quoteElement.style.opacity = '0';
+        setTimeout(() => {
+            quoteElement.style.transition = 'opacity 0.5s';
+            quoteElement.style.opacity = '1';
+        }, 50);
+    }, 10000);
+}
+
+function updateMotivationalQuote(lang) {
+    const quoteElement = document.getElementById('motivationalQuote');
+    if (!quoteElement) return;
+    
+    const quotes = motivationalQuotes[lang];
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    quoteElement.textContent = quotes[randomIndex];
+}
+
+// التمرير السلس
+function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -101,278 +278,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
-
-// دالة تعيين اللغة
-function setLanguage(lang) {
-    if (lang === 'en') {
-        // التبديل إلى الإنجليزية
-        document.body.classList.add('ltr');
-        document.body.setAttribute('dir', 'ltr');
-        document.documentElement.setAttribute('lang', 'en');
-        
-        // تحديث النصوص
-        updateTexts('en');
-        
-        // تحديث اتجاه زر التعديل
-        const editTicker = document.querySelector('.edit-ticker');
-        if (editTicker) {
-            editTicker.style.left = 'auto';
-            editTicker.style.right = '20px';
-            editTicker.setAttribute('title', 'Edit News');
-        }
-    } else {
-        // التبديل إلى العربية
-        document.body.classList.remove('ltr');
-        document.body.setAttribute('dir', 'rtl');
-        document.documentElement.setAttribute('lang', 'ar');
-        
-        // تحديث النصوص
-        updateTexts('ar');
-        
-        // تحديث اتجاه زر التعديل
-        const editTicker = document.querySelector('.edit-ticker');
-        if (editTicker) {
-            editTicker.style.right = 'auto';
-            editTicker.style.left = '20px';
-            editTicker.setAttribute('title', 'تعديل الأخبار');
-        }
-    }
-    
-    // تحديث اتجاه شريط الأخبار
-    updateTickerDirection(lang);
 }
-
-// دالة تحديث النصوص
-function updateTexts(lang) {
-    const elements = document.querySelectorAll('[data-ar], [data-en]');
-    
-    elements.forEach(element => {
-        if (lang === 'en' && element.hasAttribute('data-en')) {
-            const text = element.getAttribute('data-en');
-            if (text) {
-                element.textContent = text;
-            }
-        } else if (lang === 'ar' && element.hasAttribute('data-ar')) {
-            const text = element.getAttribute('data-ar');
-            if (text) {
-                element.textContent = text;
-            }
-        }
-    });
-}
-
-// دالة تحديث اتجاه شريط الأخبار
-function updateTickerDirection(lang) {
-    const tickerContent = document.querySelector('.ticker-content');
-    if (!tickerContent) return;
-    
-    // إيقاف الأنيميشن الحالية
-    tickerContent.style.animation = 'none';
-    
-    // إعطاء الوقت لإعادة الرسم
-    setTimeout(() => {
-        if (lang === 'en') {
-            tickerContent.style.paddingRight = '0';
-            tickerContent.style.paddingLeft = '100%';
-            tickerContent.style.animation = 'ticker-ltr 30s linear infinite';
-        } else {
-            tickerContent.style.paddingRight = '100%';
-            tickerContent.style.paddingLeft = '0';
-            tickerContent.style.animation = 'ticker 30s linear infinite';
-        }
-    }, 50);
-}
-
-// دالة فحص حالة البث
-async function checkStreamStatus() {
-    try {
-        // محاولة الاتصال بـ Twitch API
-        const response = await fetch('https://api.twitch.tv/helix/streams?user_login=afrecus', {
-            headers: {
-                'Client-ID': 'a1k8g8fw1cjymw9ox7ltlmvp7yoe0x',
-                'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // يمكنك إضافة token هنا إذا كان لديك
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (data.data && data.data.length > 0) {
-            // البث مباشر
-            updateLiveStatus(data.data[0]);
-        } else {
-            // غير متصل
-            updateOfflineStatus();
-        }
-    } catch (error) {
-        console.log('خطأ في فحص حالة البث:', error);
-        updateOfflineStatus(); // حالة افتراضية
-    }
-}
-
-function updateLiveStatus(streamData) {
-    const indicator = document.getElementById('liveIndicator');
-    const dot = indicator.querySelector('.dot');
-    const text = indicator.querySelector('span:last-child');
-    
-    // تحديث المؤشر
-    indicator.classList.add('live');
-    dot.style.background = '#FF0000';
-    dot.style.animation = 'pulse 1.5s infinite';
-    
-    // تحديث النص بناءً على اللغة
-    const isEnglish = document.body.classList.contains('ltr');
-    text.textContent = isEnglish ? 'LIVE' : 'بث مباشر';
-    
-    // إضافة تأثير النبض للصورة
-    const profileImg = document.getElementById('profileImg');
-    profileImg.style.boxShadow = '0 0 30px rgba(255, 0, 0, 0.5), 0 15px 40px rgba(0, 0, 0, 0.3)';
-    
-    // تحديث العناوين الدوارة
-    updateTitlesOnLive();
-}
-
-function updateOfflineStatus() {
-    const indicator = document.getElementById('liveIndicator');
-    const dot = indicator.querySelector('.dot');
-    const text = indicator.querySelector('span:last-child');
-    
-    // إعادة المؤشر للحالة الطبيعية
-    indicator.classList.remove('live');
-    dot.style.background = '#666';
-    dot.style.animation = 'none';
-    
-    // تحديث النص بناءً على اللغة
-    const isEnglish = document.body.classList.contains('ltr');
-    text.textContent = isEnglish ? 'OFFLINE' : 'غير متصل';
-    
-    // إزالة تأثير النبض
-    const profileImg = document.getElementById('profileImg');
-    profileImg.style.boxShadow = '';
-}
-
-function updateTitlesOnLive() {
-    // تحديث العناوين لتعكس حالة البث المباشر
-    const titles = document.querySelectorAll('.title');
-    const isEnglish = document.body.classList.contains('ltr');
-    
-    if (isEnglish) {
-        titles[0].setAttribute('data-en', 'Live Streaming');
-        titles[0].textContent = 'Live Streaming';
-    } else {
-        titles[0].setAttribute('data-ar', 'بث مباشر حي');
-        titles[0].textContent = 'بث مباشر حي';
-    }
-}
-
-// دالة تحميل الأخبار
-function loadNews() {
-    const news = JSON.parse(localStorage.getItem('afrecus_news')) || [
-        "🎮 تابع على تويتش لتتلقى إشعارات البث المباشر!",
-        "🌟 فيديو جديد على اليوتيوب قريباً! ترقبوه!",
-        "📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!",
-        "🔥 البث القادم غداً الساعة 8 مساءً!",
-        "🎉 فعالية مجتمعية نهاية هذا الأسبوع! تفاصيل أكثر على الديسكورد!"
-    ];
-    
-    const ticker = document.getElementById('newsTicker');
-    let currentIndex = 0;
-    
-    // عرض أول خبر
-    if (ticker && news.length > 0) {
-        ticker.textContent = news[currentIndex];
-        
-        // تغيير الخبر كل 20 ثانية
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % news.length;
-            ticker.textContent = news[currentIndex];
-        }, 20000);
-    }
-}
-
-// الجمل التحفيزية باللغتين
-const motivationalQuotes = {
-    ar: [
-        "استمر في التميز وإلهام الآخرين! ✨",
-        "احترم الجهد، النجاح قادم! 💪",
-        "البث أكثر من مجرد هواية - إنه شغف! 🔥",
-        "ابق مبدعاً واستمر في التقدم! 🎨",
-        "رحلتك مهمة - استمر! 🚀",
-        "كل بث هو مغامرة جديدة! 🎮",
-        "الاستمرارية هي مفتاح النمو! 🔑",
-        "آمن بمحتواك! 💫",
-        "أنت تبني إرثاً، وليس فقط قناة! 🏆",
-        "المجتمع معك! 🤝"
-    ],
-    en: [
-        "Keep shining and inspiring others! ✨",
-        "Respect the grind, success is coming! 💪",
-        "Streaming is more than a hobby - it's a passion! 🔥",
-        "Stay creative and keep pushing forward! 🎨",
-        "Your journey matters - keep going! 🚀",
-        "Every stream is a new adventure! 🎮",
-        "Consistency is the key to growth! 🔑",
-        "Believe in your content! 💫",
-        "You're building a legacy, not just a channel! 🏆",
-        "The community is with you! 🤝"
-    ]
-};
-
-// دورة الجمل التحفيزية
-function rotateMotivationalQuotes() {
-    const quoteElement = document.getElementById('motivationalQuote');
-    if (!quoteElement) return;
-    
-    let quoteIndex = 0;
-    
-    // تغيير الجملة كل 15 ثانية
-    setInterval(() => {
-        const isEnglish = document.body.classList.contains('ltr');
-        const quotes = isEnglish ? motivationalQuotes.en : motivationalQuotes.ar;
-        
-        quoteIndex = (quoteIndex + 1) % quotes.length;
-        quoteElement.textContent = quotes[quoteIndex];
-        
-        // إضافة تأثير بسيط
-        quoteElement.style.opacity = '0';
-        setTimeout(() => {
-            quoteElement.style.transition = 'opacity 0.5s';
-            quoteElement.style.opacity = '1';
-        }, 50);
-    }, 15000);
-}
-
-// تحديث الجمل التحفيزية عند تغيير اللغة
-document.addEventListener('languageChanged', function() {
-    const quoteElement = document.getElementById('motivationalQuote');
-    if (quoteElement) {
-        const isEnglish = document.body.classList.contains('ltr');
-        const quotes = isEnglish ? motivationalQuotes.en : motivationalQuotes.ar;
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        quoteElement.textContent = quotes[randomIndex];
-    }
-});
-
-// إضافة حدث تغيير اللغة مخصص
-function dispatchLanguageChange(lang) {
-    document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
-}
-
-// دالة لإضافة خبر جديد (تستخدم من صفحة الإدارة)
-function addNewsItem(text) {
-    const news = JSON.parse(localStorage.getItem('afrecus_news')) || [];
-    news.push(text);
-    localStorage.setItem('afrecus_news', JSON.stringify(news));
-    return true;
-}
-
-// دالة لحذف جميع الأخبار
-function clearAllNews() {
-    localStorage.removeItem('afrecus_news');
-    return true;
-}
-
-// جعل الدوال متاحة عالمياً لصفحة الإدارة
-window.addNewsItem = addNewsItem;
-window.clearAllNews = clearAllNews;
-window.setLanguage = setLanguage;
