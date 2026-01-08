@@ -6,15 +6,25 @@ const navLinks = document.getElementById('navLinks');
 const currentYear = document.getElementById('currentYear');
 const profileImgContainer = document.getElementById('profileImgContainer');
 const statusText = document.getElementById('statusText');
-const languageToggle = document.getElementById('languageToggle');
-const langArBtn = document.getElementById('langArBtn');
-const langEnBtn = document.getElementById('langEnBtn');
+const viewerCount = document.getElementById('viewerCount');
+const streamTitle = document.getElementById('streamTitle');
 const motivationalMessage = document.getElementById('motivationalMessage');
+const languageBtn = document.getElementById('languageBtn');
+const currentLang = document.getElementById('currentLang');
+const langOptions = document.querySelectorAll('.lang-option');
+const discordMembers = document.getElementById('discordMembers');
+const discordEvents = document.getElementById('discordEvents');
 
 // Twitch API Credentials
 const TWITCH_CLIENT_ID = 'a1k8g8fw1cjymw9ox7ltlmvp7yoe0x';
 const TWITCH_CLIENT_SECRET = 'mxh0bjhchxyqd5vf9xsq31j5hys8xg';
 const TWITCH_USERNAME = 'afrecus';
+
+// Discord Stats (يمكن تحديثها يدوياً)
+const DISCORD_DATA = {
+    members: "1,200+",
+    events: "15+"
+};
 
 // الجمل التحفيزية
 const motivationalMessages = {
@@ -44,8 +54,29 @@ const motivationalMessages = {
     ]
 };
 
+// Stream History
+let streamHistory = [];
+const STREAM_HISTORY_KEY = 'afrecus_stream_history';
+
 // Set current year
 currentYear.textContent = new Date().getFullYear();
+
+// Load stream history
+function loadStreamHistory() {
+    const savedHistory = localStorage.getItem(STREAM_HISTORY_KEY);
+    if (savedHistory) {
+        streamHistory = JSON.parse(savedHistory);
+    }
+}
+
+// Save stream history
+function saveStreamHistory() {
+    // Keep only last 50 streams
+    if (streamHistory.length > 50) {
+        streamHistory = streamHistory.slice(-50);
+    }
+    localStorage.setItem(STREAM_HISTORY_KEY, JSON.stringify(streamHistory));
+}
 
 // Theme Toggle Function
 function toggleTheme() {
@@ -78,37 +109,42 @@ if (savedTheme === 'light') {
     document.body.classList.add('light-theme');
 }
 
-// Language Toggle - FIXED VERSION
-function initLanguageToggle() {
-    // تحديث حالة الأزرار بناءً على اللغة المحفوظة
+// Language Dropdown Functions
+function initLanguageDropdown() {
+    // تحديث حالة اللغة بناءً على التفضيل المحفوظ
     const savedLanguage = localStorage.getItem('language') || 'ar';
     const isEnglish = savedLanguage === 'en';
     
     if (isEnglish) {
         switchLanguage('en');
-        languageToggle.classList.add('english');
-        langArBtn.classList.remove('active');
-        langEnBtn.classList.add('active');
+        currentLang.textContent = 'English';
+        currentLang.setAttribute('data-lang', 'en');
     } else {
         switchLanguage('ar');
-        languageToggle.classList.remove('english');
-        langArBtn.classList.add('active');
-        langEnBtn.classList.remove('active');
+        currentLang.textContent = 'العربية';
+        currentLang.setAttribute('data-lang', 'ar');
     }
     
-    // إضافة مستمعي الأحداث
-    langArBtn.addEventListener('click', () => {
-        switchLanguage('ar');
-        languageToggle.classList.remove('english');
-        langArBtn.classList.add('active');
-        langEnBtn.classList.remove('active');
+    // تحديث إحصائيات الديسكورد
+    updateDiscordStats();
+    
+    // إضافة مستمعي الأحداث لأزرار اللغة
+    langOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            const lang = this.getAttribute('data-lang');
+            switchLanguage(lang);
+            currentLang.textContent = lang === 'en' ? 'English' : 'العربية';
+            currentLang.setAttribute('data-lang', lang);
+        });
     });
     
-    langEnBtn.addEventListener('click', () => {
-        switchLanguage('en');
-        languageToggle.classList.add('english');
-        langArBtn.classList.remove('active');
-        langEnBtn.classList.add('active');
+    // إغلاق القائمة المنسدلة عند النقر خارجها
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.language-dropdown')) {
+            const dropdown = document.querySelector('.dropdown-content');
+            if (dropdown) dropdown.style.display = 'none';
+        }
     });
 }
 
@@ -152,11 +188,27 @@ function switchLanguage(lang) {
     // Update motivational message
     updateMotivationalMessage();
     
+    // Update Discord stats text
+    updateDiscordStats();
+    
     // Save language preference
     localStorage.setItem('language', lang);
     
     // Dispatch event for other components
-    document.dispatchEvent(new Event('languageChanged'));
+    document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+}
+
+// تحديث إحصائيات الديسكورد
+function updateDiscordStats() {
+    const isEnglish = document.body.classList.contains('ltr');
+    
+    if (discordMembers) {
+        discordMembers.textContent = DISCORD_DATA.members;
+    }
+    
+    if (discordEvents) {
+        discordEvents.textContent = DISCORD_DATA.events;
+    }
 }
 
 // Mobile Menu Toggle
@@ -201,6 +253,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Twitch Stream Status Functions
 let accessToken = null;
 let tokenExpiry = 0;
+let currentStreamData = null;
+let checkInterval = null;
 
 async function getTwitchAccessToken() {
     // Check if we have a valid token
@@ -234,7 +288,7 @@ async function checkStreamStatus() {
         
         if (!accessToken) {
             // Fallback to offline status if can't get token
-            showStatus('offline');
+            showOfflineStatus();
             return;
         }
         
@@ -253,7 +307,7 @@ async function checkStreamStatus() {
         const userData = await userResponse.json();
         
         if (userData.data.length === 0) {
-            showStatus('offline');
+            showOfflineStatus();
             return;
         }
         
@@ -274,58 +328,123 @@ async function checkStreamStatus() {
         const streamData = await streamResponse.json();
         
         if (streamData.data.length > 0) {
-            // Stream is live (streaming)
-            showStatus('live');
+            // Stream is live
+            currentStreamData = streamData.data[0];
+            showLiveStatus(currentStreamData);
+            
+            // Record stream in history
+            recordStreamInHistory(currentStreamData);
         } else {
             // User is offline
-            showStatus('offline');
+            currentStreamData = null;
+            showOfflineStatus();
         }
         
     } catch (error) {
         console.error('Error checking stream status:', error);
-        showStatus('offline');
+        showOfflineStatus();
     }
 }
 
-function showStatus(status) {
+function showLiveStatus(streamData) {
     // Remove all status classes
     profileImgContainer.classList.remove('live', 'offline');
     
-    // Add the correct status class
-    profileImgContainer.classList.add(status);
+    // Add live class
+    profileImgContainer.classList.add('live');
     
-    // Update status text based on language
+    // Update status text
     const isEnglish = document.body.classList.contains('ltr');
+    statusText.textContent = isEnglish ? 'LIVE' : 'بث مباشر';
     
-    let statusKey = '';
-    let statusValue = '';
+    // Update viewer count
+    const viewerText = isEnglish ? `${streamData.viewer_count} viewers` : `${streamData.viewer_count} مشاهد`;
+    viewerCount.textContent = viewerText;
     
-    if (status === 'live') {
-        statusKey = 'LIVE';
-        statusValue = isEnglish ? 'LIVE' : 'بث مباشر';
-    } else {
-        statusKey = 'OFFLINE';
-        statusValue = isEnglish ? 'OFFLINE' : 'غير متصل';
+    // Update stream title (trim if too long)
+    let title = streamData.title || (isEnglish ? 'Live Now' : 'بث مباشر الآن');
+    if (title.length > 50) {
+        title = title.substring(0, 47) + '...';
     }
-    
-    // Update status text data attributes
-    statusText.setAttribute('data-en', statusKey);
-    statusText.setAttribute('data-ar', statusValue);
-    statusText.textContent = statusValue;
+    streamTitle.textContent = title;
     
     // Update click handler
     profileImgContainer.onclick = function() {
         window.open('https://www.twitch.tv/afrecus', '_blank');
     };
     
-    // Add title for hover
-    let titleText = '';
-    if (status === 'live') {
-        titleText = isEnglish ? 'Click to watch live stream on Twitch' : 'انقر لمشاهدة البث المباشر على تويتش';
+    // Update title
+    profileImgContainer.title = isEnglish ? 
+        `Live on Twitch: ${streamData.title}` : 
+        `بث مباشر على تويتش: ${streamData.title}`;
+    
+    // Update news ticker with live notification
+    updateLiveTicker(streamData);
+}
+
+function showOfflineStatus() {
+    // Remove all status classes
+    profileImgContainer.classList.remove('live', 'offline');
+    
+    // Add offline class
+    profileImgContainer.classList.add('offline');
+    
+    // Update status text
+    const isEnglish = document.body.classList.contains('ltr');
+    statusText.textContent = isEnglish ? 'OFFLINE' : 'غير متصل';
+    
+    // Update viewer count and stream title
+    viewerCount.textContent = isEnglish ? '0 viewers' : '0 مشاهد';
+    streamTitle.textContent = isEnglish ? 'Currently offline' : 'غير متصل حالياً';
+    
+    // Update click handler
+    profileImgContainer.onclick = function() {
+        window.open('https://www.twitch.tv/afrecus', '_blank');
+    };
+    
+    // Update title
+    profileImgContainer.title = isEnglish ? 
+        'Visit Twitch channel' : 
+        'زيارة قناة تويتش';
+}
+
+function recordStreamInHistory(streamData) {
+    const streamRecord = {
+        started_at: streamData.started_at,
+        title: streamData.title,
+        viewer_count: streamData.viewer_count,
+        game_name: streamData.game_name,
+        timestamp: new Date().toISOString()
+    };
+    
+    // Check if this stream is already recorded (by start time)
+    const existingIndex = streamHistory.findIndex(stream => 
+        stream.started_at === streamData.started_at
+    );
+    
+    if (existingIndex === -1) {
+        // New stream
+        streamHistory.push(streamRecord);
     } else {
-        titleText = isEnglish ? 'Click to visit Twitch channel' : 'انقر لزيارة قناة تويتش';
+        // Update existing stream
+        streamHistory[existingIndex] = streamRecord;
     }
-    profileImgContainer.title = titleText;
+    
+    saveStreamHistory();
+}
+
+function updateLiveTicker(streamData) {
+    const tickerElement = document.getElementById('newsTicker');
+    if (!tickerElement) return;
+    
+    const isEnglish = document.body.classList.contains('ltr');
+    const game = streamData.game_name || (isEnglish ? 'gaming' : 'ألعاب');
+    
+    if (isEnglish) {
+        tickerElement.textContent = `🎮 LIVE NOW on Twitch! Playing ${game} - ${streamData.viewer_count} viewers watching!`;
+    } else {
+        tickerElement.textContent = `🎮 بث مباشر الآن على تويتش! يلعب ${game} - ${streamData.viewer_count} مشاهد يشاهدون!`;
+    }
 }
 
 // Rotating Titles Functionality
@@ -391,25 +510,29 @@ function rotateMotivationalMessage() {
     setInterval(updateMotivationalMessage, 15000);
 }
 
-// Update status text when switching languages
-document.addEventListener('languageChanged', () => {
-    const isEnglish = document.body.classList.contains('ltr');
-    const currentStatus = profileImgContainer.classList.contains('live') ? 'live' : 'offline';
+// Update everything when switching languages
+document.addEventListener('languageChanged', (e) => {
+    const lang = e.detail?.lang || (document.body.classList.contains('ltr') ? 'en' : 'ar');
+    const isEnglish = lang === 'en';
     
-    let statusValue = '';
-    if (currentStatus === 'live') {
-        statusValue = isEnglish ? 'LIVE' : 'بث مباشر';
+    // Update status text
+    if (currentStreamData) {
+        showLiveStatus(currentStreamData);
     } else {
-        statusValue = isEnglish ? 'OFFLINE' : 'غير متصل';
+        showOfflineStatus();
     }
     
-    statusText.textContent = statusValue;
-    updateRotatingTitles(isEnglish ? 'en' : 'ar');
+    // Update rotating titles
+    updateRotatingTitles(lang);
     updateMotivationalMessage();
+    updateDiscordStats();
 });
 
 // Initialize on load
 window.addEventListener('load', () => {
+    // Load stream history
+    loadStreamHistory();
+    
     // Animate hero text
     const heroText = document.querySelector('.hero-text');
     heroText.style.opacity = '0';
@@ -432,10 +555,10 @@ window.addEventListener('load', () => {
         profileImg.style.transform = 'translateY(0) scale(1)';
     }, 600);
     
-    // Initialize language toggle
-    initLanguageToggle();
+    // Initialize language dropdown
+    initLanguageDropdown();
     
-    // Check stream status
+    // Check stream status immediately
     checkStreamStatus();
     
     // Start rotating titles
@@ -444,8 +567,26 @@ window.addEventListener('load', () => {
     // Start rotating motivational messages
     rotateMotivationalMessage();
     
-    // Check stream status every 10 seconds
-    setInterval(checkStreamStatus, 10000);
+    // Check stream status every 15 seconds
+    checkInterval = setInterval(checkStreamStatus, 15000);
+    
+    // Update Discord stats
+    updateDiscordStats();
+});
+
+// Clean up interval when page is hidden
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        if (checkInterval) {
+            clearInterval(checkInterval);
+            checkInterval = null;
+        }
+    } else {
+        if (!checkInterval) {
+            checkStreamStatus();
+            checkInterval = setInterval(checkStreamStatus, 15000);
+        }
+    }
 });
 
 // Add keyboard navigation support
@@ -453,6 +594,23 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         navLinks.classList.remove('active');
         mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        const dropdown = document.querySelector('.dropdown-content');
+        if (dropdown) dropdown.style.display = 'none';
+    }
+    
+    // Language shortcuts
+    if (e.altKey && e.key === 'a') {
+        switchLanguage('ar');
+        currentLang.textContent = 'العربية';
+        currentLang.setAttribute('data-lang', 'ar');
+        e.preventDefault();
+    }
+    
+    if (e.altKey && e.key === 'e') {
+        switchLanguage('en');
+        currentLang.textContent = 'English';
+        currentLang.setAttribute('data-lang', 'en');
+        e.preventDefault();
     }
 });
 
@@ -472,7 +630,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.social-icon, .rule-item, .discord-container, .feature, .about-content').forEach(el => {
+document.querySelectorAll('.social-icon, .rule-item, .discord-container, .feature, .about-content, .stat, .quick-actions').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
