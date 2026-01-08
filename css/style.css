@@ -422,24 +422,6 @@ body.ltr {
     justify-content: center;
 }
 
-.profile-info {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin: 20px 0;
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-light);
-}
-
-.info-item i {
-    color: var(--primary);
-}
-
 .profile-actions {
     display: flex;
     gap: 15px;
@@ -646,42 +628,6 @@ body.ltr {
     margin-right: auto;
 }
 
-.discord-stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin: 40px 0;
-    flex-wrap: wrap;
-}
-
-.stat {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: var(--radius);
-    min-width: 150px;
-}
-
-.stat i {
-    font-size: 2rem;
-    color: var(--primary);
-}
-
-.number {
-    display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--text);
-}
-
-.label {
-    display: block;
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
 .join-discord {
     display: inline-flex;
     align-items: center;
@@ -879,11 +825,6 @@ footer {
         font-size: 2rem;
     }
     
-    .profile-info {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
     .profile-actions {
         flex-direction: column;
     }
@@ -892,12 +833,8 @@ footer {
         grid-template-columns: 1fr;
     }
     
-    .discord-stats {
+    .discord-features {
         flex-direction: column;
-        gap: 20px;
-    }
-    
-    .stat {
-        min-width: 100%;
+        align-items: center;
     }
 }
