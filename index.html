@@ -24,17 +24,18 @@
             
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" data-en="Home" data-ar="الرئيسية">الرئيسية</a></li>
+                <li><a href="#about" data-en="About Me" data-ar="عني">عني</a></li>
                 <li><a href="#social" data-en="Social Links" data-ar="روابط التواصل">روابط التواصل</a></li>
                 <li><a href="#discord" data-en="Discord Server" data-ar="سيرفر الديسكورد">سيرفر الديسكورد</a></li>
                 <li><a href="#rules" data-en="Community Rules" data-ar="قواعد المجتمع">قواعد المجتمع</a></li>
             </ul>
             
             <div class="nav-controls">
-                <!-- Language Toggle - Compact -->
+                <!-- Language Toggle - Fixed -->
                 <div class="language-toggle" id="languageToggle">
-                    <div class="language-bg"></div>
-                    <span class="language-btn active" id="arBtn">ع</span>
-                    <span class="language-btn" id="enBtn">EN</span>
+                    <button class="lang-btn" id="langArBtn">ع</button>
+                    <button class="lang-btn active" id="langEnBtn">EN</button>
+                    <div class="language-slider"></div>
                 </div>
                 
                 <!-- Theme Toggle -->
@@ -51,7 +52,7 @@
     <!-- News Ticker -->
     <div class="news-ticker">
         <div class="ticker-content" id="newsTicker">
-            <!-- سيتم ملؤها تلقائياً -->
+            🎮 تابع على تويتش لتتلقى إشعارات البث المباشر!
         </div>
     </div>
 
@@ -61,36 +62,55 @@
             <div class="hero-text">
                 <h1 data-en="Welcome to the world of Afrecus" data-ar="مرحبًا بكم في عالم أفريكوس">مرحبًا بكم في عالم أفريكوس</h1>
                 <p data-en="The place where gamers, creators, and friends unite!" data-ar="المكان الذي يجمع اللاعبين، المبدعين، والأصدقاء معًا!">المكان الذي يجمع اللاعبين، المبدعين، والأصدقاء معًا!</p>
-                <a href="#social" class="explore-btn" data-en="Explore My Socials" data-ar="استكشف وسائل التواصل">
-                    <span>استكشف وسائل التواصل</span>
+                <a href="#about" class="explore-btn" data-en="About Me" data-ar="تعرف علي">
+                    <span>تعرف علي</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
-            <div class="profile-image">
-                <!-- Profile image container with status border and display -->
+            <div class="profile-section">
+                <!-- Profile image container -->
                 <div class="profile-img-container offline" id="profileImgContainer">
                     <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile Image" class="profile-img">
-                    
-                    <!-- Dynamic Titles Rotator -->
-                    <div class="title-rotator">
-                        <div class="rotator-content">
-                            <span class="rotating-title active" data-en="Streamer" data-ar="بث مباشر">بث مباشر</span>
-                            <span class="rotating-title" data-en="Content Creator" data-ar="منشئ محتوى">منشئ محتوى</span>
-                            <span class="rotating-title" data-en="Live Entertainer" data-ar="مُسلّي مباشر">مُسلّي مباشر</span>
-                            <span class="rotating-title" data-en="Community Builder" data-ar="باني مجتمع">باني مجتمع</span>
-                            <span class="rotating-title" data-en="Gaming Influencer" data-ar="مؤثر ألعاب">مؤثر ألعاب</span>
-                        </div>
+                </div>
+                
+                <!-- Title Rotator ABOVE image -->
+                <div class="title-rotator-above">
+                    <div class="rotator-content">
+                        <span class="rotating-title active" data-en="Streamer" data-ar="بث مباشر">بث مباشر</span>
+                        <span class="rotating-title" data-en="Content Creator" data-ar="منشئ محتوى">منشئ محتوى</span>
+                        <span class="rotating-title" data-en="Live Entertainer" data-ar="مُسلّي مباشر">مُسلّي مباشر</span>
+                        <span class="rotating-title" data-en="Community Builder" data-ar="باني مجتمع">باني مجتمع</span>
+                        <span class="rotating-title" data-en="Gaming Influencer" data-ar="مؤثر ألعاب">مؤثر ألعاب</span>
                     </div>
-                    
-                    <div class="status-display">
-                        <span class="status-dot"></span>
-                        <span id="statusText" data-en="OFFLINE" data-ar="غير متصل">غير متصل</span>
-                    </div>
+                </div>
+                
+                <!-- Status Display BELOW image -->
+                <div class="status-display">
+                    <span class="status-dot"></span>
+                    <span id="statusText" data-en="OFFLINE" data-ar="غير متصل">غير متصل</span>
                 </div>
                 
                 <!-- Motivational Message -->
                 <div class="motivational-message" id="motivationalMessage">
-                    <!-- سيتم ملؤها بالجمل التحفيزية -->
+                    استمر في التميز وإلهام الآخرين! ✨
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title" data-en="About Me" data-ar="عني">عني</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://b.top4top.io/p_36604leza1.png" alt="Teo Profile" class="teo-profile">
+                </div>
+                <div class="about-text">
+                    <h3 data-en="Hey, I'm Teo." data-ar="مرحباً، أنا تيو.">مرحباً، أنا تيو.</h3>
+                    <p data-en="This page is basically my little corner of the internet where everything I'm working on eventually ends up. I'm into a lot of things: streaming, content creation, games, fitness, random ideas that start at 2am and somehow feel genius at the time." data-ar="هذه الصفحة هي زاويتي الصغيرة على الإنترنت حيث ينتهي كل ما أعمل عليه. أنا مهتم بالكثير من الأشياء: البث المباشر، صناعة المحتوى، الألعاب، اللياقة البدنية، الأفكار العشوائية التي تبدأ في الساعة 2 صباحاً وتشعر بأنها عبقرية في ذلك الوقت.">هذه الصفحة هي زاويتي الصغيرة على الإنترنت حيث ينتهي كل ما أعمل عليه. أنا مهتم بالكثير من الأشياء: البث المباشر، صناعة المحتوى، الألعاب، اللياقة البدنية، الأفكار العشوائية التي تبدأ في الساعة 2 صباحاً وتشعر بأنها عبقرية في ذلك الوقت.</p>
+                    <p data-en="I'm not here pretending I've done it all already. I'm building as I go. Some days it's progress, some days it's chaos, and some days it's just me figuring things out live on stream. This site exists so you can find all my links in one place and know when I'm live without having to hunt for me across the internet." data-ar="أنا لست هنا لأتظاهر بأنني فعلت كل شيء بالفعل. أنا أبني أثناء تقدمي. بعض الأيام يكون فيها تقدم، وبعض الأيام يكون فيها فوضى، وبعض الأيام يكون فيها مجرد معرفة الأشياء مباشرة على البث. هذا الموقع موجود حتى تتمكن من العثور على جميع روابطي في مكان واحد ومعرفة وقت البث المباشر دون الحاجة إلى البحث عني عبر الإنترنت.">أنا لست هنا لأتظاهر بأنني فعلت كل شيء بالفعل. أنا أبني أثناء تقدمي. بعض الأيام يكون فيها تقدم، وبعض الأيام يكون فيها فوضى، وبعض الأيام يكون فيها مجرد معرفة الأشياء مباشرة على البث. هذا الموقع موجود حتى تتمكن من العثور على جميع روابطي في مكان واحد ومعرفة وقت البث المباشر دون الحاجة إلى البحث عني عبر الإنترنت.</p>
+                    <p data-en="If you're into watching someone try things, fail a bit, laugh at it, then try again you're in the right place. No big promises, just the journey." data-ar="إذا كنت مهتماً بمشاهدة شخص ما يجرب الأشياء، يفشل قليلاً، يضحك على ذلك، ثم يحاول مرة أخرى، فأنت في المكان الصحيح. لا وعود كبيرة، فقط الرحلة.">إذا كنت مهتماً بمشاهدة شخص ما يجرب الأشياء، يفشل قليلاً، يضحك على ذلك، ثم يحاول مرة أخرى، فأنت في المكان الصحيح. لا وعود كبيرة، فقط الرحلة.</p>
                 </div>
             </div>
         </div>
@@ -101,32 +121,31 @@
         <div class="container">
             <h2 class="section-title" data-en="Connect With Me" data-ar="تواصل معي">تواصل معي</h2>
             <div class="social-icons">
-                <a href="https://www.youtube.com/@afrecus" target="_blank" class="social-icon">
+                <a href="https://www.youtube.com/@afrecus" target="_blank" class="social-icon youtube">
                     <i class="fab fa-youtube"></i>
                     <span>YouTube</span>
                 </a>
-                <a href="https://www.twitch.tv/afrecus" target="_blank" class="social-icon">
+                <a href="https://www.twitch.tv/afrecus" target="_blank" class="social-icon twitch">
                     <i class="fab fa-twitch"></i>
                     <span>Twitch</span>
                 </a>
-                <a href="https://www.instagram.com/afrecus.official/" target="_blank" class="social-icon">
+                <a href="https://www.instagram.com/afrecus.official/" target="_blank" class="social-icon instagram">
                     <i class="fab fa-instagram"></i>
                     <span>Instagram</span>
                 </a>
-                <a href="https://x.com/Afrecus" target="_blank" class="social-icon">
+                <a href="https://x.com/Afrecus" target="_blank" class="social-icon twitter">
                     <i class="fab fa-twitter"></i>
                     <span>X (Twitter)</span>
                 </a>
-                <a href="https://kick.com/afrecus" target="_blank" class="social-icon">
+                <a href="https://kick.com/afrecus" target="_blank" class="social-icon kick">
                     <i class="fas fa-signal"></i>
                     <span>Kick</span>
                 </a>
-                <a href="https://www.tiktok.com/@afrecus" target="_blank" class="social-icon">
+                <a href="https://www.tiktok.com/@afrecus" target="_blank" class="social-icon tiktok">
                     <i class="fab fa-tiktok"></i>
                     <span>TikTok</span>
                 </a>
-                <!-- Added Discord Link -->
-                <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="social-icon">
+                <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="social-icon discord">
                     <i class="fab fa-discord"></i>
                     <span>Discord</span>
                 </a>
@@ -161,48 +180,48 @@
     </section>
 
     <!-- Community Rules Section -->
-    <section class="content-section" id="rules">
+    <section class="rules-section" id="rules">
         <div class="container">
             <h2 class="section-title" data-en="Community Rules" data-ar="قواعد المجتمع">قواعد المجتمع</h2>
             <div class="rules-list">
                 <div class="rule-item">
                     <div class="rule-number">1</div>
-                    <div class="rule-text">
+                    <div class="rule-content">
                         <h3 data-en="Respect everyone" data-ar="احترام الجميع">احترام الجميع</h3>
                         <p data-en="Treat all community members with respect and kindness, regardless of their background, beliefs, or gaming skills." data-ar="عامل جميع أعضاء المجتمع باحترام ولطف، بغض النظر عن خلفياتهم أو معتقداتهم أو مهاراتهم في الألعاب.">عامل جميع أعضاء المجتمع باحترام ولطف، بغض النظر عن خلفياتهم أو معتقداتهم أو مهاراتهم في الألعاب.</p>
                     </div>
                 </div>
                 <div class="rule-item">
                     <div class="rule-number">2</div>
-                    <div class="rule-text">
+                    <div class="rule-content">
                         <h3 data-en="No hate speech or harassment" data-ar="لا خطاب كراهية أو مضايقة">لا خطاب كراهية أو مضايقة</h3>
                         <p data-en="Hate speech, harassment, discrimination, or personal attacks will not be tolerated in any form." data-ar="خطاب الكراهية، المضايقة، التمييز، أو الهجمات الشخصية لن تُتَسَامَح بأي شكل من الأشكال.">خطاب الكراهية، المضايقة، التمييز، أو الهجمات الشخصية لن تُتَسَامَح بأي شكل من الأشكال.</p>
                     </div>
                 </div>
                 <div class="rule-item">
                     <div class="rule-number">3</div>
-                    <div class="rule-text">
+                    <div class="rule-content">
                         <h3 data-en="Keep discussions positive" data-ar="اجعل النقاشات إيجابية">اجعل النقاشات إيجابية</h3>
                         <p data-en="Maintain a positive and constructive atmosphere in all conversations and interactions within the community." data-ar="حافظ على جو إيجابي وبناء في جميع المحادثات والتفاعلات داخل المجتمع.">حافظ على جو إيجابي وبناء في جميع المحادثات والتفاعلات داخل المجتمع.</p>
                     </div>
                 </div>
                 <div class="rule-item">
                     <div class="rule-number">4</div>
-                    <div class="rule-text">
+                    <div class="rule-content">
                         <h3 data-en="Follow platform rules" data-ar="اتبع قواعد المنصة">اتبع قواعد المنصة</h3>
                         <p data-en="Adhere to Twitch, YouTube, and other platform rules during streams and interactions on those platforms." data-ar="الالتزام بقواعد تويتش، اليوتيوب، والمنصات الأخرى أثناء البث المباشر والتفاعلات على تلك المنصات.">الالتزام بقواعد تويتش، اليوتيوب، والمنصات الأخرى أثناء البث المباشر والتفاعلات على تلك المنصات.</p>
                     </div>
                 </div>
                 <div class="rule-item">
                     <div class="rule-number">5</div>
-                    <div class="rule-text">
+                    <div class="rule-content">
                         <h3 data-en="No spam or self-promotion" data-ar="لا سبام أو ترويج ذاتي">لا سبام أو ترويج ذاتي</h3>
                         <p data-en="Avoid spamming, excessive self-promotion, or posting irrelevant links without permission from moderators." data-ar="تجنب الإرسال المتكرر، الترويج المفرط للذات، أو نشر روابط غير ذات صلة دون إذن من المشرفين.">تجنب الإرسال المتكرر، الترويج المفرط للذات، أو نشر روابط غير ذات صلة دون إذن من المشرفين.</p>
                     </div>
                 </div>
                 <div class="rule-item">
                     <div class="rule-number">6</div>
-                    <div class="rule-text">
+                    <div class="rule-content">
                         <h3 data-en="Moderator discretion" data-ar="تقدير المشرفين">تقدير المشرفين</h3>
                         <p data-en="Moderators have the final say in rule enforcement. Violations may result in warnings, timeouts, or bans." data-ar="المشرفون لهم الكلمة الأخيرة في تطبيق القواعد. قد تؤدي المخالفات إلى تحذيرات، أو تعليق مؤقت، أو حظر.">المشرفون لهم الكلمة الأخيرة في تطبيق القواعد. قد تؤدي المخالفات إلى تحذيرات، أو تعليق مؤقت، أو حظر.</p>
                     </div>
@@ -228,11 +247,5 @@
 
     <script src="js/main.js"></script>
     <script src="js/news.js"></script>
-    <script>
-        // تهيئة مدير الأخبار عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            window.newsManager = new NewsManager();
-        });
-    </script>
 </body>
 </html>
