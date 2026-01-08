@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Afrecus | افريكوس - منشئ محتوى</title>
+    
+    <!-- Meta Tags للـ SEO -->
+    <meta name="description" content="Afrecus - منشئ محتوى، باث مباشر للألعاب، ومدون. انضم لمجتمعنا وشاهد بثوثنا المباشرة على Twitch وYouTube.">
+    <meta name="keywords" content="Afrecus, أفريكوس, بث مباشر, ألعاب, تويتش, يوتيوب, منشئ محتوى, تيو">
+    <meta name="author" content="Afrecus (Teo)">
+    <meta property="og:title" content="Afrecus | افريكوس - منشئ محتوى">
+    <meta property="og:description" content="Afrecus - منشئ محتوى، باث مباشر للألعاب، ومدون. انضم لمجتمعنا وشاهد بثوثنا المباشرة.">
+    <meta property="og:image" content="https://j.top4top.io/p_3659rbb5m1.png">
+    <meta property="og:url" content="https://afrecus.com">
+    <meta name="twitter:card" content="summary_large_image">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -15,7 +26,7 @@
         <nav class="navbar">
             <div class="nav-container">
                 <div class="logo">
-                    <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus">
+                    <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" loading="lazy">
                     <span data-ar="افريكوس" data-en="Afrecus">افريكوس</span>
                 </div>
                 
@@ -50,6 +61,9 @@
         <div class="ticker-content" id="newsTicker">
             🎮 تابع على تويتش لتتلقى إشعارات البث المباشر!
         </div>
+        <button class="edit-news-btn" onclick="window.open('news-admin.html', '_blank')" title="تحرير الأخبار">
+            <i class="fas fa-edit"></i>
+        </button>
     </div>
 
     <!-- Hero Section -->
@@ -68,7 +82,7 @@
                 <div class="hero-profile">
                     <div class="profile-card">
                         <div class="profile-image">
-                            <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" id="profileImg">
+                            <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" id="profileImg" loading="lazy">
                             <div class="live-indicator" id="liveIndicator">
                                 <span class="dot"></span>
                                 <span data-ar="غير متصل" data-en="OFFLINE">غير متصل</span>
@@ -111,7 +125,7 @@
             <h2 class="section-title" data-ar="عني" data-en="About Me">عني</h2>
             <div class="about-content">
                 <div class="about-image">
-                    <img src="https://b.top4top.io/p_36604leza1.png" alt="Teo">
+                    <img src="https://b.top4top.io/p_36604leza1.png" alt="Teo" loading="lazy">
                 </div>
                 <div class="about-text">
                     <h3 data-ar="مرحباً، أنا تيو." data-en="Hey, I'm Teo.">مرحباً، أنا تيو.</h3>
@@ -291,7 +305,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus">
+                    <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" loading="lazy">
                     <h3 data-ar="افريكوس" data-en="Afrecus">افريكوس</h3>
                 </div>
                 
@@ -311,6 +325,7 @@
         </div>
     </footer>
 
+    <script src="js/news.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
