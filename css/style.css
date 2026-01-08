@@ -11,22 +11,22 @@
     --primary-dark: #2D1B69;
     --secondary: #1A103C;
     --text: #FFFFFF;
-    --text-light: #CCCCCC;
-    --card-bg: rgba(45, 27, 105, 0.7);
-    --border: rgba(138, 43, 226, 0.2);
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --text-light: #E0E0E0;
+    --card-bg: rgba(45, 27, 105, 0.8);
+    --border: rgba(138, 43, 226, 0.3);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     --radius: 12px;
     --transition: all 0.3s ease;
 }
 
 .light-mode {
-    /* الألوان - الوضع الفاتح */
+    /* الألوان - الوضع الفاتح المحسن للقراءة */
     --primary: #7B1FA2;
     --primary-dark: #6A11CB;
-    --secondary: #F8F9FA;
-    --text: #1A1A1A;
-    --text-light: #333333;
-    --card-bg: rgba(255, 255, 255, 0.95);
+    --secondary: #F8FAFC;
+    --text: #1A202C;
+    --text-light: #2D3748;
+    --card-bg: rgba(255, 255, 255, 0.98);
     --border: rgba(123, 31, 162, 0.15);
     --shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
@@ -38,7 +38,7 @@ body {
     line-height: 1.6;
     direction: rtl;
     transition: var(--transition);
-    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 body.ltr {
@@ -85,14 +85,9 @@ html {
     align-items: center;
     gap: 10px;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--text);
     text-decoration: none;
-    transition: var(--transition);
-}
-
-.logo:hover {
-    transform: scale(1.05);
 }
 
 .logo img {
@@ -101,7 +96,11 @@ html {
     border-radius: 50%;
     border: 2px solid var(--primary);
     object-fit: cover;
-    transition: var(--transition);
+}
+
+.light-mode .logo span {
+    color: #1A202C;
+    font-weight: 900;
 }
 
 .menu-toggle {
@@ -120,6 +119,10 @@ html {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.light-mode .menu-toggle {
+    color: #1A202C;
+}
+
 .nav-menu {
     display: flex;
     align-items: center;
@@ -129,11 +132,16 @@ html {
 .nav-link {
     color: var(--text);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     padding: 8px 0;
     position: relative;
     transition: var(--transition);
     font-size: 1rem;
+}
+
+.light-mode .nav-link {
+    color: #2D3748;
+    font-weight: 700;
 }
 
 .nav-link:hover {
@@ -170,6 +178,11 @@ html {
     transition: var(--transition);
 }
 
+.light-mode .language-switcher {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(123, 31, 162, 0.2);
+}
+
 .lang-btn {
     background: none;
     border: none;
@@ -177,13 +190,22 @@ html {
     padding: 6px 15px;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     transition: var(--transition);
     font-size: 0.9rem;
 }
 
+.light-mode .lang-btn {
+    color: #4A5568;
+    font-weight: 700;
+}
+
 .lang-btn:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+.light-mode .lang-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .lang-btn.active {
@@ -205,8 +227,19 @@ html {
     transition: var(--transition);
 }
 
+.light-mode .theme-toggle {
+    background: white;
+    border-color: rgba(123, 31, 162, 0.2);
+    color: #1A202C;
+}
+
 .theme-toggle:hover {
     transform: rotate(30deg);
+    background: var(--primary);
+    color: white;
+}
+
+.light-mode .theme-toggle:hover {
     background: var(--primary);
     color: white;
 }
@@ -229,7 +262,7 @@ html {
     white-space: nowrap;
     padding-right: 100%;
     animation: ticker 30s linear infinite;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
     flex-grow: 1;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -274,18 +307,9 @@ html {
     transform: scale(1.1);
 }
 
-.light-mode .edit-news-btn {
-    background: rgba(255, 255, 255, 0.9);
-    color: var(--primary);
-}
-
-.light-mode .edit-news-btn:hover {
-    background: white;
-}
-
 /* قسم البطل */
 .hero {
-    padding: 80px 0;
+    padding: 100px 0;
     background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
     min-height: 90vh;
     display: flex;
@@ -323,6 +347,7 @@ html {
     }
 }
 
+/* التحسين المحدد للعبارة "Welcome to Afrecus World" فقط في الوضع الفاتح */
 .hero-content h1 {
     font-size: 3.5rem;
     background: linear-gradient(135deg, var(--primary), #FF6B9D);
@@ -330,27 +355,72 @@ html {
     -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
     line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-weight: 800;
+    font-weight: 900;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.5px;
 }
 
+/* فقط في الوضع الفاتح - تحسين خاص للعبارة الإنجليزية */
 .light-mode .hero-content h1 {
-    background: linear-gradient(135deg, #7B1FA2, #D81B60);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    /* تدرج لوني محسن للتباين العالي */
+    background: linear-gradient(135deg, #8A2BE2 0%, #FF1493 50%, #FF6B6B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* تحسينات إضافية للوضوح */
+    font-weight: 1000; /* أثقل وزن ممكن */
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.08),
+        0 0 40px rgba(138, 43, 226, 0.1);
+    
+    /* تأثير تحديد خارجي لتحسين القراءة */
+    -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.5);
+    
+    /* تحسينات التباين */
+    filter: contrast(1.2) brightness(1.1);
+    
+    /* تحسين المسافات بين الحروف */
+    letter-spacing: -0.3px;
+    
+    /* تحسينات التقديم */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+/* إضافة تأثير خاص للوضع الفاتح فقط */
+.light-mode .hero-content h1::before {
+    content: attr(data-en);
+    position: absolute;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.1;
+    z-index: -1;
+    filter: blur(2px);
+}
+
+/* النص الوصفي - تحسين كبير للوضوح */
 .hero-content p {
     font-size: 1.3rem;
     color: var(--text-light);
     margin-bottom: 30px;
     max-width: 500px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.8;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .light-mode .hero-content p {
-    color: #333;
-    font-weight: 600;
+    color: #2D3748;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    
+    /* تحسينات إضافية للعبارة الإنجليزية */
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .cta-btn {
@@ -362,7 +432,7 @@ html {
     padding: 15px 30px;
     border-radius: var(--radius);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1.1rem;
     transition: var(--transition);
     box-shadow: var(--shadow);
@@ -406,6 +476,12 @@ html {
     transition: var(--transition);
 }
 
+.light-mode .profile-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(123, 31, 162, 0.1);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
 .profile-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -447,10 +523,17 @@ html {
     gap: 8px;
     border: 2px solid #666;
     backdrop-filter: blur(10px);
-    font-weight: 600;
+    font-weight: 700;
     transition: var(--transition);
     min-width: 120px;
     justify-content: center;
+}
+
+.light-mode .live-indicator {
+    background: white;
+    color: #2D3748;
+    border-color: #CBD5E0;
+    font-weight: 800;
 }
 
 .live-indicator.live {
@@ -496,6 +579,10 @@ html {
     display: inline-block;
 }
 
+.light-mode .dot {
+    background: #718096;
+}
+
 .profile-titles {
     margin: 25px 0;
     text-align: center;
@@ -526,7 +613,7 @@ html {
 
 .title {
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--text);
     height: 40px;
     display: flex;
@@ -534,6 +621,11 @@ html {
     justify-content: center;
     transition: var(--transition);
     padding: 0 10px;
+}
+
+.light-mode .title {
+    color: #1A202C;
+    font-weight: 900;
 }
 
 .profile-actions {
@@ -557,7 +649,7 @@ html {
     padding: 12px;
     border-radius: 8px;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     transition: var(--transition);
     min-height: 45px;
     border: none;
@@ -587,6 +679,7 @@ html {
     box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3);
 }
 
+/* الجمل التحفيزية */
 .motivational-quote {
     text-align: center;
     margin-top: 40px;
@@ -595,7 +688,7 @@ html {
     border-radius: var(--radius);
     border-left: 4px solid var(--primary);
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 700;
     color: var(--text);
     box-shadow: var(--shadow);
     transition: opacity 0.5s ease;
@@ -603,12 +696,17 @@ html {
 }
 
 .light-mode .motivational-quote {
-    border-left-color: var(--primary);
+    background: white;
+    color: #1A202C;
+    border-left-color: #7B1FA2;
+    font-weight: 800;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* قسم عني */
 .about {
-    padding: 80px 0;
+    padding: 100px 0;
     background: var(--secondary);
     position: relative;
 }
@@ -629,7 +727,13 @@ html {
     margin-bottom: 50px;
     color: var(--text);
     position: relative;
-    font-weight: 700;
+    font-weight: 900;
+}
+
+.light-mode .section-title {
+    color: #1A202C;
+    font-weight: 900;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .section-title::after {
@@ -644,6 +748,10 @@ html {
     border-radius: 2px;
 }
 
+.light-mode .section-title::after {
+    background: linear-gradient(to right, #7B1FA2, #D81B60);
+}
+
 .about-content {
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -655,6 +763,12 @@ html {
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
     transition: var(--transition);
+}
+
+.light-mode .about-content {
+    background: white;
+    border: 1px solid rgba(123, 31, 162, 0.1);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
 }
 
 @media (max-width: 768px) {
@@ -683,7 +797,12 @@ html {
     font-size: 2rem;
     color: var(--primary);
     margin-bottom: 20px;
-    font-weight: 700;
+    font-weight: 900;
+}
+
+.light-mode .about-text h3 {
+    color: #7B1FA2;
+    font-weight: 900;
 }
 
 .about-text p {
@@ -691,15 +810,17 @@ html {
     margin-bottom: 20px;
     font-size: 1.1rem;
     line-height: 1.8;
+    font-weight: 500;
 }
 
 .light-mode .about-text p {
-    color: #444;
+    color: #2D3748;
+    font-weight: 600;
 }
 
 /* روابط التواصل */
 .social {
-    padding: 80px 0;
+    padding: 100px 0;
     background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
     position: relative;
 }
@@ -737,10 +858,20 @@ html {
     min-height: 200px;
 }
 
+.light-mode .social-card {
+    background: white;
+    border: 1px solid rgba(123, 31, 162, 0.1);
+    color: #1A202C;
+}
+
 .social-card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border-color: var(--primary);
+}
+
+.light-mode .social-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 .social-card i {
@@ -756,7 +887,12 @@ html {
 .social-card h3 {
     font-size: 1.5rem;
     margin-bottom: 10px;
-    font-weight: 600;
+    font-weight: 800;
+}
+
+.light-mode .social-card h3 {
+    color: #1A202C;
+    font-weight: 900;
 }
 
 .social-card p {
@@ -764,10 +900,12 @@ html {
     font-size: 0.9rem;
     transition: var(--transition);
     margin: 0;
+    font-weight: 600;
 }
 
 .light-mode .social-card p {
-    color: #555;
+    color: #4A5568;
+    font-weight: 700;
 }
 
 /* ألوان منصات التواصل */
@@ -780,12 +918,12 @@ html {
 .discord { color: #5865F2; }
 
 .light-mode .tiktok {
-    color: #333;
+    color: #1A202C;
 }
 
 /* قسم الديسكورد */
 .discord-section {
-    padding: 80px 0;
+    padding: 100px 0;
     background: var(--secondary);
     position: relative;
 }
@@ -808,6 +946,12 @@ html {
     border: 1px solid var(--border);
     text-align: center;
     transition: var(--transition);
+}
+
+.light-mode .discord-card {
+    background: white;
+    border: 1px solid rgba(123, 31, 162, 0.1);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
 }
 
 .discord-card:hover {
@@ -833,7 +977,12 @@ html {
 .discord-header h3 {
     font-size: 2rem;
     color: var(--text);
-    font-weight: 700;
+    font-weight: 900;
+}
+
+.light-mode .discord-header h3 {
+    color: #1A202C;
+    font-weight: 900;
 }
 
 .discord-desc {
@@ -844,10 +993,12 @@ html {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    font-weight: 500;
 }
 
 .light-mode .discord-desc {
-    color: #555;
+    color: #4A5568;
+    font-weight: 600;
 }
 
 .join-discord {
@@ -859,7 +1010,7 @@ html {
     padding: 15px 30px;
     border-radius: var(--radius);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1.1rem;
     transition: var(--transition);
     margin: 20px 0;
@@ -900,6 +1051,10 @@ html {
     border-top: 1px solid var(--border);
 }
 
+.light-mode .discord-features {
+    border-top-color: rgba(123, 31, 162, 0.1);
+}
+
 .discord-features span {
     display: flex;
     align-items: center;
@@ -908,9 +1063,15 @@ html {
     padding: 10px 20px;
     border-radius: 20px;
     color: var(--text);
-    font-weight: 500;
+    font-weight: 600;
     transition: var(--transition);
     border: 1px solid transparent;
+}
+
+.light-mode .discord-features span {
+    background: rgba(123, 31, 162, 0.05);
+    color: #2D3748;
+    font-weight: 700;
 }
 
 .discord-features span:hover {
@@ -919,13 +1080,17 @@ html {
     transform: translateY(-2px);
 }
 
+.light-mode .discord-features span:hover {
+    background: rgba(123, 31, 162, 0.1);
+}
+
 .discord-features i {
     color: #5865F2;
 }
 
 /* قسم القواعد */
 .rules {
-    padding: 80px 0;
+    padding: 100px 0;
     background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
     position: relative;
 }
@@ -951,6 +1116,12 @@ html {
     transition: var(--transition);
 }
 
+.light-mode .rules-list {
+    background: white;
+    border: 1px solid rgba(123, 31, 162, 0.1);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
 .rules-list:hover {
     transform: translateY(-5px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
@@ -964,12 +1135,20 @@ html {
     transition: var(--transition);
 }
 
+.light-mode .rule {
+    border-bottom-color: rgba(123, 31, 162, 0.1);
+}
+
 .rule:hover {
     background: rgba(255, 255, 255, 0.05);
     padding-left: 10px;
     padding-right: 10px;
     margin: 0 -10px;
     border-radius: 8px;
+}
+
+.light-mode .rule:hover {
+    background: rgba(123, 31, 162, 0.05);
 }
 
 .rule:last-child {
@@ -987,7 +1166,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-weight: 900;
     font-size: 1.2rem;
     transition: var(--transition);
 }
@@ -1001,17 +1180,24 @@ html {
     color: var(--text);
     margin-bottom: 10px;
     font-size: 1.3rem;
-    font-weight: 600;
+    font-weight: 800;
+}
+
+.light-mode .rule-content h3 {
+    color: #1A202C;
+    font-weight: 900;
 }
 
 .rule-content p {
     color: var(--text-light);
     line-height: 1.7;
     font-size: 1rem;
+    font-weight: 500;
 }
 
 .light-mode .rule-content p {
-    color: #555;
+    color: #4A5568;
+    font-weight: 600;
 }
 
 /* الفوتر */
@@ -1021,6 +1207,11 @@ footer {
     padding: 50px 0;
     text-align: center;
     position: relative;
+}
+
+.light-mode footer {
+    background: white;
+    border-top: 1px solid rgba(123, 31, 162, 0.1);
 }
 
 footer::before {
@@ -1061,13 +1252,24 @@ footer::before {
 .footer-logo h3 {
     font-size: 1.8rem;
     color: var(--text);
-    font-weight: 700;
+    font-weight: 900;
+}
+
+.light-mode .footer-logo h3 {
+    color: #1A202C;
+    font-weight: 900;
 }
 
 .footer-info {
     color: var(--text-light);
     margin-bottom: 20px;
     line-height: 1.8;
+    font-weight: 500;
+}
+
+.light-mode .footer-info {
+    color: #4A5568;
+    font-weight: 600;
 }
 
 .footer-info p {
@@ -1075,15 +1277,18 @@ footer::before {
     font-size: 1rem;
 }
 
-.light-mode .footer-info {
-    color: #666;
-}
-
 .footer-copyright {
     color: var(--text-light);
     font-size: 0.9rem;
     padding-top: 20px;
     border-top: 1px solid var(--border);
+    font-weight: 500;
+}
+
+.light-mode .footer-copyright {
+    color: #718096;
+    border-top-color: rgba(123, 31, 162, 0.1);
+    font-weight: 600;
 }
 
 /* تأثيرات انتقال النصوص */
@@ -1129,6 +1334,11 @@ img[loading="lazy"].loaded {
         overflow-y: auto;
     }
     
+    .light-mode .nav-menu {
+        background: white;
+        border-top: 1px solid rgba(123, 31, 162, 0.1);
+    }
+    
     .nav-menu.active {
         right: 0;
     }
@@ -1138,6 +1348,10 @@ img[loading="lazy"].loaded {
         text-align: center;
         padding: 15px !important;
         border-bottom: 1px solid var(--border);
+    }
+    
+    .light-mode .nav-link {
+        border-bottom-color: rgba(123, 31, 162, 0.1);
     }
     
     .nav-link:last-child {
@@ -1223,28 +1437,7 @@ img[loading="lazy"].loaded {
     }
 }
 
-/* تحسينات الوضع الفاتح */
-.light-mode .navbar {
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
-}
-
-.light-mode .news-ticker {
-    background: linear-gradient(90deg, #6A11CB, #7B1FA2);
-}
-
-.light-mode .hero {
-    background: linear-gradient(135deg, #6A11CB, #F8F9FA);
-}
-
-.light-mode .social {
-    background: linear-gradient(135deg, #6A11CB, #F8F9FA);
-}
-
-.light-mode .rules {
-    background: linear-gradient(135deg, #6A11CB, #F8F9FA);
-}
-
-/* تحسينات إضافية */
+/* شريط التمرير */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -1262,9 +1455,27 @@ img[loading="lazy"].loaded {
     background: var(--primary-dark);
 }
 
+.light-mode ::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+
+.light-mode ::-webkit-scrollbar-thumb {
+    background: #7B1FA2;
+}
+
+.light-mode ::-webkit-scrollbar-thumb:hover {
+    background: #6A11CB;
+}
+
+/* التحديد */
 ::selection {
-    background: var(--primary);
-    color: white;
+    background: rgba(138, 43, 226, 0.3);
+    color: var(--text);
+}
+
+.light-mode ::selection {
+    background: rgba(123, 31, 162, 0.2);
+    color: #1A202C;
 }
 
 /* تأثيرات التركيز */
@@ -1273,24 +1484,23 @@ img[loading="lazy"].loaded {
     outline-offset: 2px;
 }
 
-/* تحسينات الشحن */
-.loading {
-    position: relative;
-    overflow: hidden;
+.light-mode :focus {
+    outline: 2px solid rgba(123, 31, 162, 0.5);
 }
 
-.loading::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    animation: loading 1.5s infinite;
+/* تحسينات الوضع الفاتح النهائية */
+.light-mode body {
+    background: linear-gradient(135deg, #F8FAFC, #E2E8F0);
 }
 
-@keyframes loading {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+.light-mode .hero {
+    background: linear-gradient(135deg, #F8FAFC, #E2E8F0);
+}
+
+.light-mode .social {
+    background: linear-gradient(135deg, #F8FAFC, #E2E8F0);
+}
+
+.light-mode .rules {
+    background: linear-gradient(135deg, #F8FAFC, #E2E8F0);
 }
