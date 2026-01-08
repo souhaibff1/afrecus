@@ -28,14 +28,32 @@
                 <li><a href="#social" data-en="Social Links" data-ar="روابط التواصل">روابط التواصل</a></li>
                 <li><a href="#discord" data-en="Discord Server" data-ar="سيرفر الديسكورد">سيرفر الديسكورد</a></li>
                 <li><a href="#rules" data-en="Community Rules" data-ar="قواعد المجتمع">قواعد المجتمع</a></li>
+                <li class="admin-link">
+                    <a href="news-admin.html" data-en="Manage News" data-ar="إدارة الأخبار" target="_blank">
+                        <i class="fas fa-newspaper"></i>
+                        <span>إدارة الأخبار</span>
+                    </a>
+                </li>
             </ul>
             
             <div class="nav-controls">
-                <!-- Language Toggle - Fixed -->
-                <div class="language-toggle" id="languageToggle">
-                    <button class="lang-btn" id="langArBtn">ع</button>
-                    <button class="lang-btn active" id="langEnBtn">EN</button>
-                    <div class="language-slider"></div>
+                <!-- Language Dropdown -->
+                <div class="language-dropdown">
+                    <button class="dropdown-btn" id="languageBtn">
+                        <i class="fas fa-globe"></i>
+                        <span id="currentLang">العربية</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="#" class="lang-option" data-lang="ar">
+                            <i class="fas fa-language"></i>
+                            <span>العربية</span>
+                        </a>
+                        <a href="#" class="lang-option" data-lang="en">
+                            <i class="fas fa-language"></i>
+                            <span>English</span>
+                        </a>
+                    </div>
                 </div>
                 
                 <!-- Theme Toggle -->
@@ -54,6 +72,9 @@
         <div class="ticker-content" id="newsTicker">
             🎮 تابع على تويتش لتتلقى إشعارات البث المباشر!
         </div>
+        <button class="edit-news-btn" onclick="window.open('news-admin.html', '_blank')" title="تحرير الأخبار">
+            <i class="fas fa-edit"></i>
+        </button>
     </div>
 
     <!-- Hero Section -->
@@ -86,8 +107,26 @@
                 
                 <!-- Status Display BELOW image -->
                 <div class="status-display">
-                    <span class="status-dot"></span>
-                    <span id="statusText" data-en="OFFLINE" data-ar="غير متصل">غير متصل</span>
+                    <div class="status-info">
+                        <span class="status-dot"></span>
+                        <span class="status-text" id="statusText" data-en="OFFLINE" data-ar="غير متصل">غير متصل</span>
+                    </div>
+                    <div class="status-details">
+                        <span class="viewer-count" id="viewerCount" data-en="0 viewers" data-ar="0 مشاهد">0 مشاهد</span>
+                        <span class="stream-title" id="streamTitle" data-en="Currently offline" data-ar="غير متصل حالياً">غير متصل حالياً</span>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="action-btn" onclick="window.open('https://www.twitch.tv/afrecus', '_blank')" data-en="Watch on Twitch" data-ar="شاهد على تويتش">
+                        <i class="fab fa-twitch"></i>
+                        <span>شاهد على تويتش</span>
+                    </button>
+                    <button class="action-btn" onclick="window.open('https://discord.gg/8zE55rMwgg', '_blank')" data-en="Join Discord" data-ar="انضم للديسكورد">
+                        <i class="fab fa-discord"></i>
+                        <span>انضم للديسكورد</span>
+                    </button>
                 </div>
                 
                 <!-- Motivational Message -->
@@ -124,30 +163,37 @@
                 <a href="https://www.youtube.com/@afrecus" target="_blank" class="social-icon youtube">
                     <i class="fab fa-youtube"></i>
                     <span>YouTube</span>
+                    <span class="social-stats" data-en="Subscribers" data-ar="مشتركين">مشتركين</span>
                 </a>
                 <a href="https://www.twitch.tv/afrecus" target="_blank" class="social-icon twitch">
                     <i class="fab fa-twitch"></i>
                     <span>Twitch</span>
+                    <span class="social-stats" data-en="Followers" data-ar="متابعين">متابعين</span>
                 </a>
                 <a href="https://www.instagram.com/afrecus.official/" target="_blank" class="social-icon instagram">
                     <i class="fab fa-instagram"></i>
                     <span>Instagram</span>
+                    <span class="social-stats" data-en="Followers" data-ar="متابعين">متابعين</span>
                 </a>
                 <a href="https://x.com/Afrecus" target="_blank" class="social-icon twitter">
                     <i class="fab fa-twitter"></i>
                     <span>X (Twitter)</span>
+                    <span class="social-stats" data-en="Followers" data-ar="متابعين">متابعين</span>
                 </a>
                 <a href="https://kick.com/afrecus" target="_blank" class="social-icon kick">
                     <i class="fas fa-signal"></i>
                     <span>Kick</span>
+                    <span class="social-stats" data-en="Followers" data-ar="متابعين">متابعين</span>
                 </a>
                 <a href="https://www.tiktok.com/@afrecus" target="_blank" class="social-icon tiktok">
                     <i class="fab fa-tiktok"></i>
                     <span>TikTok</span>
+                    <span class="social-stats" data-en="Followers" data-ar="متابعين">متابعين</span>
                 </a>
                 <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="social-icon discord">
                     <i class="fab fa-discord"></i>
                     <span>Discord</span>
+                    <span class="social-stats" data-en="Members" data-ar="أعضاء">أعضاء</span>
                 </a>
             </div>
         </div>
@@ -164,16 +210,46 @@
                 <h3 class="discord-title" data-en="Connect with the Community" data-ar="تواصل مع المجتمع">تواصل مع المجتمع</h3>
                 <p class="discord-description" data-en="Join our official Discord server to chat with fellow fans, get updates on streams, participate in community events, and create support tickets for any issues or inquiries." data-ar="انضم إلى سيرفر الديسكورد الرسمي لتتواصل مع المعجبين الآخرين، تحصل على تحديثات البث المباشر، تشارك في فعاليات المجتمع، وتنشئ تذاكر الدعم لأي استفسارات أو مشاكل.">انضم إلى سيرفر الديسكورد الرسمي لتتواصل مع المعجبين الآخرين، تحصل على تحديثات البث المباشر، تشارك في فعاليات المجتمع، وتنشئ تذاكر الدعم لأي استفسارات أو مشاكل.</p>
                 
+                <div class="discord-stats">
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span class="stat-number" id="discordMembers">1,200+</span>
+                        <span class="stat-label" data-en="Members" data-ar="عضو">عضو</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-comments"></i>
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label" data-en="Active Chat" data-ar="دردشة نشطة">دردشة نشطة</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="stat-number" id="discordEvents">15+</span>
+                        <span class="stat-label" data-en="Monthly Events" data-ar="فعالية شهرية">فعالية شهرية</span>
+                    </div>
+                </div>
+                
                 <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="discord-btn" data-en="Join Discord Server" data-ar="انضم لسيرفر الديسكورد">
                     <span>انضم لسيرفر الديسكورد</span>
                     <i class="fas fa-external-link-alt"></i>
                 </a>
                 
                 <div class="discord-features">
-                    <div class="feature" data-en="Live Stream Notifications" data-ar="إشعارات البث المباشر">إشعارات البث المباشر</div>
-                    <div class="feature" data-en="Support Ticket System" data-ar="نظام تذاكر الدعم">نظام تذاكر الدعم</div>
-                    <div class="feature" data-en="Exclusive Content" data-ar="محتوى حصري">محتوى حصري</div>
-                    <div class="feature" data-en="Community Events" data-ar="فعاليات المجتمع">فعاليات المجتمع</div>
+                    <div class="feature" data-en="Live Stream Notifications" data-ar="إشعارات البث المباشر">
+                        <i class="fas fa-bell"></i>
+                        <span>إشعارات البث المباشر</span>
+                    </div>
+                    <div class="feature" data-en="Support Ticket System" data-ar="نظام تذاكر الدعم">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>نظام تذاكر الدعم</span>
+                    </div>
+                    <div class="feature" data-en="Exclusive Content" data-ar="محتوى حصري">
+                        <i class="fas fa-crown"></i>
+                        <span>محتوى حصري</span>
+                    </div>
+                    <div class="feature" data-en="Community Events" data-ar="فعاليات المجتمع">
+                        <i class="fas fa-gamepad"></i>
+                        <span>فعاليات المجتمع</span>
+                    </div>
                 </div>
             </div>
         </div>
