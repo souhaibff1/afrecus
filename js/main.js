@@ -7,7 +7,8 @@ const currentYear = document.getElementById('currentYear');
 const profileImgContainer = document.getElementById('profileImgContainer');
 const statusText = document.getElementById('statusText');
 const languageToggle = document.getElementById('languageToggle');
-const languageBg = document.querySelector('.language-toggle .language-bg');
+const langArBtn = document.getElementById('langArBtn');
+const langEnBtn = document.getElementById('langEnBtn');
 const motivationalMessage = document.getElementById('motivationalMessage');
 
 // Twitch API Credentials
@@ -64,7 +65,6 @@ themeToggle.addEventListener('change', toggleTheme);
 
 // Add click event to the entire container
 themeToggleContainer.addEventListener('click', function(e) {
-    // Don't trigger if clicking on the checkbox itself
     if (e.target !== themeToggle) {
         themeToggle.checked = !themeToggle.checked;
         toggleTheme();
@@ -78,28 +78,38 @@ if (savedTheme === 'light') {
     document.body.classList.add('light-theme');
 }
 
-// Language Toggle - Simple Version
+// Language Toggle - FIXED VERSION
 function initLanguageToggle() {
-    languageToggle.addEventListener('click', function() {
-        const isEnglish = document.body.classList.contains('ltr');
-        
-        if (isEnglish) {
-            // Switch to Arabic
-            switchLanguage('ar');
-            languageBg.classList.remove('active');
-        } else {
-            // Switch to English
-            switchLanguage('en');
-            languageBg.classList.add('active');
-        }
+    // تحديث حالة الأزرار بناءً على اللغة المحفوظة
+    const savedLanguage = localStorage.getItem('language') || 'ar';
+    const isEnglish = savedLanguage === 'en';
+    
+    if (isEnglish) {
+        switchLanguage('en');
+        languageToggle.classList.add('english');
+        langArBtn.classList.remove('active');
+        langEnBtn.classList.add('active');
+    } else {
+        switchLanguage('ar');
+        languageToggle.classList.remove('english');
+        langArBtn.classList.add('active');
+        langEnBtn.classList.remove('active');
+    }
+    
+    // إضافة مستمعي الأحداث
+    langArBtn.addEventListener('click', () => {
+        switchLanguage('ar');
+        languageToggle.classList.remove('english');
+        langArBtn.classList.add('active');
+        langEnBtn.classList.remove('active');
     });
     
-    // Initialize language toggle state
-    const savedLanguage = localStorage.getItem('language');
-    if (savedLanguage === 'en') {
-        languageBg.classList.add('active');
+    langEnBtn.addEventListener('click', () => {
         switchLanguage('en');
-    }
+        languageToggle.classList.add('english');
+        langArBtn.classList.remove('active');
+        langEnBtn.classList.add('active');
+    });
 }
 
 // وظيفة تبديل اللغة
@@ -177,9 +187,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (targetElement) {
             const headerHeight = document.querySelector('header').offsetHeight;
             window.scrollTo({
-                top: targetElement.offsetTop - headerHeight,
+                top: targetElement.offsetTop - headerHeight - 20,
                 behavior: 'smooth'
             });
+            
+            // Close mobile menu if open
+            navLinks.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
         }
     });
 });
@@ -357,6 +371,8 @@ function updateRotatingTitles(lang) {
 
 // Motivational Message Functionality
 function updateMotivationalMessage() {
+    if (!motivationalMessage) return;
+    
     const isEnglish = document.body.classList.contains('ltr');
     const lang = isEnglish ? 'en' : 'ar';
     const messages = motivationalMessages[lang];
@@ -366,9 +382,7 @@ function updateMotivationalMessage() {
     const message = messages[randomIndex];
     
     // تحديث النص
-    if (motivationalMessage) {
-        motivationalMessage.textContent = message;
-    }
+    motivationalMessage.textContent = message;
 }
 
 // تغيير الجملة التحفيزية كل 15 ثانية
@@ -394,7 +408,7 @@ document.addEventListener('languageChanged', () => {
     updateMotivationalMessage();
 });
 
-// Initialize animations on load
+// Initialize on load
 window.addEventListener('load', () => {
     // Animate hero text
     const heroText = document.querySelector('.hero-text');
@@ -425,7 +439,7 @@ window.addEventListener('load', () => {
     checkStreamStatus();
     
     // Start rotating titles
-    setInterval(rotateTitles, 3000); // Rotate every 3 seconds
+    setInterval(rotateTitles, 3000);
     
     // Start rotating motivational messages
     rotateMotivationalMessage();
@@ -458,7 +472,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.social-icon, .rule-item, .discord-container, .feature').forEach(el => {
+document.querySelectorAll('.social-icon, .rule-item, .discord-container, .feature, .about-content').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
