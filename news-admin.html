@@ -1,1 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الأخبار - أفريكوس</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #2D1B69 0%, #1A103C 100%);
+            color: #F0F0F0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(45, 27, 105, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #8A2BE2;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #8A2BE2;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-family: 'Cairo', sans-serif;
+            resize: vertical;
+        }
+        
+        .lang-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .lang-btn {
+            padding: 8px 20px;
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid #8A2BE2;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn.active {
+            background: #8A2BE2;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8A2BE2, #2D1B69);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid #8A2BE2;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        .news-list {
+            margin-top: 30px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .news-item {
+            padding: 10px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            margin-bottom: 10px;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📢 إدارة شريط الأخبار</h1>
+        
+        <div class="form-group">
+            <label for="newsText">أضف خبر جديد:</label>
+            <textarea id="newsText" rows="3" placeholder="اكتب الخبر هنا..."></textarea>
+            
+            <div class="lang-buttons">
+                <button class="lang-btn active" data-lang="ar">عربي</button>
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="both">الاثنين</button>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="addBtn">إضافة خبر</button>
+            <button class="btn btn-secondary" id="clearBtn">حذف الكل</button>
+            <button class="btn btn-secondary" id="backBtn">العودة للموقع</button>
+        </div>
+        
+        <div class="news-list" id="newsList">
+            <!-- ستظهر الأخبار هنا -->
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsText = document.getElementById('newsText');
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const addBtn = document.getElementById('addBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const backBtn = document.getElementById('backBtn');
+            const newsList = document.getElementById('newsList');
+            let selectedLang = 'ar';
+            
+            // تحميل الأخبار الحالية
+            function loadNews() {
+                const savedNews = localStorage.getItem('afrecus_custom_news');
+                return savedNews ? JSON.parse(savedNews) : [];
+            }
+            
+            // حفظ الأخبار
+            function saveNews(news) {
+                localStorage.setItem('afrecus_custom_news', JSON.stringify(news));
+            }
+            
+            // تحديث عرض الأخبار
+            function updateNewsList() {
+                const news = loadNews();
+                newsList.innerHTML = '';
+                
+                if (news.length === 0) {
+                    newsList.innerHTML = '<div class="news-item">لا توجد أخبار مضافة بعد.</div>';
+                    return;
+                }
+                
+                news.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'news-item';
+                    div.innerHTML = `
+                        <strong>${index + 1}.</strong> ${item.text}
+                        <br><small>اللغة: ${item.lang === 'ar' ? 'عربي' : item.lang === 'en' ? 'إنجليزي' : 'الاثنين'} | ${new Date(item.timestamp).toLocaleDateString()}</small>
+                    `;
+                    newsList.appendChild(div);
+                });
+            }
+            
+            // تفعيل أزرار اللغة
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedLang = this.getAttribute('data-lang');
+                });
+            });
+            
+            // إضافة خبر جديد
+            addBtn.addEventListener('click', function() {
+                const text = newsText.value.trim();
+                if (text) {
+                    const news = loadNews();
+                    const newsItem = {
+                        text: text,
+                        lang: selectedLang,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    news.push(newsItem);
+                    saveNews(news);
+                    newsText.value = '';
+                    updateNewsList();
+                    alert('تم إضافة الخبر بنجاح!');
+                } else {
+                    alert('الرجاء كتابة نص للخبر');
+                }
+            });
+            
+            // حذف جميع الأخبار
+            clearBtn.addEventListener('click', function() {
+                if (confirm('هل أنت متأكد من حذف جميع الأخبار؟')) {
+                    localStorage.removeItem('afrecus_custom_news');
+                    updateNewsList();
+                    alert('تم حذف جميع الأخبار');
+                }
+            });
+            
+            // العودة للموقع الرئيسي
+            backBtn.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // التحميل الأولي
+            updateNewsList();
+        });
+    </script>
+</body>
+</html>
