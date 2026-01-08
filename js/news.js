@@ -19,29 +19,15 @@ class NewsManager {
         // تحديث الأخبار عند تغيير اللغة
         document.addEventListener('languageChanged', (e) => {
             setTimeout(() => {
+                // إعادة تحميل الأخبار للغة الجديدة
+                this.newsItems = this.getDefaultNews();
+                this.saveNews();
+                this.currentIndex = 0;
                 this.updateTicker();
             }, 100);
         });
         
-        // زر تحرير الأخبار في الشريط
-        this.setupEditButton();
-        
         console.log('News Manager initialized with', this.newsItems.length, 'news items');
-    }
-    
-    setupEditButton() {
-        // إذا كان زر التحرير غير موجود في HTML، نضيفه برمجياً
-        if (!document.querySelector('.edit-news-btn')) {
-            const tickerContainer = document.querySelector('.news-ticker');
-            if (tickerContainer) {
-                const editBtn = document.createElement('button');
-                editBtn.className = 'edit-news-btn';
-                editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-                editBtn.title = 'تحرير الأخبار';
-                editBtn.onclick = () => window.open('news-admin.html', '_blank');
-                tickerContainer.appendChild(editBtn);
-            }
-        }
     }
     
     loadNews() {
@@ -76,7 +62,9 @@ class NewsManager {
                 { text: "🌟 New YouTube video coming soon! Stay tuned!", lang: "en" },
                 { text: "📢 Join our Discord community for exclusive content!", lang: "en" },
                 { text: "🔥 Next stream scheduled for tomorrow at 8 PM!", lang: "en" },
-                { text: "🎉 Community event this weekend! Check Discord for details!", lang: "en" }
+                { text: "🎉 Community event this weekend! Check Discord for details!", lang: "en" },
+                { text: "🎮 Every stream is a new adventure! 🎮", lang: "en" },
+                { text: "✨ Keep creating and inspiring! ✨", lang: "en" }
             ];
         } else {
             return [
@@ -84,7 +72,9 @@ class NewsManager {
                 { text: "🌟 فيديو جديد على اليوتيوب قريباً! ترقبوه!", lang: "ar" },
                 { text: "📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!", lang: "ar" },
                 { text: "🔥 البث القادم غداً الساعة 8 مساءً!", lang: "ar" },
-                { text: "🎉 فعالية مجتمعية نهاية هذا الأسبوع! تفاصيل أكثر على الديسكورد!", lang: "ar" }
+                { text: "🎉 فعالية مجتمعية نهاية هذا الأسبوع! تفاصيل أكثر على الديسكورد!", lang: "ar" },
+                { text: "🎮 كل بث هو مغامرة جديدة! 🎮", lang: "ar" },
+                { text: "✨ استمر في الإبداع والإلهام! ✨", lang: "ar" }
             ];
         }
     }
@@ -103,7 +93,8 @@ class NewsManager {
         }
         
         if (this.newsItems.length === 0) {
-            this.tickerElement.textContent = "Welcome to Afrecus! 🎮";
+            const isEnglish = document.body.classList.contains('ltr');
+            this.tickerElement.textContent = isEnglish ? "Welcome to Afrecus! 🎮" : "مرحباً بكم في أفريكوس! 🎮";
             return;
         }
         
@@ -114,7 +105,8 @@ class NewsManager {
             this.tickerElement.textContent = newsItem.text;
         } else {
             // إذا كان الخبر غير صالح، انتقل للخبر التالي
-            this.rotateNews();
+            this.currentIndex = (this.currentIndex + 1) % this.newsItems.length;
+            this.updateTicker();
         }
     }
     
