@@ -73,8 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 5. فحص حالة البث
     checkStreamStatus();
     
-    // 6. تشغيل الأخبار
-    startNewsTicker();
+    // 6. تشغيل الأخبار (سيتم تشغيلها من news.js)
     
     // 7. تغيير الجمل التحفيزية
     rotateMotivationalQuotes();
@@ -106,6 +105,18 @@ function switchLanguage(lang) {
     
     // تحديث الجملة التحفيزية
     updateMotivationalQuote(lang);
+    
+    // تحديث حالة البث
+    updateStreamStatusText(lang);
+    
+    // تحديث عناوين السلايدر
+    updateSliderTitles(lang);
+    
+    // إرسال حدث تغيير اللغة
+    const languageEvent = new CustomEvent('languageChanged', { detail: { language: lang } });
+    document.dispatchEvent(languageEvent);
+    
+    console.log('Language switched to:', lang);
 }
 
 // تحديث جميع النصوص
@@ -113,13 +124,31 @@ function updateAllTexts(lang) {
     document.querySelectorAll('[data-ar], [data-en]').forEach(element => {
         if (lang === 'en' && element.hasAttribute('data-en')) {
             const englishText = element.getAttribute('data-en');
-            if (englishText) {
+            if (englishText && englishText.trim() !== '') {
                 element.textContent = englishText;
             }
         } else if (lang === 'ar' && element.hasAttribute('data-ar')) {
             const arabicText = element.getAttribute('data-ar');
-            if (arabicText) {
+            if (arabicText && arabicText.trim() !== '') {
                 element.textContent = arabicText;
+            }
+        }
+    });
+}
+
+// تحديث عناوين السلايدر
+function updateSliderTitles(lang) {
+    const titles = document.querySelectorAll('.slider-track .title');
+    titles.forEach((title, index) => {
+        if (lang === 'en' && title.hasAttribute('data-en')) {
+            const englishText = title.getAttribute('data-en');
+            if (englishText) {
+                title.textContent = englishText;
+            }
+        } else if (lang === 'ar' && title.hasAttribute('data-ar')) {
+            const arabicText = title.getAttribute('data-ar');
+            if (arabicText) {
+                title.textContent = arabicText;
             }
         }
     });
@@ -149,63 +178,48 @@ function updateNewsTickerDirection(lang) {
 // دالة فحص حالة البث
 async function checkStreamStatus() {
     const indicator = document.getElementById('liveIndicator');
+    if (!indicator) return;
+    
+    const textElement = indicator.querySelector('span:last-child');
     const dot = indicator.querySelector('.dot');
-    const text = indicator.querySelector('span:last-child');
     
     // حالة افتراضية (يمكنك إضافة API حقيقي هنا)
     const isLive = false;
+    
+    // الحصول على اللغة الحالية
+    const isEnglish = document.body.classList.contains('ltr');
     
     if (isLive) {
         indicator.classList.add('live');
         dot.style.background = '#FF0000';
         dot.style.animation = 'pulse 1.5s infinite';
-        
-        const isEnglish = document.body.classList.contains('ltr');
-        text.textContent = isEnglish ? 'LIVE' : 'بث مباشر';
+        textElement.textContent = isEnglish ? 'LIVE' : 'بث مباشر';
     } else {
         indicator.classList.remove('live');
         dot.style.background = '#666';
         dot.style.animation = 'none';
-        
-        const isEnglish = document.body.classList.contains('ltr');
-        text.textContent = isEnglish ? 'OFFLINE' : 'غير متصل';
+        textElement.textContent = isEnglish ? 'OFFLINE' : 'غير متصل';
     }
 }
 
-// الأخبار
-const newsItems = {
-    ar: [
-        "🎮 تابع على تويتش لتتلقى إشعارات البث المباشر!",
-        "🌟 فيديو جديد على اليوتيوب قريباً! ترقبوه!",
-        "📢 انضم لمجتمع الديسكورد للحصول على محتوى حصري!",
-        "🔥 البث القادم غداً الساعة 8 مساءً!",
-        "🎉 فعالية مجتمعية نهاية هذا الأسبوع!"
-    ],
-    en: [
-        "🎮 Follow on Twitch to get live stream notifications!",
-        "🌟 New YouTube video coming soon! Stay tuned!",
-        "📢 Join our Discord community for exclusive content!",
-        "🔥 Next stream tomorrow at 8 PM!",
-        "🎉 Community event this weekend!"
-    ]
-};
-
-function startNewsTicker() {
-    const ticker = document.getElementById('newsTicker');
-    if (!ticker) return;
+// تحديث نص حالة البث عند تغيير اللغة
+function updateStreamStatusText(lang) {
+    const indicator = document.getElementById('liveIndicator');
+    if (!indicator) return;
     
-    let currentLang = document.body.classList.contains('ltr') ? 'en' : 'ar';
-    let currentIndex = 0;
+    const textElement = indicator.querySelector('span:last-child');
+    const dot = indicator.querySelector('.dot');
     
-    // عرض أول خبر
-    ticker.textContent = newsItems[currentLang][currentIndex];
+    // التحقق من حالة البث الحالية
+    const isLive = indicator.classList.contains('live');
     
-    // تحديث الأخبار
-    setInterval(() => {
-        currentLang = document.body.classList.contains('ltr') ? 'en' : 'ar';
-        currentIndex = (currentIndex + 1) % newsItems[currentLang].length;
-        ticker.textContent = newsItems[currentLang][currentIndex];
-    }, 8000);
+    if (isLive) {
+        textElement.textContent = lang === 'en' ? 'LIVE' : 'بث مباشر';
+        dot.style.background = '#FF0000';
+    } else {
+        textElement.textContent = lang === 'en' ? 'OFFLINE' : 'غير متصل';
+        dot.style.background = '#666';
+    }
 }
 
 // الجمل التحفيزية
@@ -216,7 +230,9 @@ const motivationalQuotes = {
         "البث أكثر من مجرد هواية - إنه شغف! 🔥",
         "ابق مبدعاً واستمر في التقدم! 🎨",
         "رحلتك مهمة - استمر! 🚀",
-        "كل بث هو مغامرة جديدة! 🎮"
+        "كل بث هو مغامرة جديدة! 🎮",
+        "استمر في الإبداع والتألق! ⭐",
+        "شارك شغفك مع العالم! 🌍"
     ],
     en: [
         "Keep shining and inspiring others! ✨",
@@ -224,7 +240,9 @@ const motivationalQuotes = {
         "Streaming is more than a hobby - it's a passion! 🔥",
         "Stay creative and keep pushing forward! 🎨",
         "Your journey matters - keep going! 🚀",
-        "Every stream is a new adventure! 🎮"
+        "Every stream is a new adventure! 🎮",
+        "Keep creating and shining! ⭐",
+        "Share your passion with the world! 🌍"
     ]
 };
 
@@ -234,6 +252,13 @@ function rotateMotivationalQuotes() {
     
     let quoteIndex = 0;
     
+    // تعيين الاقتباس الأول
+    const isEnglish = document.body.classList.contains('ltr');
+    const lang = isEnglish ? 'en' : 'ar';
+    const quotes = motivationalQuotes[lang];
+    quoteElement.textContent = quotes[quoteIndex];
+    
+    // تغيير الاقتباس كل 10 ثواني
     setInterval(() => {
         const isEnglish = document.body.classList.contains('ltr');
         const lang = isEnglish ? 'en' : 'ar';
@@ -257,7 +282,13 @@ function updateMotivationalQuote(lang) {
     
     const quotes = motivationalQuotes[lang];
     const randomIndex = Math.floor(Math.random() * quotes.length);
-    quoteElement.textContent = quotes[randomIndex];
+    
+    quoteElement.style.opacity = '0';
+    setTimeout(() => {
+        quoteElement.textContent = quotes[randomIndex];
+        quoteElement.style.transition = 'opacity 0.5s';
+        quoteElement.style.opacity = '1';
+    }, 50);
 }
 
 // التمرير السلس
