@@ -84,6 +84,11 @@ body.ltr {
     font-family: 'Poppins', 'Cairo', sans-serif;
 }
 
+body.ltr .hero-text h1,
+body.ltr .section-title {
+    font-family: 'Poppins', sans-serif;
+}
+
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
@@ -199,63 +204,61 @@ header {
     gap: 18px;
 }
 
-/* Language Toggle - Compact Version */
+/* Language Toggle - FIXED VERSION */
 .language-toggle {
+    display: flex;
     position: relative;
-    width: 60px;
-    height: 30px;
+    width: 90px;
+    height: 36px;
     background-color: var(--card-bg);
     border-radius: 30px;
-    cursor: pointer;
+    padding: 3px;
     border: 1px solid rgba(138, 43, 226, 0.2);
     box-shadow: 0 4px 12px var(--shadow);
-    display: flex;
-    align-items: center;
-    padding: 2px;
 }
 
-.language-toggle .language-bg {
+.language-slider {
     position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 26px;
-    height: 26px;
+    top: 3px;
+    right: 3px;
+    width: 42px;
+    height: 30px;
     background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
-    border-radius: 50%;
+    border-radius: 30px;
     transition: var(--transition);
     box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
     z-index: 1;
 }
 
-body.ltr .language-toggle .language-bg {
+body.ltr .language-slider {
     right: auto;
-    left: 2px;
+    left: 3px;
 }
 
-.language-toggle .language-bg.active {
-    transform: translateX(30px);
+.language-toggle.english .language-slider {
+    transform: translateX(42px);
 }
 
-body.ltr .language-toggle .language-bg.active {
-    transform: translateX(-30px);
+body.ltr .language-toggle.english .language-slider {
+    transform: translateX(-42px);
 }
 
-.language-btn {
+.lang-btn {
     background: none;
     border: none;
     color: var(--text-primary);
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: var(--transition);
-    width: 50%;
+    width: 42px;
     text-align: center;
     z-index: 2;
     padding: 5px 0;
     opacity: 0.7;
 }
 
-.language-btn.active {
+.lang-btn.active {
     color: white;
     opacity: 1;
     font-weight: 700;
@@ -264,7 +267,7 @@ body.ltr .language-toggle .language-bg.active {
 /* Theme Toggle */
 .theme-toggle {
     width: 56px;
-    height: 30px;
+    height: 36px;
     background-color: var(--card-bg);
     border-radius: 30px;
     position: relative;
@@ -281,43 +284,54 @@ body.ltr .language-toggle .language-bg.active {
     position: absolute;
     top: 4px;
     right: 4px;
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
     background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
     border-radius: 50%;
     transition: var(--transition);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2;
 }
 
 .theme-toggle input:checked + .toggle-slider {
-    transform: translateX(-26px);
+    transform: translateX(-20px);
 }
 
-/* For LTR (English) mode */
 body.ltr .toggle-slider {
     right: auto;
     left: 4px;
 }
 
 body.ltr .theme-toggle input:checked + .toggle-slider {
-    transform: translateX(26px);
+    transform: translateX(20px);
 }
 
 .theme-toggle i {
     position: absolute;
-    top: 7px;
-    font-size: 15px;
+    top: 9px;
+    font-size: 16px;
     color: var(--primary-light);
     pointer-events: none;
     transition: var(--transition);
+    z-index: 1;
 }
 
 .theme-toggle .fa-sun {
-    right: 8px;
+    right: 10px;
 }
 
 .theme-toggle .fa-moon {
-    left: 8px;
+    left: 10px;
+}
+
+body.ltr .theme-toggle .fa-sun {
+    right: auto;
+    left: 10px;
+}
+
+body.ltr .theme-toggle .fa-moon {
+    left: auto;
+    right: 10px;
 }
 
 /* Mobile Menu */
@@ -481,21 +495,17 @@ body.ltr .ticker-content {
     opacity: 1;
 }
 
-.explore-btn span {
+.explore-btn span, .explore-btn i {
     position: relative;
     z-index: 1;
 }
 
-.explore-btn i {
-    position: relative;
-    z-index: 1;
-}
-
-.profile-image {
+.profile-section {
     flex: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     min-width: 300px;
     position: relative;
 }
@@ -503,11 +513,12 @@ body.ltr .ticker-content {
 /* Profile Image Container */
 .profile-img-container {
     position: relative;
-    width: 340px;
-    height: 340px;
+    width: 280px;
+    height: 280px;
     border-radius: 50%;
     cursor: pointer;
     transition: var(--transition);
+    margin: 20px 0;
 }
 
 .profile-img {
@@ -515,7 +526,7 @@ body.ltr .ticker-content {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 10px solid transparent;
+    border: 8px solid transparent;
     transition: var(--transition);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     animation: float 8s ease-in-out infinite;
@@ -540,35 +551,20 @@ body.ltr .ticker-content {
         0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Title Rotator */
-.title-rotator {
-    position: absolute;
-    top: auto;
-    bottom: 120px;
-    right: 50%;
-    transform: translateX(50%);
+/* Title Rotator ABOVE image - FIXED */
+.title-rotator-above {
     width: 100%;
     text-align: center;
-    z-index: 3;
-    background-color: var(--card-bg);
-    padding: 15px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px var(--shadow);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(138, 43, 226, 0.1);
-    max-width: 350px;
-}
-
-body.ltr .title-rotator {
-    right: 50%;
-    transform: translateX(50%);
+    margin-bottom: 30px;
+    position: relative;
 }
 
 .rotator-content {
     position: relative;
-    height: 40px;
+    height: 50px;
     overflow: hidden;
-    margin-bottom: 0;
+    margin: 0 auto;
+    max-width: 300px;
 }
 
 .rotating-title {
@@ -576,14 +572,13 @@ body.ltr .title-rotator {
     top: 0;
     right: 0;
     width: 100%;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-primary);
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.5s ease;
     text-align: center;
-    padding: 0 10px;
 }
 
 .rotating-title.active {
@@ -591,12 +586,8 @@ body.ltr .title-rotator {
     transform: translateY(0);
 }
 
-/* Status Display */
+/* Status Display BELOW image */
 .status-display {
-    position: absolute;
-    bottom: 50px;
-    right: 50%;
-    transform: translateX(50%);
     background-color: var(--card-bg);
     padding: 12px 28px;
     border-radius: 30px;
@@ -605,20 +596,12 @@ body.ltr .title-rotator {
     display: flex;
     align-items: center;
     gap: 12px;
-    z-index: 2;
     box-shadow: 0 8px 24px var(--shadow);
     backdrop-filter: blur(10px);
     border: 2px solid transparent;
-    min-width: 170px;
-    text-align: center;
-    justify-content: center;
+    margin-top: 20px;
     letter-spacing: 0.5px;
     transition: var(--transition);
-}
-
-body.ltr .status-display {
-    right: 50%;
-    transform: translateX(50%);
 }
 
 .profile-img-container.live .status-display {
@@ -651,10 +634,7 @@ body.ltr .status-display {
 
 /* Motivational Message */
 .motivational-message {
-    position: absolute;
-    bottom: -90px;
-    right: 50%;
-    transform: translateX(50%);
+    margin-top: 25px;
     background-color: var(--card-bg);
     padding: 15px 25px;
     border-radius: var(--border-radius);
@@ -666,13 +646,7 @@ body.ltr .status-display {
     box-shadow: 0 10px 30px var(--shadow);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(138, 43, 226, 0.1);
-    z-index: 2;
     transition: var(--transition);
-}
-
-body.ltr .motivational-message {
-    right: 50%;
-    transform: translateX(50%);
 }
 
 @keyframes pulse-border {
@@ -704,7 +678,7 @@ body.ltr .motivational-message {
         transform: translateY(0) rotate(0deg);
     }
     50% {
-        transform: translateY(-25px) rotate(2deg);
+        transform: translateY(-20px) rotate(2deg);
     }
 }
 
@@ -725,10 +699,57 @@ body.ltr .motivational-message {
         0 25px 50px rgba(0, 0, 0, 0.4);
 }
 
+/* About Me Section */
+.about-section {
+    padding: var(--section-padding);
+    background-color: var(--secondary-dark);
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--card-bg);
+    padding: 50px;
+    border-radius: var(--card-radius);
+    box-shadow: 0 20px 60px var(--shadow);
+    border: 1px solid rgba(138, 43, 226, 0.1);
+}
+
+.about-image {
+    flex: 0 0 300px;
+}
+
+.teo-profile {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    border: 5px solid var(--primary-light);
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h3 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: var(--primary-light);
+}
+
+.about-text p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
 /* Social Links Section */
 .social-links {
     padding: var(--section-padding);
-    background-color: var(--secondary-dark);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
     text-align: center;
 }
 
@@ -749,7 +770,7 @@ body.ltr .motivational-message {
     transform: translateX(50%);
     width: 100px;
     height: 5px;
-    background: linear-gradient(to left, var(--primary-dark), var(--primary-light);
+    background: linear-gradient(to left, var(--primary-dark), var(--primary-light));
     border-radius: 3px;
 }
 
@@ -758,12 +779,17 @@ body.ltr .section-title::after {
     transform: translateX(50%);
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .social-icons {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 28px;
-    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -772,7 +798,6 @@ body.ltr .section-title::after {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 150px;
     height: 150px;
     background-color: var(--card-bg);
     border-radius: var(--card-radius);
@@ -828,12 +853,12 @@ body.ltr .section-title::after {
 /* Discord Server Section */
 .discord-section {
     padding: var(--section-padding);
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+    background-color: var(--secondary-dark);
     text-align: center;
 }
 
 .discord-container {
-    max-width: 650px;
+    max-width: 800px;
     margin: 0 auto;
     background-color: var(--card-bg);
     padding: 60px;
@@ -907,7 +932,7 @@ body.ltr .section-title::after {
     opacity: 1;
 }
 
-.discord-btn span {
+.discord-btn span, .discord-btn i {
     position: relative;
     z-index: 1;
 }
@@ -941,20 +966,14 @@ body.ltr .feature {
     border-left: 4px solid #5865F2;
 }
 
-/* Content Sections */
-.content-section {
+/* Rules Section */
+.rules-section {
     padding: var(--section-padding);
-    background-color: var(--secondary-dark);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Rules List */
 .rules-list {
-    max-width: 850px;
+    max-width: 900px;
     margin: 0 auto;
     background-color: var(--card-bg);
     padding: 50px;
@@ -1007,14 +1026,14 @@ body.ltr .rule-number {
     margin-right: 25px;
 }
 
-.rule-text h3 {
+.rule-content h3 {
     color: var(--text-primary);
     margin-bottom: 10px;
     font-size: 1.35rem;
     font-weight: 600;
 }
 
-.rule-text p {
+.rule-content p {
     color: var(--text-secondary);
     font-weight: 400;
     line-height: 1.8;
@@ -1072,35 +1091,54 @@ footer {
     .hero-text h1 {
         font-size: 3.2rem;
     }
+    
+    .about-content {
+        gap: 40px;
+        padding: 40px;
+    }
 }
 
 @media (max-width: 992px) {
     .hero-content {
         flex-direction: column;
         text-align: center;
+        gap: 40px;
     }
     
     .hero-text h1 {
         font-size: 2.8rem;
     }
     
+    .hero-text p {
+        font-size: 1.2rem;
+    }
+    
     .nav-links {
-        gap: 25px;
+        gap: 20px;
     }
     
     .profile-img-container {
-        width: 300px;
-        height: 300px;
+        width: 250px;
+        height: 250px;
     }
     
-    .title-rotator {
-        bottom: 100px;
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .about-image {
+        flex: 0 0 auto;
         max-width: 300px;
+        margin: 0 auto 30px;
     }
     
-    .motivational-message {
-        bottom: -80px;
-        max-width: 350px;
+    .title-rotator-above {
+        margin-bottom: 20px;
+    }
+    
+    .rotating-title {
+        font-size: 1.6rem;
     }
 }
 
@@ -1137,11 +1175,15 @@ footer {
     .nav-links li {
         width: 100%;
         text-align: center;
-        padding: 18px 0;
+        padding: 15px 0;
+    }
+    
+    .social-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
     
     .social-icon {
-        width: 130px;
         height: 130px;
     }
     
@@ -1150,39 +1192,52 @@ footer {
     }
     
     .profile-img-container {
-        width: 260px;
-        height: 260px;
+        width: 220px;
+        height: 220px;
     }
     
-    .discord-container {
-        padding: 40px;
-    }
-    
-    .status-display {
-        bottom: 40px;
-        font-size: 0.95rem;
-        padding: 10px 24px;
-        min-width: 150px;
+    .discord-container,
+    .rules-list,
+    .about-content {
+        padding: 30px;
     }
     
     .section-title {
         font-size: 2.2rem;
+        margin-bottom: 40px;
     }
     
-    .title-rotator {
-        bottom: 90px;
-        padding: 12px;
-    }
-    
-    .rotating-title {
-        font-size: 1.4rem;
+    .discord-title {
+        font-size: 2rem;
     }
     
     .motivational-message {
-        bottom: -70px;
         font-size: 1rem;
         padding: 12px 20px;
-        max-width: 300px;
+        max-width: 350px;
+    }
+    
+    .nav-controls {
+        gap: 15px;
+    }
+    
+    .language-toggle {
+        width: 80px;
+        height: 32px;
+    }
+    
+    .language-slider {
+        width: 38px;
+        height: 26px;
+    }
+    
+    .lang-btn {
+        width: 38px;
+        font-size: 0.85rem;
+    }
+    
+    .language-toggle.english .language-slider {
+        transform: translateX(38px);
     }
 }
 
@@ -1192,29 +1247,29 @@ footer {
     }
     
     .hero-text p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     .profile-img-container {
-        width: 220px;
-        height: 220px;
+        width: 200px;
+        height: 200px;
+    }
+    
+    .social-icons {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
     
     .social-icon {
-        width: 110px;
-        height: 110px;
+        height: 120px;
     }
     
     .social-icon i {
-        font-size: 2.2rem;
+        font-size: 2.5rem;
     }
     
     .social-icon span {
-        font-size: 1rem;
-    }
-    
-    .rules-list {
-        padding: 30px;
+        font-size: 1.1rem;
     }
     
     .section-title {
@@ -1222,33 +1277,58 @@ footer {
     }
     
     .discord-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     
     .discord-icon {
         font-size: 4rem;
     }
     
-    .status-display {
-        bottom: 35px;
-        font-size: 0.9rem;
-        padding: 8px 20px;
-        min-width: 130px;
-    }
-    
-    .title-rotator {
-        bottom: 80px;
-        padding: 10px;
-    }
-    
-    .rotating-title {
-        font-size: 1.2rem;
+    .discord-btn {
+        padding: 16px 30px;
+        font-size: 1.1rem;
     }
     
     .motivational-message {
-        bottom: -60px;
         font-size: 0.9rem;
         padding: 10px 15px;
-        max-width: 250px;
+        max-width: 280px;
+    }
+    
+    .rotating-title {
+        font-size: 1.4rem;
+    }
+    
+    .status-display {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .feature {
+        padding: 14px 20px;
+        font-size: 1rem;
+    }
+    
+    .nav-controls {
+        gap: 10px;
+    }
+    
+    .language-toggle {
+        width: 70px;
+        height: 30px;
+    }
+    
+    .language-slider {
+        width: 34px;
+        height: 24px;
+    }
+    
+    .lang-btn {
+        width: 34px;
+        font-size: 0.8rem;
+    }
+    
+    .language-toggle.english .language-slider {
+        transform: translateX(34px);
     }
 }
