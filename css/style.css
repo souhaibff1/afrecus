@@ -347,7 +347,7 @@ html {
     }
 }
 
-/* التحسين المحدد للعبارة "Welcome to Afrecus World" فقط في الوضع الفاتح */
+/* العنوان الرئيسي - تحسين كبير للوضوح */
 .hero-content h1 {
     font-size: 3.5rem;
     background: linear-gradient(135deg, var(--primary), #FF6B9D);
@@ -360,44 +360,12 @@ html {
     letter-spacing: -0.5px;
 }
 
-/* فقط في الوضع الفاتح - تحسين خاص للعبارة الإنجليزية */
 .light-mode .hero-content h1 {
-    /* تدرج لوني محسن للتباين العالي */
-    background: linear-gradient(135deg, #8A2BE2 0%, #FF1493 50%, #FF6B6B 100%);
+    background: linear-gradient(135deg, #7B1FA2, #D81B60);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
-    /* تحسينات إضافية للوضوح */
-    font-weight: 1000; /* أثقل وزن ممكن */
-    text-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.08),
-        0 0 40px rgba(138, 43, 226, 0.1);
-    
-    /* تأثير تحديد خارجي لتحسين القراءة */
-    -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.5);
-    
-    /* تحسينات التباين */
-    filter: contrast(1.2) brightness(1.1);
-    
-    /* تحسين المسافات بين الحروف */
-    letter-spacing: -0.3px;
-    
-    /* تحسينات التقديم */
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* إضافة تأثير خاص للوضع الفاتح فقط */
-.light-mode .hero-content h1::before {
-    content: attr(data-en);
-    position: absolute;
-    background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    opacity: 0.1;
-    z-index: -1;
-    filter: blur(2px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 900;
 }
 
 /* النص الوصفي - تحسين كبير للوضوح */
@@ -415,12 +383,6 @@ html {
     color: #2D3748;
     font-weight: 700;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    
-    /* تحسينات إضافية للعبارة الإنجليزية */
-    font-weight: 800;
-    letter-spacing: 0.2px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 .cta-btn {
@@ -1310,6 +1272,135 @@ img[loading="lazy"].loaded {
     opacity: 1;
 }
 
+/* تحسينات الوضع الفاتح الإضافية */
+.light-mode {
+    /* تحسينات للتباين العالي */
+    --text: #1A202C;
+    --text-light: #2D3748;
+    
+    /* تحسينات للخلفيات */
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --secondary: #F8FAFC;
+    
+    /* تحسينات للظلال */
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* تحسينات للعناوين في الوضع الفاتح */
+.light-mode h1,
+.light-mode h2,
+.light-mode h3,
+.light-mode h4,
+.light-mode h5,
+.light-mode h6 {
+    color: #1A202C;
+    font-weight: 900;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* تحسينات للنصوص الصغيرة */
+.light-mode small,
+.light-mode .field-help,
+.light-mode .admin-subtitle {
+    color: #718096;
+    font-weight: 600;
+}
+
+/* تحسينات للأزرار */
+.light-mode .btn {
+    font-weight: 700;
+}
+
+/* تحسينات للبطاقات */
+.light-mode .dashboard-card,
+.light-mode .quick-tools,
+.light-mode .preview-section {
+    background: white;
+    border: 1px solid rgba(123, 31, 162, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+}
+
+/* تحسينات للجداول */
+.light-mode .preview-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 4px solid #7B1FA2;
+    color: #2D3748;
+    font-weight: 500;
+}
+
+.light-mode .preview-item:hover {
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* تحسينات للرسائل */
+.light-mode .status-message {
+    font-weight: 600;
+}
+
+/* تحسينات للواجهة الإدارية */
+.light-mode .admin-header {
+    background: white;
+    border: 1px solid rgba(123, 31, 162, 0.1);
+}
+
+.light-mode .admin-logo h1 {
+    color: #1A202C;
+}
+
+.light-mode .admin-subtitle {
+    color: #718096;
+}
+
+.light-mode .dashboard-card {
+    background: white;
+}
+
+.light-mode .card-header h2 {
+    color: #1A202C;
+}
+
+.light-mode .field-label {
+    color: #2D3748;
+}
+
+.light-mode textarea {
+    background: white;
+    color: #1A202C;
+    border: 2px solid rgba(123, 31, 162, 0.2);
+}
+
+.light-mode textarea:focus {
+    background: white;
+    border-color: #7B1FA2;
+    box-shadow: 0 0 0 3px rgba(123, 31, 162, 0.1);
+}
+
+.light-mode .tool-card {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.light-mode .tool-card:hover {
+    background: white;
+}
+
+.light-mode .tool-card h3 {
+    color: #1A202C;
+}
+
+.light-mode .tool-card p {
+    color: #718096;
+}
+
+.light-mode .admin-footer {
+    background: white;
+    color: #718096;
+}
+
+.light-mode .admin-footer a {
+    color: #7B1FA2;
+}
+
 /* التجاوب */
 @media (max-width: 768px) {
     .menu-toggle {
@@ -1503,4 +1594,50 @@ img[loading="lazy"].loaded {
 
 .light-mode .rules {
     background: linear-gradient(135deg, #F8FAFC, #E2E8F0);
+}
+
+/* تحسينات للكتابة في الوضع الفاتح */
+.light-mode {
+    /* زيادة سمك الخط للوضوح */
+    font-weight: 500;
+    
+    /* تحسين التباين */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* تحسينات خاصة للعناوين في الوضع الفاتح */
+.light-mode .hero-content h1 {
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+
+.light-mode .section-title {
+    font-weight: 900;
+    letter-spacing: -0.3px;
+}
+
+/* تحسينات للنصوص الطويلة */
+.light-mode .about-text p,
+.light-mode .discord-desc,
+.light-mode .rule-content p {
+    line-height: 1.7;
+    letter-spacing: 0.1px;
+}
+
+/* تحسينات للنصوص الصغيرة */
+.light-mode .social-card p,
+.light-mode .footer-info,
+.light-mode .field-help {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* تحسينات النهاية */
+.light-mode .motivational-quote {
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.4;
 }
