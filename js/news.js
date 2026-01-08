@@ -14,6 +14,12 @@ class NewsManager {
         
         // تحديث الأخبار كل 20 ثانية
         setInterval(() => this.rotateNews(), 20000);
+        
+        // تحديث الأخبار عند تغيير اللغة
+        document.addEventListener('languageChanged', () => {
+            this.loadNews();
+            this.updateTicker();
+        });
     }
     
     loadNews() {
@@ -21,7 +27,12 @@ class NewsManager {
         const savedNews = localStorage.getItem('afrecus_custom_news');
         
         if (savedNews) {
-            this.newsItems = JSON.parse(savedNews);
+            try {
+                this.newsItems = JSON.parse(savedNews);
+            } catch (error) {
+                console.error('Error parsing news:', error);
+                this.newsItems = this.getDefaultNews();
+            }
         } else {
             // أخبار افتراضية
             this.newsItems = this.getDefaultNews();
@@ -51,13 +62,20 @@ class NewsManager {
     }
     
     rotateNews() {
-        this.currentIndex = (this.currentIndex + 1) % this.newsItems.length;
-        this.updateTicker();
+        if (this.newsItems.length > 0) {
+            this.currentIndex = (this.currentIndex + 1) % this.newsItems.length;
+            this.updateTicker();
+        }
     }
     
     updateTicker() {
-        if (this.tickerElement && this.newsItems[this.currentIndex]) {
-            this.tickerElement.textContent = this.newsItems[this.currentIndex];
+        if (this.tickerElement && this.newsItems.length > 0) {
+            const newsItem = this.newsItems[this.currentIndex];
+            if (typeof newsItem === 'object' && newsItem.text) {
+                this.tickerElement.textContent = newsItem.text;
+            } else if (typeof newsItem === 'string') {
+                this.tickerElement.textContent = newsItem;
+            }
         }
     }
     
