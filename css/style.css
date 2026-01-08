@@ -189,6 +189,8 @@ body.ltr {
     margin-top: 70px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
 .ticker-content {
@@ -198,6 +200,7 @@ body.ltr {
     animation: ticker 30s linear infinite;
     font-weight: 500;
     font-size: 1rem;
+    flex-grow: 1;
 }
 
 @keyframes ticker {
@@ -214,6 +217,28 @@ body.ltr {
 @keyframes ticker-ltr {
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
+}
+
+.edit-news-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.edit-news-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
 }
 
 /* قسم البطل */
@@ -320,6 +345,7 @@ body.ltr {
     border: 2px solid #666;
     backdrop-filter: blur(10px);
     font-weight: 600;
+    transition: all 0.3s;
 }
 
 .live-indicator.live {
@@ -342,6 +368,7 @@ body.ltr {
     height: 10px;
     border-radius: 50%;
     background: #666;
+    transition: background 0.3s;
 }
 
 .profile-titles {
@@ -377,6 +404,7 @@ body.ltr {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s;
 }
 
 .profile-actions {
@@ -424,6 +452,7 @@ body.ltr {
     font-weight: 500;
     color: var(--text);
     box-shadow: var(--shadow);
+    transition: opacity 0.5s ease;
 }
 
 /* قسم عني */
@@ -534,6 +563,7 @@ body.ltr {
 .social-card p {
     color: var(--text-light);
     font-size: 0.9rem;
+    transition: all 0.3s;
 }
 
 /* ألوان منصات التواصل */
@@ -734,6 +764,15 @@ footer {
     border-top: 1px solid var(--border);
 }
 
+/* تأثيرات انتقال النصوص */
+.quote-transition {
+    transition: opacity 0.5s ease;
+}
+
+.title-transition {
+    transition: all 0.3s ease;
+}
+
 /* التجاوب */
 @media (max-width: 768px) {
     .menu-toggle {
@@ -753,6 +792,7 @@ footer {
         box-shadow: var(--shadow);
         backdrop-filter: blur(10px);
         border-top: 1px solid var(--border);
+        z-index: 999;
     }
     
     .nav-menu.active {
@@ -793,5 +833,9 @@ footer {
     .discord-features {
         flex-direction: column;
         align-items: center;
+    }
+    
+    .edit-news-btn {
+        margin-right: 15px;
     }
 }
