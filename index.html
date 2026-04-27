@@ -5,329 +5,253 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Afrecus | افريكوس - منشئ محتوى</title>
     
-    <!-- Meta Tags للـ SEO -->
+    <!-- Meta Tags -->
     <meta name="description" content="Afrecus - منشئ محتوى، باث مباشر للألعاب، ومدون. انضم لمجتمعنا وشاهد بثوثنا المباشرة على Twitch وYouTube.">
-    <meta name="keywords" content="Afrecus, أفريكوس, بث مباشر, ألعاب, تويتش, يوتيوب, منشئ محتوى, تيو">
-    <meta name="author" content="Afrecus (Teo)">
-    <meta property="og:title" content="Afrecus | افريكوس - منشئ محتوى">
-    <meta property="og:description" content="Afrecus - منشئ محتوى، باث مباشر للألعاب، ومدون. انضم لمجتمعنا وشاهد بثوثنا المباشرة.">
-    <meta property="og:image" content="https://j.top4top.io/p_3659rbb5m1.png">
-    <meta property="og:url" content="https://afrecus.com">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#8A2BE2">
     
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="https://j.top4top.io/p_3659rbb5m1.png">
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="logo">
-                    <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" loading="lazy">
-                    <span data-ar="افريكوس" data-en="Afrecus">افريكوس</span>
-                </div>
-                
-                <button class="menu-toggle" id="menuToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <div class="nav-menu" id="navMenu">
-                    <a href="#home" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                    <a href="#about" class="nav-link" data-ar="عني" data-en="About">عني</a>
-                    <a href="#social" class="nav-link" data-ar="التواصل" data-en="Social">التواصل</a>
-                    <a href="#discord" class="nav-link" data-ar="الديسكورد" data-en="Discord">الديسكورد</a>
-                    <a href="#rules" class="nav-link" data-ar="القواعد" data-en="Rules">القواعد</a>
-                </div>
-                
-                <div class="nav-controls">
-                    <div class="language-switcher">
-                        <button class="lang-btn active" id="langAr" data-lang="ar">عربي</button>
-                        <button class="lang-btn" id="langEn" data-lang="en">English</button>
-                    </div>
-                    
-                    <button class="theme-toggle" id="themeToggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- News Ticker -->
-    <div class="news-ticker">
-        <div class="ticker-content" id="newsTicker">
-            🎮 تابع على تويتش لتتلقى إشعارات البث المباشر!
+<body class="dark-theme">
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Logo" class="rotating-logo">
+            <div class="loading-text" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</div>
+            <div class="progress-bar"><div class="progress"></div></div>
         </div>
-        <button class="edit-news-btn" onclick="window.open('admin.html', '_blank')" title="تحرير الأخبار">
-            <i class="fas fa-edit"></i>
-        </button>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <h1 data-ar="مرحبًا بكم في عالم أفريكوس" data-en="Welcome to Afrecus World">مرحبًا بكم في عالم أفريكوس</h1>
-                    <p data-ar="المكان الذي يجمع اللاعبين، المبدعين، والأصدقاء معًا!" data-en="Where gamers, creators, and friends unite!">المكان الذي يجمع اللاعبين، المبدعين، والأصدقاء معًا!</p>
-                    <a href="#about" class="cta-btn">
-                        <span data-ar="تعرف علي" data-en="About Me">تعرف علي</span>
-                        <i class="fas fa-arrow-left"></i>
+    <!-- Background Orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Floating Navigation -->
+    <nav class="floating-nav">
+        <div class="nav-brand">
+            <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus">
+            <span class="brand-name" data-ar="افريكوس" data-en="Afrecus">افريكوس</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#hero" class="active"><i class="fas fa-home"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a></li>
+            <li><a href="#about"><i class="fas fa-user-astronaut"></i> <span data-ar="عني" data-en="About">عني</span></a></li>
+            <li><a href="#social"><i class="fas fa-share-nodes"></i> <span data-ar="التواصل" data-en="Socials">التواصل</span></a></li>
+            <li><a href="#discord"><i class="fab fa-discord"></i> <span data-ar="الديسكورد" data-en="Discord">الديسكورد</span></a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="lang-toggle" class="btn-icon">
+                <span class="lang-text">EN</span>
+            </button>
+            <button id="theme-toggle" class="btn-icon">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Nav Toggle -->
+    <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="section hero-section hidden-el">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <div class="status-badge live-badge">
+                        <span class="pulse-dot"></span> <span data-ar="تحديثات مستمرة" data-en="Always Evolving">تحديثات مستمرة</span>
+                    </div>
+                    <h1 class="glitch-text" data-text="Welcome to Afrecus World">
+                        <span data-ar="مرحبًا بكم في عالم" data-en="Welcome to">مرحبًا بكم في عالم</span> 
+                        <span class="highlight" data-ar="أفريكوس" data-en="Afrecus World">أفريكوس</span>
+                    </h1>
+                    <p class="hero-subtitle" data-ar="المكان الذي يجمع اللاعبين، المبدعين، والأصدقاء معًا!" data-en="Where gamers, creators, and friends unite!">المكان الذي يجمع اللاعبين، المبدعين، والأصدقاء معًا!</p>
+                    
+                    <div class="hero-buttons">
+                        <a href="https://www.twitch.tv/afrecus" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-twitch"></i> <span data-ar="شاهد البث" data-en="Watch Stream">شاهد البث</span>
+                        </a>
+                        <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-discord"></i> <span data-ar="انضم للمجتمع" data-en="Join Discord">انضم للمجتمع</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="profile-3d-card tilt-card">
+                        <div class="card-inner">
+                            <div class="card-glow"></div>
+                            <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus Profile" class="hero-avatar">
+                            <div class="floating-tags">
+                                <span class="tag tag-1" data-ar="بث مباشر" data-en="Streamer">بث مباشر</span>
+                                <span class="tag tag-2" data-ar="منشئ محتوى" data-en="Creator">منشئ محتوى</span>
+                                <span class="tag tag-3" data-ar="لاعب" data-en="Gamer">لاعب</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section (Bento Grid) -->
+        <section id="about" class="section about-section hidden-el">
+            <h2 class="section-title"><span data-ar="من أنا" data-en="Who am I">من أنا</span> <span class="dot">.</span></h2>
+            
+            <div class="bento-grid">
+                <div class="bento-item bento-image tilt-card">
+                    <img src="https://b.top4top.io/p_36604leza1.png" alt="Teo">
+                </div>
+                
+                <div class="bento-item bento-bio glass-panel">
+                    <h3 data-ar="مرحباً، أنا تيو" data-en="Hey, I'm Teo">مرحباً، أنا تيو</h3>
+                    <p data-ar="هذه الصفحة هي زاويتي الصغيرة على الإنترنت حيث ينتهي كل ما أعمل عليه. أنا مهتم بالكثير من الأشياء: البث المباشر، صناعة المحتوى، الألعاب، والأفكار العشوائية في منتصف الليل." data-en="This page is basically my little corner of the internet where everything I'm working on eventually ends up. I'm into a lot of things: streaming, content creation, games, and random midnight ideas.">
+                        هذه الصفحة هي زاويتي الصغيرة على الإنترنت حيث ينتهي كل ما أعمل عليه. أنا مهتم بالكثير من الأشياء: البث المباشر، صناعة المحتوى، الألعاب، والأفكار العشوائية في منتصف الليل.
+                    </p>
+                </div>
+                
+                <div class="bento-item bento-journey glass-panel">
+                    <i class="fas fa-rocket bento-icon"></i>
+                    <h4 data-ar="الرحلة" data-en="The Journey">الرحلة</h4>
+                    <p data-ar="أنا لست هنا لأتظاهر بأنني فعلت كل شيء بالفعل. أنا أبني أثناء تقدمي. بعض الأيام يكون فيها تقدم، وبعض الأيام مجرد فوضى حية على البث." data-en="I'm not here pretending I've done it all already. I'm building as I go. Some days it's progress, some days it's live chaos on stream.">
+                        أنا لست هنا لأتظاهر بأنني فعلت كل شيء بالفعل. أنا أبني أثناء تقدمي. بعض الأيام يكون فيها تقدم، وبعض الأيام مجرد فوضى حية على البث.
+                    </p>
+                </div>
+
+                <div class="bento-item bento-promise glass-panel">
+                    <i class="fas fa-gamepad bento-icon"></i>
+                    <p data-ar="لا وعود كبيرة، فقط استمتع بالرحلة." data-en="No big promises, just enjoy the ride.">لا وعود كبيرة، فقط استمتع بالرحلة.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Links -->
+        <section id="social" class="section social-section hidden-el">
+            <h2 class="section-title"><span data-ar="روابطي" data-en="My Links">روابطي</span> <span class="dot">.</span></h2>
+            
+            <div class="social-deck">
+                <a href="https://www.youtube.com/@afrecus" target="_blank" class="social-card yt tilt-card">
+                    <div class="social-bg"></div>
+                    <i class="fab fa-youtube"></i>
+                    <span class="platform">YouTube</span>
+                </a>
+                <a href="https://www.twitch.tv/afrecus" target="_blank" class="social-card tw tilt-card">
+                    <div class="social-bg"></div>
+                    <i class="fab fa-twitch"></i>
+                    <span class="platform">Twitch</span>
+                </a>
+                <a href="https://www.instagram.com/afrecus.official/" target="_blank" class="social-card ig tilt-card">
+                    <div class="social-bg"></div>
+                    <i class="fab fa-instagram"></i>
+                    <span class="platform">Instagram</span>
+                </a>
+                <a href="https://x.com/Afrecus" target="_blank" class="social-card x tilt-card">
+                    <div class="social-bg"></div>
+                    <i class="fab fa-twitter"></i>
+                    <span class="platform">Twitter</span>
+                </a>
+                <a href="https://kick.com/afrecus" target="_blank" class="social-card ki tilt-card">
+                    <div class="social-bg"></div>
+                    <i class="fas fa-signal"></i>
+                    <span class="platform">Kick</span>
+                </a>
+                <a href="https://www.tiktok.com/@afrecus" target="_blank" class="social-card tk tilt-card">
+                    <div class="social-bg"></div>
+                    <i class="fab fa-tiktok"></i>
+                    <span class="platform">TikTok</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Discord Section -->
+        <section id="discord" class="section discord-section hidden-el">
+            <div class="discord-banner glass-panel">
+                <div class="discord-content">
+                    <div class="discord-icon-wrapper">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <h2 data-ar="مجتمع أفريكوس" data-en="Afrecus Community">مجتمع أفريكوس</h2>
+                    <p data-ar="انضم إلى سيرفر الديسكورد الرسمي لتتواصل مع المعجبين الآخرين، وتحصل على إشعارات البث، وتشارك في الفعاليات الحصرية!" data-en="Join our official Discord server to chat with fans, get stream notifications, and join exclusive events!">
+                        انضم إلى سيرفر الديسكورد الرسمي لتتواصل مع المعجبين الآخرين، وتحصل على إشعارات البث، وتشارك في الفعاليات الحصرية!
+                    </p>
+                    <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="btn btn-discord">
+                        <span data-ar="انضم الآن" data-en="Join Now">انضم الآن</span> <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-                
-                <div class="hero-profile">
-                    <div class="profile-card">
-                        <div class="profile-image">
-                            <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" id="profileImg" loading="lazy">
-                            <div class="live-indicator" id="liveIndicator">
-                                <span class="dot"></span>
-                                <span data-ar="غير متصل" data-en="OFFLINE">غير متصل</span>
-                            </div>
-                        </div>
-                        
-                        <div class="profile-titles">
-                            <div class="title-slider">
-                                <div class="slider-track">
-                                    <span class="title active" data-ar="بث مباشر" data-en="Streamer">بث مباشر</span>
-                                    <span class="title" data-ar="منشئ محتوى" data-en="Content Creator">منشئ محتوى</span>
-                                    <span class="title" data-ar="مُسلّي مباشر" data-en="Live Entertainer">مُسلّي مباشر</span>
-                                    <span class="title" data-ar="باني مجتمع" data-en="Community Builder">باني مجتمع</span>
-                                    <span class="title" data-ar="مؤثر ألعاب" data-en="Gaming Influencer">مؤثر ألعاب</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="profile-actions">
-                            <a href="https://www.twitch.tv/afrecus" target="_blank" class="action-btn twitch">
-                                <i class="fab fa-twitch"></i> <span data-ar="شاهد على تويتش" data-en="Watch on Twitch">شاهد على تويتش</span>
-                            </a>
-                            <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="action-btn discord">
-                                <i class="fab fa-discord"></i> <span data-ar="انضم للديسكورد" data-en="Join Discord">انضم للديسكورد</span>
-                            </a>
-                        </div>
+                <div class="discord-stats">
+                    <div class="stat-box">
+                        <i class="fas fa-users"></i>
+                        <span class="stat-num">15+</span>
+                        <span class="stat-label" data-ar="عضو" data-en="Members">عضو</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-microphone"></i>
+                        <span class="stat-num">6+</span>
+                        <span class="stat-label" data-ar="غرف صوتية" data-en="Voice Channels">غرف صوتية</span>
+                    </div>
+                    <div class="stat-box live">
+                        <i class="fas fa-circle"></i>
+                        <span class="stat-num" data-ar="نشط" data-en="Active">نشط</span>
+                        <span class="stat-label" data-ar="المجتمع" data-en="Community">المجتمع</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="motivational-quote" id="motivationalQuote">
-                استمر في التميز وإلهام الآخرين! ✨
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title" data-ar="عني" data-en="About Me">عني</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="https://b.top4top.io/p_36604leza1.png" alt="Teo" loading="lazy">
+        <!-- Rules Section -->
+        <section id="rules" class="section rules-section hidden-el">
+            <h2 class="section-title"><span data-ar="القواعد" data-en="Rules">القواعد</span> <span class="dot">.</span></h2>
+            <div class="rules-container">
+                <div class="rule-card">
+                    <div class="rule-num">01</div>
+                    <h4 data-ar="احترام الجميع" data-en="Respect Everyone">احترام الجميع</h4>
+                    <p data-ar="عامل جميع الأعضاء باحترام ولطف." data-en="Treat all members with respect and kindness.">عامل جميع الأعضاء باحترام ولطف.</p>
                 </div>
-                <div class="about-text">
-                    <h3 data-ar="مرحباً، أنا تيو." data-en="Hey, I'm Teo.">مرحباً، أنا تيو.</h3>
-                    <p data-ar="هذه الصفحة هي زاويتي الصغيرة على الإنترنت حيث ينتهي كل ما أعمل عليه. أنا مهتم بالكثير من الأشياء: البث المباشر، صناعة المحتوى، الألعاب، اللياقة البدنية، الأفكار العشوائية التي تبدأ في الساعة 2 صباحاً وتشعر بأنها عبقرية في ذلك الوقت." 
-                       data-en="This page is basically my little corner of the internet where everything I'm working on eventually ends up. I'm into a lot of things: streaming, content creation, games, fitness, random ideas that start at 2am and somehow feel genius at the time.">
-                       هذه الصفحة هي زاويتي الصغيرة على الإنترنت حيث ينتهي كل ما أعمل عليه. أنا مهتم بالكثير من الأشياء: البث المباشر، صناعة المحتوى، الألعاب، اللياقة البدنية، الأفكار العشوائية التي تبدأ في الساعة 2 صباحاً وتشعر بأنها عبقرية في ذلك الوقت.
-                    </p>
-                    <p data-ar="أنا لست هنا لأتظاهر بأنني فعلت كل شيء بالفعل. أنا أبني أثناء تقدمي. بعض الأيام يكون فيها تقدم، وبعض الأيام يكون فيها فوضى، وبعض الأيام يكون فيها مجرد معرفة الأشياء مباشرة على البث. هذا الموقع موجود حتى تتمكن من العثور على جميع روابطي في مكان واحد ومعرفة وقت البث المباشر دون الحاجة إلى البحث عني عبر الإنترنت."
-                       data-en="I'm not here pretending I've done it all already. I'm building as I go. Some days it's progress, some days it's chaos, and some days it's just me figuring things out live on stream. This site exists so you can find all my links in one place and know when I'm live without having to hunt for me across the internet.">
-                       أنا لست هنا لأتظاهر بأنني فعلت كل شيء بالفعل. أنا أبني أثناء تقدمي. بعض الأيام يكون فيها تقدم، وبعض الأيام يكون فيها فوضى، وبعض الأيام يكون فيها مجرد معرفة الأشياء مباشرة على البث. هذا الموقع موجود حتى تتمكن من العثور على جميع روابطي في مكان واحد ومعرفة وقت البث المباشر دون الحاجة إلى البحث عني عبر الإنترنت.
-                    </p>
-                    <p data-ar="إذا كنت مهتماً بمشاهدة شخص ما يجرب الأشياء، يفشل قليلاً، يضحك على ذلك، ثم يحاول مرة أخرى، فأنت في المكان الصحيح. لا وعود كبيرة، فقط الرحلة."
-                       data-en="If you're into watching someone try things, fail a bit, laugh at it, then try again you're in the right place. No big promises, just the journey.">
-                       إذا كنت مهتماً بمشاهدة شخص ما يجرب الأشياء، يفشل قليلاً، يضحك على ذلك، ثم يحاول مرة أخرى، فأنت في المكان الصحيح. لا وعود كبيرة، فقط الرحلة.
-                    </p>
+                <div class="rule-card">
+                    <div class="rule-num">02</div>
+                    <h4 data-ar="لا للكراهية" data-en="No Hate Speech">لا للكراهية</h4>
+                    <p data-ar="المضايقات أو الهجمات الشخصية ممنوعة تماماً." data-en="Harassment or personal attacks are strictly forbidden.">المضايقات أو الهجمات الشخصية ممنوعة تماماً.</p>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-num">03</div>
+                    <h4 data-ar="إيجابية" data-en="Stay Positive">إيجابية</h4>
+                    <p data-ar="حافظ على جو إيجابي وبناء في المحادثات." data-en="Maintain a positive and constructive atmosphere.">حافظ على جو إيجابي وبناء في المحادثات.</p>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-num">04</div>
+                    <h4 data-ar="لا للسبام" data-en="No Spamming">لا للسبام</h4>
+                    <p data-ar="تجنب الإرسال المتكرر والترويج الذاتي المفرط." data-en="Avoid repetitive messaging and excessive self-promotion.">تجنب الإرسال المتكرر والترويج الذاتي المفرط.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Social Links -->
-    <section class="social" id="social">
-        <div class="container">
-            <h2 class="section-title" data-ar="تواصل معي" data-en="Connect With Me">تواصل معي</h2>
-            <div class="social-grid">
-                <a href="https://www.youtube.com/@afrecus" target="_blank" class="social-card youtube">
-                    <i class="fab fa-youtube"></i>
-                    <h3>YouTube</h3>
-                    <p data-ar="فيديوهات وبث مباشر" data-en="Videos & Live Streams">فيديوهات وبث مباشر</p>
-                </a>
-                
-                <a href="https://www.twitch.tv/afrecus" target="_blank" class="social-card twitch">
-                    <i class="fab fa-twitch"></i>
-                    <h3>Twitch</h3>
-                    <p data-ar="بث مباشر للألعاب" data-en="Live Gaming Streams">بث مباشر للألعاب</p>
-                </a>
-                
-                <a href="https://www.instagram.com/afrecus.official/" target="_blank" class="social-card instagram">
-                    <i class="fab fa-instagram"></i>
-                    <h3>Instagram</h3>
-                    <p data-ar="صور ومقاطع قصيرة" data-en="Photos & Short Videos">صور ومقاطع قصيرة</p>
-                </a>
-                
-                <a href="https://x.com/Afrecus" target="_blank" class="social-card twitter">
-                    <i class="fab fa-twitter"></i>
-                    <h3>Twitter</h3>
-                    <p data-ar="تحديثات وتفاعل" data-en="Updates & Interaction">تحديثات وتفاعل</p>
-                </a>
-                
-                <a href="https://kick.com/afrecus" target="_blank" class="social-card kick">
-                    <i class="fas fa-signal"></i>
-                    <h3>Kick</h3>
-                    <p data-ar="بث مباشر بديل" data-en="Alternative Streaming">بث مباشر بديل</p>
-                </a>
-                
-                <a href="https://www.tiktok.com/@afrecus" target="_blank" class="social-card tiktok">
-                    <i class="fab fa-tiktok"></i>
-                    <h3>TikTok</h3>
-                    <p data-ar="مقاطع قصيرة ممتعة" data-en="Fun Short Videos">مقاطع قصيرة ممتعة</p>
-                </a>
-                
-                <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="social-card discord">
-                    <i class="fab fa-discord"></i>
-                    <h3>Discord</h3>
-                    <p data-ar="مجتمع وتواصل" data-en="Community & Chat">مجتمع وتواصل</p>
-                </a>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" class="footer-logo">
+            <p class="footer-slogan" data-ar="مبدع محتوى | بث مباشر | لاعب" data-en="Content Creator | Streamer | Gamer">مبدع محتوى | بث مباشر | لاعب</p>
+            <div class="footer-credits">
+                <p><span data-ar="صاحب الموقع:" data-en="Owner:">صاحب الموقع:</span> <span class="highlight">Teo</span></p>
+                <p><span data-ar="المطور:" data-en="Developer:">المطور:</span> <span class="highlight">Souhaib</span></p>
             </div>
-        </div>
-    </section>
-
-    <!-- Discord Section -->
-    <section class="discord-section" id="discord">
-        <div class="container">
-            <h2 class="section-title" data-ar="انضم لمجتمع الديسكورد" data-en="Join Our Discord">انضم لمجتمع الديسكورد</h2>
-            <div class="discord-card">
-                <div class="discord-header">
-                    <i class="fab fa-discord"></i>
-                    <h3 data-ar="مجتمع أفريكوس على الديسكورد" data-en="Afrecus Discord Community">مجتمع أفريكوس على الديسكورد</h3>
-                </div>
-                
-                <p class="discord-desc" data-ar="انضم إلى سيرفر الديسكورد الرسمي لتتواصل مع المعجبين الآخرين، تحصل على تحديثات البث المباشر، تشارك في فعاليات المجتمع، وتنشئ تذاكر الدعم لأي استفسارات أو مشاكل."
-                   data-en="Join our official Discord server to chat with fellow fans, get stream updates, participate in community events, and create support tickets for any issues or inquiries.">
-                   انضم إلى سيرفر الديسكورد الرسمي لتتواصل مع المعجبين الآخرين، تحصل على تحديثات البث المباشر، تشارك في فعاليات المجتمع، وتنشئ تذاكر الدعم لأي استفسارات أو مشاكل.
-                </p>
-                
-                <a href="https://discord.gg/8zE55rMwgg" target="_blank" class="join-discord">
-                    <i class="fab fa-discord"></i>
-                    <span data-ar="انضم لسيرفر الديسكورد" data-en="Join Discord Server">انضم لسيرفر الديسكورد</span>
-                </a>
-                
-                <div class="discord-features">
-                    <span><i class="fas fa-bell"></i> <span data-ar="إشعارات البث" data-en="Stream Notifications">إشعارات البث</span></span>
-                    <span><i class="fas fa-ticket-alt"></i> <span data-ar="تذاكر الدعم" data-en="Support Tickets">تذاكر الدعم</span></span>
-                    <span><i class="fas fa-crown"></i> <span data-ar="محتوى حصري" data-en="Exclusive Content">محتوى حصري</span></span>
-                    <span><i class="fas fa-gamepad"></i> <span data-ar="فعاليات ألعاب" data-en="Gaming Events">فعاليات ألعاب</span></span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Rules Section -->
-    <section class="rules" id="rules">
-        <div class="container">
-            <h2 class="section-title" data-ar="قواعد المجتمع" data-en="Community Rules">قواعد المجتمع</h2>
-            <div class="rules-list">
-                <div class="rule">
-                    <div class="rule-number">1</div>
-                    <div class="rule-content">
-                        <h3 data-ar="احترام الجميع" data-en="Respect Everyone">احترام الجميع</h3>
-                        <p data-ar="عامل جميع أعضاء المجتمع باحترام ولطف، بغض النظر عن خلفياتهم أو معتقداتهم أو مهاراتهم في الألعاب."
-                           data-en="Treat all community members with respect and kindness, regardless of their background, beliefs, or gaming skills.">
-                           عامل جميع أعضاء المجتمع باحترام ولطف، بغض النظر عن خلفياتهم أو معتقداتهم أو مهاراتهم في الألعاب.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="rule">
-                    <div class="rule-number">2</div>
-                    <div class="rule-content">
-                        <h3 data-ar="لا خطاب كراهية أو مضايقة" data-en="No Hate Speech or Harassment">لا خطاب كراهية أو مضايقة</h3>
-                        <p data-ar="خطاب الكراهية، المضايقة، التمييز، أو الهجمات الشخصية لن تُتَسَامَح بأي شكل من الأشكال."
-                           data-en="Hate speech, harassment, discrimination, or personal attacks will not be tolerated in any form.">
-                           خطاب الكراهية، المضايقة، التمييز، أو الهجمات الشخصية لن تُتَسَامَح بأي شكل من الأشكال.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="rule">
-                    <div class="rule-number">3</div>
-                    <div class="rule-content">
-                        <h3 data-ar="اجعل النقاشات إيجابية" data-en="Keep Discussions Positive">اجعل النقاشات إيجابية</h3>
-                        <p data-ar="حافظ على جو إيجابي وبناء في جميع المحادثات والتفاعلات داخل المجتمع."
-                           data-en="Maintain a positive and constructive atmosphere in all conversations and interactions within the community.">
-                           حافظ على جو إيجابي وبناء في جميع المحادثات والتفاعلات داخل المجتمع.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="rule">
-                    <div class="rule-number">4</div>
-                    <div class="rule-content">
-                        <h3 data-ar="اتبع قواعد المنصة" data-en="Follow Platform Rules">اتبع قواعد المنصة</h3>
-                        <p data-ar="الالتزام بقواعد تويتش، اليوتيوب، والمنصات الأخرى أثناء البث المباشر والتفاعلات على تلك المنصات."
-                           data-en="Adhere to Twitch, YouTube, and other platform rules during streams and interactions on those platforms.">
-                           الالتزام بقواعد تويتش، اليوتيوب، والمنصات الأخرى أثناء البث المباشر والتفاعلات على تلك المنصات.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="rule">
-                    <div class="rule-number">5</div>
-                    <div class="rule-content">
-                        <h3 data-ar="لا سبام أو ترويج ذاتي" data-en="No Spam or Self-Promotion">لا سبام أو ترويج ذاتي</h3>
-                        <p data-ar="تجنب الإرسال المتكرر، الترويج المفرط للذات، أو نشر روابط غير ذات صلة دون إذن من المشرفين."
-                           data-en="Avoid spamming, excessive self-promotion, or posting irrelevant links without permission from moderators.">
-                           تجنب الإرسال المتكرر، الترويج المفرط للذات، أو نشر روابط غير ذات صلة دون إذن من المشرفين.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="rule">
-                    <div class="rule-number">6</div>
-                    <div class="rule-content">
-                        <h3 data-ar="تقدير المشرفين" data-en="Moderator Discretion">تقدير المشرفين</h3>
-                        <p data-ar="المشرفون لهم الكلمة الأخيرة في تطبيق القواعد. قد تؤدي المخالفات إلى تحذيرات، أو تعليق مؤقت، أو حظر."
-                           data-en="Moderators have the final say in rule enforcement. Violations may result in warnings, timeouts, or bans.">
-                           المشرفون لهم الكلمة الأخيرة في تطبيق القواعد. قد تؤدي المخالفات إلى تحذيرات، أو تعليق مؤقت، أو حظر.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="https://j.top4top.io/p_3659rbb5m1.png" alt="Afrecus" loading="lazy">
-                    <h3 data-ar="افريكوس" data-en="Afrecus">افريكوس</h3>
-                </div>
-                
-                <div class="footer-info">
-                    <p data-ar="مبدع محتوى | بث مباشر | لاعب" data-en="Content Creator | Streamer | Gamer">مبدع محتوى | بث مباشر | لاعب</p>
-                    <p data-ar="صاحب الموقع: تيو | المطور: سُهيب" data-en="Website Owner: Teo | Developer: Souhaib">صاحب الموقع: تيو | المطور: سُهيب</p>
-                    <p data-ar="انضم للديسكورد لفتح تذاكر الدعم والتفاعل مع المجتمع" 
-                       data-en="Join Discord for support tickets and community interaction">
-                       انضم للديسكورد لفتح تذاكر الدعم والتفاعل مع المجتمع
-                    </p>
-                </div>
-                
-                <div class="footer-copyright">
-                    © <span id="currentYear"></span> Afrecus. <span data-ar="جميع الحقوق محفوظة." data-en="All rights reserved.">جميع الحقوق محفوظة.</span>
-                </div>
-            </div>
+            <p class="copyright">© <span id="year"></span> Afrecus.</p>
         </div>
     </footer>
 
-    <!-- ملفات JavaScript -->
-    <script src="js/stream-status.js"></script>
-    <script src="js/news-manager.js"></script>
-    <script src="js/main.js"></script>
+    <!-- Konami Code Easter Egg Notification -->
+    <div id="easter-egg-toast" class="toast hidden">
+        <i class="fas fa-star"></i>
+        <span data-ar="لقد وجدت السر! 🎮" data-en="You found the secret! 🎮">لقد وجدت السر! 🎮</span>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Vanilla Tilt JS for 3D Cards -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
